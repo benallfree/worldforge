@@ -16,14 +16,14 @@
     "@sveltejs/vite-plugin-svelte": "^2.0.4",
     "@tsconfig/svelte": "^4.0.1",
     "chokidar-cli": "^3.0.0",
+    "sass": "^1.63.6",
     "svelte": "^3.58.0",
     "svelte-check": "^3.3.1",
     "terser": "^5.18.1",
     "tslib": "^2.5.0",
     "typescript": "^5.0.2",
-    "vite": "^4.3.9"
-  },
-  "dependencies": {
+    "vite": "^4.3.9",
     "wavesurfer.js": "^7.0.0-beta.11"
-  }
+  },
+  "dependencies": {}
 }
