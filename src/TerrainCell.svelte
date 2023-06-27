@@ -2,7 +2,7 @@
   import type { TerrainCell } from './terrain'
 
   export let cell: TerrainCell | undefined
-  const { r, c, height, type } = cell || {}
+  const { x: r, y: c, height, type } = cell || {}
   // console.log({ cell })
 </script>
 

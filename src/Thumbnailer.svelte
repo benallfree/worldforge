@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { onMount, afterUpdate } from 'svelte'
-  import { writable } from 'svelte/store'
   import { range, reduce } from '@s-libs/micro-dash'
+  import { onMount } from 'svelte'
+  import { writable } from 'svelte/store'
 
   let videoSource: string | null = null
   let thumbnails = writable<string[]>([])
 
   const handleFileChange = (event: Event) => {
     const fileInput = event.target as HTMLInputElement
-    const file = fileInput.files[0]
+    const file = fileInput.files?.[0]
     if (file) {
       const reader = new FileReader()
       reader.onload = (e: ProgressEvent<FileReader>) => {

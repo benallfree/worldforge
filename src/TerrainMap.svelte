@@ -1,17 +1,7 @@
 <script lang="ts">
-  import { forEach, map, range } from '@s-libs/micro-dash'
-  import type { ArrayIteratee } from '@s-libs/micro-dash/lib/interfaces'
-  import {
-    TerrainType,
-    chooseRandomPoints,
-    coordToRc,
-    createTerrain,
-    generateDecay,
-    mkGridSize,
-    rcToCoord,
-    terrain
-  } from './terrain'
+  import { range } from '@s-libs/micro-dash'
   import TerrainCell from './TerrainCell.svelte'
+  import { mkGridSize, terrain, xyToSlug } from './terrain'
 
   export let size = mkGridSize($terrain.size())
 </script>
@@ -20,7 +10,7 @@
 {#each range(size) as r}
   <div class="row">
     {#each range(size) as c}
-      <TerrainCell cell={$terrain.get(rcToCoord(r, c))} />
+      <TerrainCell cell={$terrain.get(xyToSlug(r, c))} />
     {/each}
   </div>
 {/each}
