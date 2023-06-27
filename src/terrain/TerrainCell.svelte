@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TerrainCell } from './terrain'
+  import type { TerrainCell } from './'
 
   export let cell: TerrainCell | undefined
   const { x: r, y: c, height, type } = cell || {}

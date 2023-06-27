@@ -1,7 +1,7 @@
 <script lang="ts">
   import { range } from '@s-libs/micro-dash'
   import TerrainCell from './TerrainCell.svelte'
-  import { mkGridSize, terrain, xyToSlug } from './terrain'
+  import { mkGridSize, terrain, xyToSlug } from './'
 
   export let size = mkGridSize($terrain.size())
 </script>

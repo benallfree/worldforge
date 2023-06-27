@@ -1,7 +1,4 @@
-import { map as _map } from '@s-libs/micro-dash'
-import { writable } from 'svelte/store'
 import { JsonObject, Opaque } from 'type-fest'
-import { generateTopology } from './topology'
 
 export type CountPicker = typeof DEFAULT_FEATURE_COUNT_PICKER
 export const DEFAULT_FEATURE_COUNT_PICKER = (r: number, c: number) => {
@@ -102,79 +99,3 @@ export type Terrain = {
 
 export type PointArray = Opaque<[XCoordinate, YCoordinate], 'point-array'>
 export type Point = Opaque<{ x: XCoordinate; y: YCoordinate }, 'point'>
-
-export type TerrainConfig = { size: GridSize; nPeaks: GridSize }
-
-export const createTerrain = (config: TerrainConfig) => {
-  const { size, nPeaks } = config
-  console.log({ size, nPeaks })
-  const terrain: Terrain = {
-    topographicalHeat: () => {
-      throw new Error(`Abstract`)
-    },
-    minHeight: Number.POSITIVE_INFINITY as Height,
-    maxHeight: Number.NEGATIVE_INFINITY as Height,
-    size,
-    cells: {}
-  }
-
-  const createTerrainCell = (p: Point, data?: TerrainCell_Create) => {
-    const { x, y } = p
-    const newCell: TerrainCell = {
-      type: TerrainType.Land,
-      height: mkHeight(MIN_HEIGHT),
-      ...data,
-      slug: pointToSlug(p),
-      pointArr: xyToPointArray(x, y),
-      point: p,
-      x,
-      y,
-      topographicalHeat: () => terrain.topographicalHeat(newCell.height)
-    }
-    return newCell
-  }
-
-  const setCell = (p: Point, data?: TerrainCell_Create) => {
-    const cell = createTerrainCell(p, data)
-    terrain.cells[cell.slug] = cell
-    return cell
-  }
-
-  const getCellBySlug = (slug: PointSlug): TerrainCell => {
-    return terrain.cells[slug] || setCell(slugToPoint(slug))
-  }
-
-  const mapCells = <O>(iteratee: (cell: TerrainCell, slug: PointSlug) => O) =>
-    _map<Terrain['cells'], O>(terrain.cells, (v, k) => iteratee(v, k as PointSlug))
-
-  const api = {
-    set: setCell,
-    get: getCellBySlug,
-    map: mapCells,
-    size: () => size,
-    minHeight: (h?: Height | number, force = false) => {
-      if (typeof h === 'undefined') return terrain.minHeight
-      if (force) return (terrain.minHeight = mkHeight(h))
-      return (terrain.minHeight = mkHeight(Math.min(h, terrain.minHeight)))
-    },
-    maxHeight: (h?: Height | number, force = false) => {
-      if (typeof h === 'undefined') return terrain.maxHeight
-      if (force) return (terrain.maxHeight = mkHeight(h))
-      return (terrain.maxHeight = mkHeight(Math.max(h, terrain.maxHeight)))
-    }
-  }
-
-  const { topographicalHeat } = generateTopology(api, nPeaks)
-  terrain.topographicalHeat = topographicalHeat
-
-  // Usage example
-  //   const centerHeight = 9
-  //   const decayFactor = 0.5
-  //   const gridHeightArray = generateHeightArray(centerHeight, size, decayFactor)
-  console.log(mkJsonObject({ terrain }))
-
-  return api
-}
-export type TerrainApi = ReturnType<typeof createTerrain>
-
-export const terrain = writable(createTerrain({ size: mkGridSize(20), nPeaks: mkGridSize(7) }))

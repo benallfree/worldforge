@@ -1,4 +1,5 @@
 import { Opaque } from 'type-fest'
+import { TerrainApi } from './createTerrain'
 import {
   GridSize,
   Height,
@@ -12,7 +13,6 @@ import {
   Point,
   PointArray,
   RgbHex,
-  TerrainApi,
   TerrainCell,
   TerrainType,
   XCoordinate,
@@ -22,7 +22,7 @@ import {
   xyToSlug,
   YCoordinate,
   YOffset
-} from './terrain'
+} from './helpers'
 
 export const mkRgbHex = (s: string) => s as RgbHex
 
@@ -56,31 +56,7 @@ function generateHeightArray(
   return heightArray
 }
 
-export function centerAndCropArray(
-  arr: Height[][],
-  center: { x: XCoordinate; y: YCoordinate },
-  size: number
-): number[][] {
-  const centeredArray: Height[][] = []
-
-  const startRow = Math.max(0, center.x - Math.floor(size / 2))
-  const startCol = Math.max(0, center.y - Math.floor(size / 2))
-  const endRow = Math.min(arr.length - 1, startRow + size - 1)
-  const endCol = Math.min(arr[0].length - 1, startCol + size - 1)
-
-  for (let i = startRow; i <= endRow; i++) {
-    const rowSubset: Height[] = []
-    for (let j = startCol; j <= endCol; j++) {
-      rowSubset.push(arr[i][j])
-    }
-    centeredArray.push(rowSubset)
-  }
-  console.log({ arr, center, size, startRow, startCol, endRow, endCol, centeredArray })
-
-  return centeredArray
-}
-
-export function shiftGrid(grid: RawHeight[][], x: XOffset, y: YOffset): RawHeight[][] {
+function shiftGrid(grid: RawHeight[][], x: XOffset, y: YOffset): RawHeight[][] {
   const rows = grid.length
   const cols = grid[0].length
 
@@ -104,7 +80,7 @@ export function shiftGrid(grid: RawHeight[][], x: XOffset, y: YOffset): RawHeigh
   return shiftedGrid
 }
 
-export const cropGrid = (grid: RawHeight[][], rows: XCoordinate, cols: YCoordinate) => {
+const cropGrid = (grid: RawHeight[][], rows: XCoordinate, cols: YCoordinate) => {
   const cropped: RawHeight[][] = []
 
   for (let i = 0; i < rows; i++) {
@@ -114,7 +90,7 @@ export const cropGrid = (grid: RawHeight[][], rows: XCoordinate, cols: YCoordina
   return cropped
 }
 
-export function createGradientFactory(color1: RgbHex, color2: RgbHex, min: Height, max: Height) {
+function createGradientFactory(color1: RgbHex, color2: RgbHex, min: Height, max: Height) {
   const hexToRgb = (hex: RgbHex) => {
     const bigint = parseInt(hex.slice(1), 16)
     const r = (bigint >> 16) & 255
