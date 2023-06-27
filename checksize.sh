@@ -3,7 +3,7 @@
 myfilesize=$(($(wc -c ./out.zip | awk '{print $1}')))
 
 max=13312
-check=5000
+check=11000
 remain=$((max-myfilesize))
 
 echo $myfilesize, $remain

@@ -1,18 +1,18 @@
 <script lang="ts">
   import { onMount } from 'svelte'
 
-  import WaveSurfer from 'wavesurfer.js'
-
+  import { WaveSurfer } from 'wavesurfer.js'
+  import { RegionsPlugin } from 'wavesurfer.js/dist/plugins/regions.js'
   // Regions plugin
-
-  import RegionsPlugin from 'wavesurfer.js/dist/plugins/regions.min.cjs'
 
   let ws: WaveSurfer
   let loop = false
 
   let wsRoot: HTMLDivElement
+  let zoomBar: HTMLInputElement
 
   onMount(() => {
+    console.log(`hi`)
     // Create an instance of WaveSurfer
     ws = WaveSurfer.create({
       container: wsRoot,
@@ -97,29 +97,37 @@
     })
 
     ws.on('interaction', () => (activeRegion = null))
+
+    ws.once('decode', () => {
+      zoomBar.oninput = (e) => {
+        const minPxPerSec = Number(zoomBar.value)
+        ws.zoom(minPxPerSec)
+        console.log(minPxPerSec)
+      }
+    })
   })
 
-  const handleZoom = (e) => {
-    const minPxPerSec = Number(e.target.value)
-    ws.zoom(minPxPerSec)
-  }
+  $: console.log(zoomBar?.value)
 </script>
 
-<div style="margin-bottom: 2em">
+<div>
   <label>
     <input type="checkbox" bind:checked={loop} />
     Loop regions on click
   </label>
 
-  <label style="margin-left: 2em">
-    Zoom: <input type="range" min="10" max="1000" value="10" on:change={handleZoom} />
+  <label>
+    Zoom: <input type="range" min="10" max="1000" value="10" bind:this={zoomBar} />
   </label>
 </div>
-<div class="surfContainer" bind:this={wsRoot} />
+<div class="surfContainer">
+  <div bind:this={wsRoot} />
+</div>
 
 <style lang="scss">
   .surfContainer {
-    width: 600px;
+    text-align: left;
+    width: 100%;
     height: 50px;
   }
 </style>
