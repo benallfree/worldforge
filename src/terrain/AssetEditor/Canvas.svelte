@@ -1,39 +1,61 @@
 <script lang="ts">
+  import { gameState } from '../../state'
   import ColorBlock from './ColorBlock.svelte'
+  import Preview from './Preview.svelte'
   import Tools from './Tools.svelte'
-  import { type AssetEditorApi } from './state'
 
-  export let asset: AssetEditorApi
-  const { setPixel } = asset
+  $: ({ assetEditor } = $gameState)
+  $: ({ asset, selectedColor, customPalette } = $assetEditor)
+  $: ({ setPixel, setSelectedColor } = assetEditor)
+  $: ({ canvas } = asset!)
 
   const onMouseMove = (e: MouseEvent, r: number, c: number) => {
     if (!e.buttons) return
     setPixel(r, c)
   }
-  $: ({ canvas, selectedColor } = $asset)
 </script>
 
 <div>
-  <h1>Canvas</h1>
-  <Tools {asset} />
-  <ColorBlock color={selectedColor} />
-  <div class="canvas">
-    {#each canvas as row, r}
-      {#each row as pixelColor, c}
-        <div
-          class="pixel"
-          style={`background-color: ${pixelColor}`}
-          on:mouseenter={(e) => onMouseMove(e, r, c)}
-          on:mousedown={(e) => setPixel(r, c)}
-        />
-      {/each}
-    {/each}
+  <Tools />
+  <div class="row">
+    <div class="column">
+      <div class="canvas">
+        {#each canvas as row, r}
+          {#each row as pixelColor, c}
+            <div
+              class="pixel"
+              style={`background-color: ${pixelColor}`}
+              on:mouseenter={(e) => onMouseMove(e, r, c)}
+              on:mousedown={(e) => setPixel(r, c)}
+            />
+          {/each}
+        {/each}
+      </div>
+      <div class="custom-palette">
+        {#each customPalette as color}
+          <ColorBlock {color} onClick={() => setSelectedColor(color)} />
+        {/each}
+      </div>
+    </div>
+    <div class="column">
+      <Preview />
+    </div>
   </div>
 </div>
 
 <style lang="scss">
   $pixelSize: 25px;
 
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    .column {
+    }
+  }
+  .custom-palette {
+    margin-top: 15px;
+  }
   .canvas {
     width: (($pixelSize + 2) * 16);
     line-height: 0;

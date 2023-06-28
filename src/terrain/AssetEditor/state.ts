@@ -1,12 +1,13 @@
+import { flatten, uniq } from '@s-libs/micro-dash'
 import { nanoid } from 'nanoid'
 import { writable } from 'svelte/store'
 import { Opaque } from 'type-fest'
-import { clone, RgbHex } from '../../helpers'
+import { RgbHex } from '../../helpers'
 import {
-  convertRGBArrayToImageData,
-  generateComplementaryColors,
   RGB_GREEN,
-  RGB_TRANSPARENT
+  RGB_TRANSPARENT,
+  convertRGBArrayToImageData,
+  generateComplementaryColors
 } from './helpers'
 
 export const SPRITE_SIZE = 16
@@ -16,9 +17,9 @@ export enum EditorTools {
   Pick
 }
 export const TOOL_NAMES: { [_ in EditorTools]: string } = {
-  [EditorTools.Draw]: 'Draw',
-  [EditorTools.Erase]: 'Erase',
-  [EditorTools.Pick]: 'Pick'
+  [EditorTools.Draw]: '✏️',
+  [EditorTools.Erase]: '🧹',
+  [EditorTools.Pick]: '🧪'
 }
 
 export type AssetId = Opaque<string, 'asset-id'>
@@ -43,10 +44,6 @@ const DEFAULT_ASSET_STATE = {
   id: nanoid() as AssetId,
   name: 'New Asset',
   canvas: DEFAULT_CANVAS,
-  palette: DEFAULT_PALETTE,
-  paletteSeed: DEFAULT_PALETTE_SEED,
-  selectedColor: RGB_GREEN,
-  currentTool: EditorTools.Draw,
   sprite: DEFAULT_SPRITE
 }
 
@@ -54,41 +51,68 @@ export const createAsset = () => {
   return { ...DEFAULT_ASSET_STATE, id: nanoid() } as AssetState
 }
 
-export const createAssetEditorStore = (initialState: AssetState) => {
-  const _store = writable(clone(initialState))
+export type AssetEditorState = {
+  isColorPickerShowing: boolean
+  currentTool: EditorTools
+  selectedColor: RgbHex
+  palette: RgbHex[]
+  customPalette: RgbHex[]
+  paletteSeed: RgbHex
+  asset?: AssetState
+}
+
+export const createAssetEditorStore = () => {
+  const _store = writable<AssetEditorState>({
+    isColorPickerShowing: false,
+    selectedColor: RGB_GREEN,
+    palette: DEFAULT_PALETTE,
+    paletteSeed: DEFAULT_PALETTE_SEED,
+    customPalette: [],
+    currentTool: EditorTools.Draw
+  })
   const { set, update, subscribe } = _store
 
+  const updateAsset = (cb: (state: AssetEditorState, asset: AssetState) => AssetState) =>
+    update((state) => {
+      const { asset } = state
+      if (!asset) throw new Error(`Asset required`)
+      return { ...state, asset: cb(state, asset) }
+    })
   return {
     subscribe,
-    reset: () => set(DEFAULT_ASSET_STATE),
-    setPaletteSeed: (paletteSeed: RgbHex) => {
-      return update((state) => ({
-        ...DEFAULT_ASSET_STATE,
+    setAsset: (asset: AssetState) => update((state) => ({ ...state, asset })),
+    showColorPicker: () => update((state) => ({ ...state, isColorPickerShowing: true })),
+    hideColorPicker: () => update((state) => ({ ...state, isColorPickerShowing: false })),
+    setPaletteSeed: (paletteSeed: RgbHex) =>
+      update((state) => ({
         ...state,
         paletteSeed,
         palette: generateComplementaryColors(paletteSeed)
-      }))
-    },
+      })),
     setSelectedColor: (selectedColor: RgbHex) =>
-      update((state) => ({ ...DEFAULT_ASSET_STATE, ...state, selectedColor })),
+      update((state) => ({ ...state, isColorPickerShowing: false, selectedColor })),
     setPixel: (x: number, y: number) => {
-      update((state) => {
-        const { canvas, currentTool, selectedColor } = state || DEFAULT_ASSET_STATE
+      updateAsset((state, asset) => {
+        const { currentTool, selectedColor } = state
+        const { canvas } = asset
         if (currentTool === EditorTools.Draw) {
           canvas[x][y] = selectedColor
         } else {
           canvas[x][y] = RGB_TRANSPARENT
         }
         return {
-          ...DEFAULT_ASSET_STATE,
-          ...state,
+          ...asset,
           canvas,
           sprite: convertRGBArrayToImageData(canvas)
         }
       })
+      update((state) => {
+        const flattened = flatten(state.asset!.canvas) as RgbHex[]
+        const customPalette = uniq(flattened).filter((c) => c !== RGB_TRANSPARENT)
+        return { ...state, customPalette }
+      })
     },
-    setTool: (currentTool: EditorTools) =>
-      update((state) => ({ ...DEFAULT_ASSET_STATE, ...state, currentTool }))
+    setTool: (currentTool: EditorTools) => update((state) => ({ ...state, currentTool }))
   }
 }
 export type AssetEditorApi = ReturnType<typeof createAssetEditorStore>

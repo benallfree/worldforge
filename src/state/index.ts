@@ -1,5 +1,5 @@
 import { Writable, writable } from 'svelte/store'
-import { mkGridSize } from '../helpers'
+import { clone, mkGridSize } from '../helpers'
 import Splash from '../screens/Splash/Splash.svelte'
 import {
   AssetEditorApi,
@@ -22,7 +22,7 @@ export const Screens: { [_ in ScreenNames]: () => any } = {
 
 export type GameState = {
   assets: { [assetId: AssetId]: AssetState }
-  editingAsset?: AssetEditorApi
+  assetEditor: AssetEditorApi
   screen: ScreenNames
   terrain: TerrainApi
 }
@@ -30,6 +30,7 @@ export type GameState = {
 export const DEFAULT_GAME_STATE: GameState = {
   assets: {},
   screen: ScreenNames.Splash,
+  assetEditor: createAssetEditorStore(),
   terrain: createTerrain({ size: mkGridSize(20) })
 }
 export type GameStateApi = ReturnType<typeof createGameState>
@@ -45,7 +46,10 @@ export const createGameState = () => {
       return newAsset.id
     },
     editAsset: (id: AssetId) => {
-      update((state) => ({ ...state, editingAsset: createAssetEditorStore(state.assets[id]) }))
+      update((state) => {
+        state.assetEditor.setAsset(clone(state.assets[id]))
+        return state
+      })
     },
     navigate: (screen: ScreenNames) =>
       update((state) => {

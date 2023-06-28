@@ -1,20 +1,16 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import Canvas from './Canvas.svelte'
-  import ColorPicker from './ColorPicker.svelte'
-  import Preview from './Preview.svelte'
-  import Tools from './Tools.svelte'
-  import AssetSelector from './AssetSelector.svelte'
   import { gameState } from '../../state'
+  import AssetSelector from './AssetSelector.svelte'
+  import Canvas from './Canvas.svelte'
+  import Preview from './Preview.svelte'
 
-  $: ({ editingAsset } = $gameState)
+  $: ({ assetEditor } = $gameState)
+  $: ({ asset } = $assetEditor)
 </script>
 
 <div class="editor">
-  {#if editingAsset}
-    <ColorPicker asset={editingAsset} />
-    <Canvas asset={editingAsset} />
-    <Preview asset={editingAsset} />
+  {#if asset}
+    <Canvas />
   {:else}
     <AssetSelector />
   {/if}

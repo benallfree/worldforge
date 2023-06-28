@@ -1,7 +1,5 @@
 <script lang="ts">
-  import type { HTMLSelectAttributes } from 'svelte/elements'
   import { gameState } from '../../state'
-  import type { AssetEditorApi } from './state'
 
   const { createAsset, editAsset } = gameState
 

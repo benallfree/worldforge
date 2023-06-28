@@ -1,22 +1,21 @@
 <script lang="ts">
+  import { gameState } from '../../state'
   import ColorBlock from './ColorBlock.svelte'
   import { COLOR_SEEDS } from './helpers'
-  import type { AssetEditorApi } from './state'
 
-  export let asset: AssetEditorApi
-  const { setPaletteSeed, setSelectedColor } = asset
-
-  $: ({ palette, paletteSeed } = $asset)
+  $: ({ assetEditor } = $gameState)
+  $: ({ asset, selectedColor, paletteSeed, palette } = $assetEditor)
+  $: ({ setPaletteSeed, setSelectedColor } = assetEditor)
+  $: ({} = asset!)
 </script>
 
-<div>
-  <h1>Color</h1>
+<div class="picker">
   <div>
     <h2>Predefined Palettes</h2>
     <div>
       {#each COLOR_SEEDS as color}
         <ColorBlock
-          selected={$asset.selectedColor === color}
+          selected={selectedColor === color}
           {color}
           onClick={() => setPaletteSeed(color)}
         />
@@ -26,7 +25,7 @@
     <input type="text" bind:value={paletteSeed} />
     <div class="color-set">
       {#each palette as color}<ColorBlock
-          selected={$asset.selectedColor === color}
+          selected={selectedColor === color}
           {color}
           onClick={() => setSelectedColor(color)}
         />{/each}
@@ -37,6 +36,11 @@
 <style lang="scss">
   $pixelSize: 27px;
 
+  .picker {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 10px;
+  }
   .color-set {
     width: ($pixelSize * 4);
     line-height: 0;

@@ -1,15 +1,14 @@
 <script lang="ts">
-  import type { AssetEditorApi } from './state'
+  import { gameState } from '../../state'
 
-  export let asset: AssetEditorApi
-  $: ({ sprite } = $asset)
+  $: ({ assetEditor } = $gameState)
+  $: ({ asset } = $assetEditor)
+  $: ({ setTool, showColorPicker } = assetEditor)
+  $: ({ sprite } = asset!)
 </script>
 
-<div>
-  <h1>Preview</h1>
-  <div class="preview">
-    <img src={sprite} />
-  </div>
+<div class="preview">
+  <img src={sprite} />
 </div>
 
 <style lang="scss">
