@@ -4,7 +4,7 @@
   import ToolButton from './ToolButton.svelte'
   import { TOOL_NAMES, mkTool } from './state'
 
-  $: ({ saveAsset, closeAssetEditor } = gameState)
+  $: ({ saveAsset, openAssetEditor, createAsset } = gameState)
   $: ({ assetEditor } = $gameState)
   $: ({ asset, isColorPickerShowing, selectedColor } = $assetEditor)
   $: ({ setTool, showColorPicker, clearAsset } = assetEditor)
@@ -13,6 +13,11 @@
   const onSave = () => {
     saveAsset(asset!)
     clearAsset()
+  }
+  const onClone = () => {
+    const assetId = createAsset()
+    saveAsset({ ...asset!, name: `Clone of ${asset!.name}`, id: assetId })
+    openAssetEditor(assetId)
   }
 </script>
 
@@ -25,7 +30,8 @@
     <ColorPicker />
   {/if}
   <button on:click={onSave}>save</button>
-  <button on:click={closeAssetEditor}>cancel</button>
+  <button on:click={clearAsset}>cancel</button>
+  <button on:click={onClone}>clone</button>
 </div>
 
 <style lang="scss">

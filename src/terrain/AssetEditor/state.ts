@@ -7,7 +7,7 @@ import {
   RGB_GREEN,
   RGB_TRANSPARENT,
   convertRGBArrayToImageData,
-  generateComplementaryColors
+  generateColorSpectrum
 } from './helpers'
 
 export const SPRITE_SIZE = 16
@@ -28,21 +28,29 @@ export type Asset = {
 
 export const mkTool = (s: string) => parseInt(s) as EditorTools
 
+export const createCustomPaletteFromCanvas = (canvas: Canvas): Palette => {
+  const flattened = flatten(canvas) as Palette
+  const customPalette = uniq(flattened).filter((c) => c !== RGB_TRANSPARENT)
+  return customPalette
+}
+
 const DEFAULT_PALETTE_SEED = RGB_GREEN
-const DEFAULT_PALETTE = generateComplementaryColors(DEFAULT_PALETTE_SEED)
+const DEFAULT_PALETTE = generateColorSpectrum(DEFAULT_PALETTE_SEED)
 export type Canvas = Opaque<string[][], 'canvas'>
 const DEFAULT_CANVAS = Array.from({ length: SPRITE_SIZE }, () =>
   Array<string>(SPRITE_SIZE).fill(RGB_TRANSPARENT)
 ) as Canvas
 export type Sprite = Opaque<typeof DEFAULT_SPRITE, 'sprite'>
 const DEFAULT_SPRITE = convertRGBArrayToImageData(DEFAULT_CANVAS)
+const DEFAULT_CUSTOM_PALETTE = createCustomPaletteFromCanvas(DEFAULT_CANVAS)
 
 export type AssetState = typeof DEFAULT_ASSET_STATE
 const DEFAULT_ASSET_STATE = {
   id: nanoid() as AssetId,
   name: 'New Asset',
   canvas: DEFAULT_CANVAS,
-  sprite: DEFAULT_SPRITE
+  sprite: DEFAULT_SPRITE,
+  customPalette: DEFAULT_CUSTOM_PALETTE
 }
 
 export const createAsset = () => {
@@ -59,17 +67,19 @@ export const inMemoryAsset = (atRestAsset: AssetState_AtRest) => {
     id,
     canvas,
     name,
-    sprite: convertRGBArrayToImageData(atRestAsset.canvas)
+    sprite: convertRGBArrayToImageData(atRestAsset.canvas),
+    customPalette: createCustomPaletteFromCanvas(canvas)
   }
   return memory
 }
+
+export type Palette = RgbHex[]
 
 export type AssetEditorState = {
   isColorPickerShowing: boolean
   currentTool: EditorTools
   selectedColor: RgbHex
   palette: RgbHex[]
-  customPalette: RgbHex[]
   paletteSeed: RgbHex
   asset?: AssetState
 }
@@ -80,7 +90,6 @@ export const createAssetEditorStore = () => {
     selectedColor: RGB_GREEN,
     palette: DEFAULT_PALETTE,
     paletteSeed: DEFAULT_PALETTE_SEED,
-    customPalette: [],
     currentTool: EditorTools.Draw
   })
   const { set, update, subscribe } = _store
@@ -89,9 +98,12 @@ export const createAssetEditorStore = () => {
     update((state) => {
       const { asset } = state
       if (!asset) throw new Error(`Asset required`)
-      return { ...state, asset: cb(state, asset) }
+      return {
+        ...state,
+        asset: cb(state, asset)
+      }
     })
-  return {
+  const api = {
     subscribe,
     setAsset: (asset: AssetState) => update((state) => ({ ...state, asset })),
     clearAsset: () =>
@@ -106,10 +118,16 @@ export const createAssetEditorStore = () => {
       update((state) => ({
         ...state,
         paletteSeed,
-        palette: generateComplementaryColors(paletteSeed)
+        palette: generateColorSpectrum(paletteSeed)
       })),
-    setSelectedColor: (selectedColor: RgbHex) =>
-      update((state) => ({ ...state, isColorPickerShowing: false, selectedColor })),
+    setSelectedColor: (selectedColor: RgbHex) => {
+      update((state) => ({
+        ...state,
+        isColorPickerShowing: false,
+        selectedColor,
+        palette: generateColorSpectrum(selectedColor)
+      }))
+    },
     setPixel: (x: number, y: number) => {
       updateAsset((state, asset) => {
         const { currentTool, selectedColor } = state
@@ -122,7 +140,8 @@ export const createAssetEditorStore = () => {
         return {
           ...asset,
           canvas,
-          sprite: convertRGBArrayToImageData(canvas)
+          sprite: convertRGBArrayToImageData(canvas),
+          customPalette: createCustomPaletteFromCanvas(canvas)
         }
       })
       update((state) => {
@@ -133,5 +152,6 @@ export const createAssetEditorStore = () => {
     },
     setTool: (currentTool: EditorTools) => update((state) => ({ ...state, currentTool }))
   }
+  return api
 }
 export type AssetEditorApi = ReturnType<typeof createAssetEditorStore>

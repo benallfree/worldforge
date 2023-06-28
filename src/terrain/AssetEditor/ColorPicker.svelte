@@ -15,14 +15,14 @@
     <div>
       {#each COLOR_SEEDS as color}
         <ColorBlock
-          selected={selectedColor === color}
+          selected={palette.some((paletteColor) => color === paletteColor)}
           {color}
           onClick={() => setPaletteSeed(color)}
         />
       {/each}
     </div>
     or custom palette:
-    <input type="text" bind:value={paletteSeed} />
+    <input type="text" value={paletteSeed} on:change={(e) => setPaletteSeed(e.target.value)} />
     <div class="color-set">
       {#each palette as color}<ColorBlock
           selected={selectedColor === color}

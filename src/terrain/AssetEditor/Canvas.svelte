@@ -1,13 +1,14 @@
 <script lang="ts">
   import { gameState } from '../../state'
   import ColorBlock from './ColorBlock.svelte'
-  import Preview from './AssetTile.svelte'
+  import AssetTile from './AssetTile.svelte'
   import Tools from './Tools.svelte'
+  import Preview from './Preview.svelte'
 
   $: ({ assetEditor } = $gameState)
-  $: ({ asset, selectedColor, customPalette } = $assetEditor)
+  $: ({ asset, selectedColor } = $assetEditor)
   $: ({ setPixel, setSelectedColor } = assetEditor)
-  $: ({ canvas } = asset!)
+  $: ({ canvas, customPalette } = asset!)
 
   const onMouseMove = (e: MouseEvent, r: number, c: number) => {
     if (!e.buttons) return

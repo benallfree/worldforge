@@ -2,7 +2,6 @@
   import { gameState } from '../../state'
   import AssetSelector from './AssetSelector.svelte'
   import Canvas from './Canvas.svelte'
-  import Preview from './AssetTile.svelte'
 
   $: ({ assetEditor } = $gameState)
   $: ({ asset } = $assetEditor)
@@ -11,6 +10,7 @@
 
 <div class="editor">
   {#if asset}
+    {asset.name}
     <Canvas />
   {:else}
     <AssetSelector />

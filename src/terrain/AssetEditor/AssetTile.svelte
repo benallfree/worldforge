@@ -18,7 +18,6 @@
   .tile {
     display: inline-block;
     img {
-      border: 1px solid white;
       width: $pixelSize * 2;
       height: $pixelSize * 2;
     }
