@@ -119,3 +119,55 @@ export function convertRGBArrayToImageData(rgbArray: string[][]): string {
 
   return dataURL
 }
+
+export function convertImageDataToRGBArray(dataURL: string): Promise<string[][]> {
+  const canvas = document.createElement('canvas')
+  const image = new Image()
+
+  return new Promise<string[][]>((resolve, reject) => {
+    image.onload = () => {
+      canvas.width = image.width
+      canvas.height = image.height
+      const context = canvas.getContext('2d')
+
+      if (!context) {
+        reject(new Error('Canvas context is not supported.'))
+        return
+      }
+
+      context.drawImage(image, 0, 0)
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height)
+      const rgbArray: string[][] = []
+
+      let pixelIndex = 0
+      for (let y = 0; y < canvas.height; y++) {
+        const row: string[] = []
+
+        for (let x = 0; x < canvas.width; x++) {
+          const red = imageData.data[pixelIndex++]
+          const green = imageData.data[pixelIndex++]
+          const blue = imageData.data[pixelIndex++]
+          pixelIndex++ // Skip alpha value
+
+          const hexValue = `#${toHex(red)}${toHex(green)}${toHex(blue)}`
+          row.push(hexValue)
+        }
+
+        rgbArray.push(row)
+      }
+
+      resolve(rgbArray)
+    }
+
+    image.onerror = () => {
+      reject(new Error('Failed to load the image.'))
+    }
+
+    image.src = dataURL
+  })
+}
+
+function toHex(value: number): string {
+  const hex = value.toString(16)
+  return hex.length === 1 ? '0' + hex : hex
+}
