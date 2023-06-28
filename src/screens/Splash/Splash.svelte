@@ -4,5 +4,5 @@
   const { navigate } = gameState
 </script>
 
-<div>Hello world</div>
+<div>WorldForge</div>
 <button on:click={() => navigate(ScreenNames.Home)}>Enter</button>

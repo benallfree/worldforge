@@ -2,4 +2,4 @@
   import { Screens, gameState } from './state'
 </script>
 
-<svelte:component this={Screens[$gameState.screen]} />
+<svelte:component this={Screens[$gameState.screen]()} />

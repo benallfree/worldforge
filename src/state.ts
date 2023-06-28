@@ -8,9 +8,9 @@ export enum ScreenNames {
   Splash,
   Home
 }
-export const Screens: { [_ in ScreenNames] } = {
-  [ScreenNames.Splash]: Splash,
-  [ScreenNames.Home]: TerrainMap
+export const Screens: { [_ in ScreenNames]: () => any } = {
+  [ScreenNames.Splash]: () => Splash,
+  [ScreenNames.Home]: () => TerrainMap
 }
 
 export const DEFAULT_GAME_STATE = {

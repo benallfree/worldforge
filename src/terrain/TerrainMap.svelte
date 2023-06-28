@@ -6,16 +6,15 @@
   import { gameState } from '../state'
 
   export let size = mkGridSize($gameState.terrain.size())
-  let newAsset = false
-  const onNewAsset = () => (newAsset = !newAsset)
+  let editAssets = false
+  const onEditAssets = () => (editAssets = !editAssets)
 </script>
 
 <h1>Points</h1>
-<button on:click={onNewAsset}>New Asset</button>
-{#if newAsset}
+<button on:click={onEditAssets}>Edit Assets</button>
+{#if editAssets}
   <AssetEditor />
 {/if}
-<button>Tree</button> <button>Rock</button> <button>Water</button> <button>Commit</button>
 <div>
   <div>
     Copy and paste this to <a

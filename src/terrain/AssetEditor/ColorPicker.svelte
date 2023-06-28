@@ -6,7 +6,7 @@
   const { setPaletteSeed, setSelectedColor } = assetEditorState
 
   console.log({ $assetEditorState })
-  const { palette } = $assetEditorState
+  $: ({ palette } = $assetEditorState)
 </script>
 
 <div>
