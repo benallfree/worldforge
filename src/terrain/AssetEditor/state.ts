@@ -1,4 +1,4 @@
-import { flatten, uniq } from '@s-libs/micro-dash'
+import { flatten, pick, uniq } from '@s-libs/micro-dash'
 import { nanoid } from 'nanoid'
 import { writable } from 'svelte/store'
 import { Opaque } from 'type-fest'
@@ -51,6 +51,21 @@ export const createAsset = () => {
   return { ...DEFAULT_ASSET_STATE, id: nanoid() } as AssetState
 }
 
+export type AssetState_AtRest = Pick<AssetState, 'id' | 'name' | 'canvas'>
+export const atRestAsset = (asset: AssetState): AssetState_AtRest =>
+  pick(asset, 'canvas', 'id', 'name')
+
+export const inMemoryAsset = (atRestAsset: AssetState_AtRest) => {
+  const { id, canvas, name } = atRestAsset
+  const memory: AssetState = {
+    id,
+    canvas,
+    name,
+    sprite: convertRGBArrayToImageData(atRestAsset.canvas)
+  }
+  return memory
+}
+
 export type AssetEditorState = {
   isColorPickerShowing: boolean
   currentTool: EditorTools
@@ -81,6 +96,12 @@ export const createAssetEditorStore = () => {
   return {
     subscribe,
     setAsset: (asset: AssetState) => update((state) => ({ ...state, asset })),
+    clearAsset: () =>
+      update((state) => {
+        console.log('clearing asset')
+        delete state.asset
+        return { ...state }
+      }),
     showColorPicker: () => update((state) => ({ ...state, isColorPickerShowing: true })),
     hideColorPicker: () => update((state) => ({ ...state, isColorPickerShowing: false })),
     setPaletteSeed: (paletteSeed: RgbHex) =>

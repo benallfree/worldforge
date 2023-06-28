@@ -3,18 +3,13 @@
   import { mkGridSize, xyToSlug } from '../helpers'
   import AssetEditor from './AssetEditor/AssetEditor.svelte'
   import TerrainCell from './TerrainCell.svelte'
-  import { gameState } from '../state'
+  import { ScreenNames, gameState } from '../state'
 
+  const { navigate } = gameState
   export let size = mkGridSize($gameState.terrain.size())
-  let editAssets = false
-  const onEditAssets = () => (editAssets = !editAssets)
 </script>
 
-<h1>Points</h1>
-<button on:click={onEditAssets}>Edit Assets</button>
-{#if editAssets}
-  <AssetEditor />
-{/if}
+<button on:click={() => navigate(ScreenNames.Editor)}>Edit Assets</button>
 <div>
   <div>
     Copy and paste this to <a

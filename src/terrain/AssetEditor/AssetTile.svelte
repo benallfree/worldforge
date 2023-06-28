@@ -1,20 +1,22 @@
 <script lang="ts">
   import { gameState } from '../../state'
+  import type { AssetState } from './state'
 
-  $: ({ assetEditor } = $gameState)
-  $: ({ asset } = $assetEditor)
-  $: ({ setTool, showColorPicker } = assetEditor)
-  $: ({ sprite } = asset!)
+  export let asset: AssetState
+  export let onClick = () => {}
+
+  $: ({ sprite } = asset)
 </script>
 
-<div class="preview">
+<div class="tile" on:click={onClick}>
   <img src={sprite} />
 </div>
 
 <style lang="scss">
   $pixelSize: 25px;
 
-  .preview {
+  .tile {
+    display: inline-block;
     img {
       border: 1px solid white;
       width: $pixelSize * 2;

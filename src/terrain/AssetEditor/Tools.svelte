@@ -4,10 +4,16 @@
   import ToolButton from './ToolButton.svelte'
   import { TOOL_NAMES, mkTool } from './state'
 
+  $: ({ saveAsset, closeAssetEditor } = gameState)
   $: ({ assetEditor } = $gameState)
   $: ({ asset, isColorPickerShowing, selectedColor } = $assetEditor)
-  $: ({ setTool, showColorPicker } = assetEditor)
+  $: ({ setTool, showColorPicker, clearAsset } = assetEditor)
   $: ({} = asset!)
+
+  const onSave = () => {
+    saveAsset(asset!)
+    clearAsset()
+  }
 </script>
 
 <div>
@@ -18,6 +24,8 @@
   {#if isColorPickerShowing}
     <ColorPicker />
   {/if}
+  <button on:click={onSave}>save</button>
+  <button on:click={closeAssetEditor}>cancel</button>
 </div>
 
 <style lang="scss">

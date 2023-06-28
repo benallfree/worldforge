@@ -2,10 +2,11 @@
   import { gameState } from '../../state'
   import AssetSelector from './AssetSelector.svelte'
   import Canvas from './Canvas.svelte'
-  import Preview from './Preview.svelte'
+  import Preview from './AssetTile.svelte'
 
   $: ({ assetEditor } = $gameState)
   $: ({ asset } = $assetEditor)
+  $: console.log($assetEditor.asset)
 </script>
 
 <div class="editor">

@@ -6,7 +6,7 @@ export const RGB_GREEN = '#00FF00' as RgbHex
 export const RGB_WHITE = '#FFFFFF' as RgbHex
 
 export const COLOR_SEEDS = [
-  '#000000',
+  RGB_TRANSPARENT,
   '#191970',
   '#008000',
   '#2f4f4f',

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { gameState } from '../../state'
   import ColorBlock from './ColorBlock.svelte'
-  import Preview from './Preview.svelte'
+  import Preview from './AssetTile.svelte'
   import Tools from './Tools.svelte'
 
   $: ({ assetEditor } = $gameState)
@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="column">
-      <Preview />
+      <Preview {asset} />
     </div>
   </div>
 </div>
