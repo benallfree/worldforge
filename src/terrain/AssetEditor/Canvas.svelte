@@ -1,23 +1,22 @@
 <script lang="ts">
   import ColorBlock from './ColorBlock.svelte'
   import Tools from './Tools.svelte'
-  import { convertRGBArrayToImageData, RGB_TRANSPARENT } from './helpers'
-  import { assetEditorState, EditorTools } from './state'
+  import { type AssetEditorApi } from './state'
 
-  const { setPixel } = assetEditorState
+  export let asset: AssetEditorApi
+  const { setPixel } = asset
 
   const onMouseMove = (e: MouseEvent, r: number, c: number) => {
     if (!e.buttons) return
     setPixel(r, c)
   }
-  $: ({ canvas } = $assetEditorState)
-  console.log({ canvas, $assetEditorState })
+  $: ({ canvas, selectedColor } = $asset)
 </script>
 
 <div>
   <h1>Canvas</h1>
-  <Tools />
-  <ColorBlock color={$assetEditorState.selectedColor} />
+  <Tools {asset} />
+  <ColorBlock color={selectedColor} />
   <div class="canvas">
     {#each canvas as row, r}
       {#each row as pixelColor, c}

@@ -1,9 +1,8 @@
 <script lang="ts">
-  import { convertRGBArrayToImageData } from './helpers'
-  import { assetEditorState } from './state'
+  import type { AssetEditorApi } from './state'
 
-  $: ({ sprite } = $assetEditorState)
-  console.log(sprite)
+  export let asset: AssetEditorApi
+  $: ({ sprite } = $asset)
 </script>
 
 <div>

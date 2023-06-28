@@ -9,9 +9,9 @@ import {
   TerrainCell,
   TerrainCell_Create,
   TerrainType,
+  clone,
   mkGridSize,
   mkHeight,
-  mkJsonObject,
   pointToSlug,
   slugToPoint,
   xyToPointArray
@@ -92,7 +92,7 @@ export const createTerrain = (config?: Partial<TerrainConfig>) => {
   //   const centerHeight = 9
   //   const decayFactor = 0.5
   //   const gridHeightArray = generateHeightArray(centerHeight, size, decayFactor)
-  console.log(mkJsonObject({ terrain }))
+  console.log(clone({ terrain }))
 
   return api
 }

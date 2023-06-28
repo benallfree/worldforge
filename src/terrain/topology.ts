@@ -3,12 +3,6 @@ import {
   GridSize,
   Height,
   MIN_HEIGHT,
-  mkHeight,
-  mkJsonObject,
-  mkX,
-  mkXOffset,
-  mkY,
-  mkYOffset,
   Point,
   PointArray,
   RgbHex,
@@ -16,11 +10,17 @@ import {
   TerrainType,
   XCoordinate,
   XOffset,
+  YCoordinate,
+  YOffset,
+  clone,
+  mkHeight,
+  mkX,
+  mkXOffset,
+  mkY,
+  mkYOffset,
   xyToPoint,
   xyToPointArray,
-  xyToSlug,
-  YCoordinate,
-  YOffset
+  xyToSlug
 } from '../helpers'
 import { TerrainApi } from './createTerrain'
 
@@ -150,7 +150,7 @@ export const generateTopology = (terrain: TerrainApi, nPeaks: GridSize) => {
   const { set, get, map, maxHeight, minHeight } = terrain
 
   const generateDecay = (peakCell: TerrainCell) => {
-    console.log(`Generating decay for`, mkJsonObject(peakCell))
+    console.log(`Generating decay for`, clone(peakCell))
     // console.log({ id, data, size })
     const decaySize = (size * 4) as GridSize
     const decay = generateHeightArray(peakCell.height, decaySize, 0.7)
@@ -244,7 +244,7 @@ export const generateTopology = (terrain: TerrainApi, nPeaks: GridSize) => {
     minHeight(cell.height)
     maxHeight(cell.height)
   })
-  console.log(`before normalizing`, { terrain: mkJsonObject(terrain) })
+  console.log(`before normalizing`, { terrain: clone(terrain) })
 
   map((cell, id): void => {
     // console.log({ cell: mkJsonObject(cell), minHeight })
@@ -260,7 +260,7 @@ export const generateTopology = (terrain: TerrainApi, nPeaks: GridSize) => {
     maxHeight()
   )
 
-  console.log(`after normalizing`, { terrain: mkJsonObject(terrain) })
+  console.log(`after normalizing`, { terrain: clone(terrain) })
 
   return {
     topographicalHeat

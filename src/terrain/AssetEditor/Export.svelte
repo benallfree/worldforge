@@ -1,6 +1,6 @@
 <script lang="ts">
   import { convertRGBArrayToImageData } from './helpers'
-  import { assetEditorState } from './state'
+  import { assetEditorState } from './assets'
 
   let imgData: string
   $: ({ canvas } = $assetEditorState)

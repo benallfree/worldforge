@@ -4,17 +4,20 @@
   import ColorPicker from './ColorPicker.svelte'
   import Preview from './Preview.svelte'
   import Tools from './Tools.svelte'
-  import { assetEditorState } from './state'
+  import AssetSelector from './AssetSelector.svelte'
+  import { gameState } from '../../state'
 
-  onMount(() => {
-    assetEditorState.reset()
-  })
+  $: ({ editingAsset } = $gameState)
 </script>
 
 <div class="editor">
-  <ColorPicker />
-  <Canvas />
-  <Preview />
+  {#if editingAsset}
+    <ColorPicker asset={editingAsset} />
+    <Canvas asset={editingAsset} />
+    <Preview asset={editingAsset} />
+  {:else}
+    <AssetSelector />
+  {/if}
 </div>
 
 <style lang="scss">

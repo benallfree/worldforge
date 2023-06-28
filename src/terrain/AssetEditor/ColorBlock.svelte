@@ -1,13 +1,10 @@
 <script lang="ts">
-  import type { NonEmptyTuple } from 'type-fest/source/internal'
-  import { RGB_WHITE } from './helpers'
-  import { assetEditorState } from './state'
   import type { RgbHex } from '../../helpers'
+  import { RGB_WHITE } from './helpers'
 
+  export let selected = false
   export let color: RgbHex
   export let onClick: () => void = () => {}
-  let selected: boolean
-  $: selected = $assetEditorState.selectedColor === color
   console.log({ selected })
 </script>
 

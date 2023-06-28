@@ -1,11 +1,12 @@
+import { nanoid } from 'nanoid'
 import { writable } from 'svelte/store'
 import { Opaque } from 'type-fest'
-import { RgbHex } from '../../helpers'
+import { clone, RgbHex } from '../../helpers'
 import {
-  RGB_GREEN,
-  RGB_TRANSPARENT,
   convertRGBArrayToImageData,
-  generateComplementaryColors
+  generateComplementaryColors,
+  RGB_GREEN,
+  RGB_TRANSPARENT
 } from './helpers'
 
 export const SPRITE_SIZE = 16
@@ -30,15 +31,17 @@ export const mkTool = (s: string) => parseInt(s) as EditorTools
 
 const DEFAULT_PALETTE_SEED = RGB_GREEN
 const DEFAULT_PALETTE = generateComplementaryColors(DEFAULT_PALETTE_SEED)
-export type Canvas = Opaque<typeof DEFAULT_CANVAS, 'canvas'>
+export type Canvas = Opaque<string[][], 'canvas'>
 const DEFAULT_CANVAS = Array.from({ length: SPRITE_SIZE }, () =>
   Array<string>(SPRITE_SIZE).fill(RGB_TRANSPARENT)
-)
+) as Canvas
 export type Sprite = Opaque<typeof DEFAULT_SPRITE, 'sprite'>
 const DEFAULT_SPRITE = convertRGBArrayToImageData(DEFAULT_CANVAS)
 
-export type AssetEditorState = typeof DEFAULT_ASSET_STATE
+export type AssetState = typeof DEFAULT_ASSET_STATE
 const DEFAULT_ASSET_STATE = {
+  id: nanoid() as AssetId,
+  name: 'New Asset',
   canvas: DEFAULT_CANVAS,
   palette: DEFAULT_PALETTE,
   paletteSeed: DEFAULT_PALETTE_SEED,
@@ -46,34 +49,46 @@ const DEFAULT_ASSET_STATE = {
   currentTool: EditorTools.Draw,
   sprite: DEFAULT_SPRITE
 }
-export const createAssetEditorState = () => {
-  const _store = writable<AssetEditorState>(DEFAULT_ASSET_STATE)
-  const { subscribe, set, update } = _store
+
+export const createAsset = () => {
+  return { ...DEFAULT_ASSET_STATE, id: nanoid() } as AssetState
+}
+
+export const createAssetEditorStore = (initialState: AssetState) => {
+  const _store = writable(clone(initialState))
+  const { set, update, subscribe } = _store
 
   return {
     subscribe,
     reset: () => set(DEFAULT_ASSET_STATE),
     setPaletteSeed: (paletteSeed: RgbHex) => {
       return update((state) => ({
+        ...DEFAULT_ASSET_STATE,
         ...state,
         paletteSeed,
         palette: generateComplementaryColors(paletteSeed)
       }))
     },
-    setSelectedColor: (selectedColor: RgbHex) => update((state) => ({ ...state, selectedColor })),
+    setSelectedColor: (selectedColor: RgbHex) =>
+      update((state) => ({ ...DEFAULT_ASSET_STATE, ...state, selectedColor })),
     setPixel: (x: number, y: number) => {
       update((state) => {
-        const { canvas, currentTool, selectedColor } = state
+        const { canvas, currentTool, selectedColor } = state || DEFAULT_ASSET_STATE
         if (currentTool === EditorTools.Draw) {
           canvas[x][y] = selectedColor
         } else {
           canvas[x][y] = RGB_TRANSPARENT
         }
-        return { ...state, canvas, sprite: convertRGBArrayToImageData(canvas) }
+        return {
+          ...DEFAULT_ASSET_STATE,
+          ...state,
+          canvas,
+          sprite: convertRGBArrayToImageData(canvas)
+        }
       })
     },
-    setTool: (currentTool: EditorTools) => update((state) => ({ ...state, currentTool }))
+    setTool: (currentTool: EditorTools) =>
+      update((state) => ({ ...DEFAULT_ASSET_STATE, ...state, currentTool }))
   }
 }
-
-export const assetEditorState = createAssetEditorState()
+export type AssetEditorApi = ReturnType<typeof createAssetEditorStore>

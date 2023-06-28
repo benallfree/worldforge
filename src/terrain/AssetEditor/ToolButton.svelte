@@ -1,10 +1,12 @@
 <script lang="ts">
-  import { EditorTools, TOOL_NAMES, assetEditorState } from './state'
+  import type { AssetEditorApi } from './state'
+  import { EditorTools, TOOL_NAMES } from './state'
 
+  export let asset: AssetEditorApi
   export let tool: EditorTools
   export let onClick: () => void
 
-  $: ({ currentTool } = $assetEditorState)
+  $: ({ currentTool } = $asset)
 </script>
 
 <button class={currentTool === tool ? 'selected' : ''} on:click={onClick}>{TOOL_NAMES[tool]}</button
