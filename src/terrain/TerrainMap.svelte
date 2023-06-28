@@ -1,10 +1,11 @@
 <script lang="ts">
   import { range } from '@s-libs/micro-dash'
-  import TerrainCell from './TerrainCell.svelte'
-  import { mkGridSize, terrain, xyToSlug } from './'
+  import { mkGridSize, xyToSlug } from '../helpers'
   import AssetEditor from './AssetEditor/AssetEditor.svelte'
+  import TerrainCell from './TerrainCell.svelte'
+  import { gameState } from '../state'
 
-  export let size = mkGridSize($terrain.size())
+  export let size = mkGridSize($gameState.terrain.size())
   let newAsset = false
   const onNewAsset = () => (newAsset = !newAsset)
 </script>
@@ -30,7 +31,7 @@
 {#each range(size) as r}
   <div class="row">
     {#each range(size) as c}
-      <TerrainCell cell={$terrain.get(xyToSlug(r, c))} />
+      <TerrainCell cell={$gameState.terrain.get(xyToSlug(r, c))} />
     {/each}
   </div>
 {/each}

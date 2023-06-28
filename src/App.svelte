@@ -1,5 +1,5 @@
 <script lang="ts">
-  import TerrainMap from './terrain/TerrainMap.svelte'
+  import { Screens, gameState } from './state'
 </script>
 
-<TerrainMap />
+<svelte:component this={Screens[$gameState.screen]} />

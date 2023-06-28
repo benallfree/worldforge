@@ -1,5 +1,4 @@
 import { Opaque } from 'type-fest'
-import { TerrainApi } from './createTerrain'
 import {
   GridSize,
   Height,
@@ -22,7 +21,8 @@ import {
   xyToSlug,
   YCoordinate,
   YOffset
-} from './helpers'
+} from '../helpers'
+import { TerrainApi } from './createTerrain'
 
 export const mkRgbHex = (s: string) => s as RgbHex
 

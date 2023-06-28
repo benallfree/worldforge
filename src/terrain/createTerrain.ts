@@ -9,23 +9,30 @@ import {
   TerrainCell,
   TerrainCell_Create,
   TerrainType,
+  mkGridSize,
   mkHeight,
   mkJsonObject,
   pointToSlug,
   slugToPoint,
   xyToPointArray
-} from './helpers'
-import { generateTopology } from './topology'
+} from '../helpers'
+import { RGB_TRANSPARENT } from './AssetEditor/helpers'
 
 export type TerrainConfig = { size: GridSize; nPeaks: GridSize }
 
-export const createTerrain = (config: TerrainConfig) => {
-  const { size, nPeaks } = config
+export const DEFAULT_GRID_SIZE = mkGridSize(20)
+export const DEFAULT_PEAK_COUNT = mkGridSize(0)
+
+export const createTerrain = (config?: Partial<TerrainConfig>) => {
+  const _cnf: TerrainConfig = {
+    size: DEFAULT_GRID_SIZE,
+    nPeaks: DEFAULT_PEAK_COUNT,
+    ...config
+  }
+  const { size, nPeaks } = _cnf
   console.log({ size, nPeaks })
   const terrain: Terrain = {
-    topographicalHeat: () => {
-      throw new Error(`Abstract`)
-    },
+    topographicalHeat: () => RGB_TRANSPARENT,
     minHeight: Number.POSITIVE_INFINITY as Height,
     maxHeight: Number.NEGATIVE_INFINITY as Height,
     size,
@@ -78,8 +85,8 @@ export const createTerrain = (config: TerrainConfig) => {
     }
   }
 
-  const { topographicalHeat } = generateTopology(api, nPeaks)
-  terrain.topographicalHeat = topographicalHeat
+  // const { topographicalHeat } = generateTopology(api, nPeaks)
+  // terrain.topographicalHeat = topographicalHeat
 
   // Usage example
   //   const centerHeight = 9

@@ -71,6 +71,7 @@ export type YCoordinate = Opaque<number, 'y-coordinate'>
 export type YOffset = Opaque<number, 'column-offset'>
 export type Height = Opaque<number, 'height'>
 export type RgbHex = Opaque<string, 'rgb-hex'>
+export type RgbaHex = Opaque<string, 'rgba-hex'>
 export type TerrainCell = {
   slug: PointSlug
   pointArr: PointArray
@@ -79,7 +80,7 @@ export type TerrainCell = {
   y: YCoordinate
   type: TerrainType
   height: Height
-  topographicalHeat: () => RgbHex
+  topographicalHeat: () => RgbHex | RgbaHex
 }
 export type TerrainCell_Create = Partial<Omit<TerrainCell, 'r' | 'c'>>
 
@@ -88,7 +89,7 @@ export type PeakCell = TerrainCell & {
 }
 export type SpringCell = TerrainCell & { type: TerrainType.Spring }
 export type Terrain = {
-  topographicalHeat: (h: Height) => RgbHex
+  topographicalHeat: (h: Height) => RgbHex | RgbaHex
   minHeight: Height
   maxHeight: Height
   size: GridSize

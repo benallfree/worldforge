@@ -1,11 +1,9 @@
-import { Opaque } from 'type-fest'
-import { RgbValue } from './state'
+import { RgbHex } from '../../helpers'
 
-export type RgbaValue = Opaque<string, 'rgba-value'>
-export const RGB_TRANSPARENT = '#00000000' as RgbaValue
-export const RGB_BLACK = '#000000' as RgbValue
-export const RGB_GREEN = '#00FF00' as RgbValue
-export const RGB_WHITE = '#FFFFFF' as RgbValue
+export const RGB_TRANSPARENT = '#00000000' as RgbHex
+export const RGB_BLACK = '#000000' as RgbHex
+export const RGB_GREEN = '#00FF00' as RgbHex
+export const RGB_WHITE = '#FFFFFF' as RgbHex
 
 export const COLOR_SEEDS = [
   '#000000',
@@ -24,9 +22,9 @@ export const COLOR_SEEDS = [
   '#00ffff',
   '#ff0000',
   '#ffffff'
-] as RgbValue[]
+] as RgbHex[]
 
-export function generateComplementaryColors(startColor: string): RgbValue[] {
+export function generateComplementaryColors(startColor: string): RgbHex[] {
   // Convert startColor to RGB values
   const startRgb = hexToRgb(startColor)
 
@@ -44,7 +42,7 @@ export function generateComplementaryColors(startColor: string): RgbValue[] {
     colors.push(interpolatedHex)
   }
 
-  return colors as RgbValue[]
+  return colors as RgbHex[]
 }
 
 // Helper function to convert hex color to RGB values

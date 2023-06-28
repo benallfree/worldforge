@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store'
 import { Opaque } from 'type-fest'
+import { RgbHex } from '../../helpers'
 import {
   RGB_GREEN,
   RGB_TRANSPARENT,
@@ -18,7 +19,6 @@ export const TOOL_NAMES: { [_ in EditorTools]: string } = {
   [EditorTools.Erase]: 'Erase',
   [EditorTools.Pick]: 'Pick'
 }
-export type RgbValue = Opaque<string, 'rgb-value'>
 
 export type AssetId = Opaque<string, 'asset-id'>
 export type Asset = {
@@ -53,14 +53,14 @@ export const createAssetEditorState = () => {
   return {
     subscribe,
     reset: () => set(DEFAULT_ASSET_STATE),
-    setPaletteSeed: (paletteSeed: RgbValue) => {
+    setPaletteSeed: (paletteSeed: RgbHex) => {
       return update((state) => ({
         ...state,
         paletteSeed,
         palette: generateComplementaryColors(paletteSeed)
       }))
     },
-    setSelectedColor: (selectedColor: RgbValue) => update((state) => ({ ...state, selectedColor })),
+    setSelectedColor: (selectedColor: RgbHex) => update((state) => ({ ...state, selectedColor })),
     setPixel: (x: number, y: number) => {
       update((state) => {
         const { canvas, currentTool, selectedColor } = state
