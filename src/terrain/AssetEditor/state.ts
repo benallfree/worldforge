@@ -13,13 +13,11 @@ import {
 export const SPRITE_SIZE = 16
 export enum EditorTools {
   Draw,
-  Erase,
-  Pick
+  Erase
 }
 export const TOOL_NAMES: { [_ in EditorTools]: string } = {
   [EditorTools.Draw]: '✏️',
-  [EditorTools.Erase]: '🧹',
-  [EditorTools.Pick]: '🧪'
+  [EditorTools.Erase]: '🧹'
 }
 
 export type AssetId = Opaque<string, 'asset-id'>
