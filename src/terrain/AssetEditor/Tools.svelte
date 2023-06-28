@@ -1,13 +1,13 @@
 <script lang="ts">
+  import type { RgbHex } from '../../helpers'
   import { gameState } from '../../state'
-  import ColorPicker from './ColorPicker.svelte'
   import ToolButton from './ToolButton.svelte'
   import { TOOL_NAMES, mkTool } from './state'
 
   $: ({ saveAsset, openAssetEditor, createAsset } = gameState)
   $: ({ assetEditor } = $gameState)
   $: ({ asset, isColorPickerShowing, selectedColor } = $assetEditor)
-  $: ({ setTool, showColorPicker, clearAsset } = assetEditor)
+  $: ({ setTool, setSelectedColor, clearAsset } = assetEditor)
   $: ({} = asset!)
 
   const onSave = () => {
@@ -19,16 +19,18 @@
     saveAsset({ ...asset!, name: `Clone of ${asset!.name}`, id: assetId })
     openAssetEditor(assetId)
   }
+
+  let colorPicker: HTMLInputElement
+  const onColorChange = (e) => {
+    setSelectedColor(colorPicker.value as RgbHex)
+  }
 </script>
 
 <div>
   {#each Object.entries(TOOL_NAMES) as [tool]}
     <ToolButton tool={mkTool(tool)} onClick={() => setTool(mkTool(tool))} />
   {/each}
-  <button style={`background-color: ${selectedColor}`} on:click={showColorPicker}>🎨</button>
-  {#if isColorPickerShowing}
-    <ColorPicker />
-  {/if}
+  <input type="color" value={selectedColor} bind:this={colorPicker} on:change={onColorChange} />
   <button on:click={onSave}>save</button>
   <button on:click={clearAsset}>cancel</button>
   <button on:click={onClone}>clone</button>

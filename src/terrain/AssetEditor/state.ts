@@ -34,8 +34,6 @@ export const createCustomPaletteFromCanvas = (canvas: Canvas): Palette => {
   return customPalette
 }
 
-const DEFAULT_PALETTE_SEED = RGB_GREEN
-const DEFAULT_PALETTE = generateColorSpectrum(DEFAULT_PALETTE_SEED)
 export type Canvas = Opaque<string[][], 'canvas'>
 const DEFAULT_CANVAS = Array.from({ length: SPRITE_SIZE }, () =>
   Array<string>(SPRITE_SIZE).fill(RGB_TRANSPARENT)
@@ -79,8 +77,6 @@ export type AssetEditorState = {
   isColorPickerShowing: boolean
   currentTool: EditorTools
   selectedColor: RgbHex
-  palette: RgbHex[]
-  paletteSeed: RgbHex
   asset?: AssetState
 }
 
@@ -88,8 +84,6 @@ export const createAssetEditorStore = () => {
   const _store = writable<AssetEditorState>({
     isColorPickerShowing: false,
     selectedColor: RGB_GREEN,
-    palette: DEFAULT_PALETTE,
-    paletteSeed: DEFAULT_PALETTE_SEED,
     currentTool: EditorTools.Draw
   })
   const { set, update, subscribe } = _store
@@ -114,12 +108,7 @@ export const createAssetEditorStore = () => {
       }),
     showColorPicker: () => update((state) => ({ ...state, isColorPickerShowing: true })),
     hideColorPicker: () => update((state) => ({ ...state, isColorPickerShowing: false })),
-    setPaletteSeed: (paletteSeed: RgbHex) =>
-      update((state) => ({
-        ...state,
-        paletteSeed,
-        palette: generateColorSpectrum(paletteSeed)
-      })),
+
     setSelectedColor: (selectedColor: RgbHex) => {
       update((state) => ({
         ...state,

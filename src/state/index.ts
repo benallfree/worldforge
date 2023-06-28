@@ -85,13 +85,18 @@ export const createGameState = () => {
   subscribe((state) => {
     const { assets } = state
     const save: GameState_AtRest = {
-      assets
+      assets: reduce(
+        assets,
+        (c, v, k) => {
+          c[k] = atRestAsset(v)
+          return c
+        },
+        {}
+      )
     }
     localStorage.setItem('game', JSON.stringify(save))
   })
-  const _update = (cb: (state: GameState) => GameState) => {
-    const newState = update(cb)
-  }
+
   const api = {
     createAsset: () => {
       const newAsset = createAsset()
