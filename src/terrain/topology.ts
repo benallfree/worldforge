@@ -145,9 +145,12 @@ function chooseRandomPoints(x: XCoordinate, y: YCoordinate, nPeaks: number): Poi
 
 export const generateTopology = (terrain: TerrainApi, nPeaks: GridSize) => {
   const size = terrain.size()
+  console.log(`Generating topology for grid size ${size}`)
+
   const { set, get, map, maxHeight, minHeight } = terrain
 
   const generateDecay = (peakCell: TerrainCell) => {
+    console.log(`Generating decay for`, mkJsonObject(peakCell))
     // console.log({ id, data, size })
     const decaySize = (size * 4) as GridSize
     const decay = generateHeightArray(peakCell.height, decaySize, 0.7)
