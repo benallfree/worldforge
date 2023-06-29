@@ -9,7 +9,8 @@
     "allowJs": true,
     "checkJs": true,
     "isolatedModules": true,
-    "resolvePackageJsonImports": true
+    "resolvePackageJsonImports": true,
+    "noUncheckedIndexedAccess": true
   },
   "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
   "references": [{ "path": "./tsconfig.node.json" }]

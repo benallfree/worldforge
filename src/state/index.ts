@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
 import { Writable, writable } from 'svelte/store'
-import { clone, mkGridSize } from '../helpers'
+import { mkGridSize } from '../helpers'
 import Splash from '../screens/Splash/Splash.svelte'
 import AssetEditor from '../terrain/AssetEditor/AssetEditor.svelte'
 import {
@@ -9,8 +9,8 @@ import {
   AssetState,
   AssetState_AtRest,
   atRestAsset,
-  createAsset,
   createAssetEditorStore,
+  createNewAssetState,
   inMemoryAsset
 } from '../terrain/AssetEditor/state'
 import TerrainMap from '../terrain/TerrainMap.svelte'
@@ -87,13 +87,15 @@ export const createGameState = () => {
 
   const api = {
     createAsset: () => {
-      const newAsset = createAsset()
+      const newAsset = createNewAssetState()
       update((state) => ({ ...state, assets: { ...state.assets, [newAsset.id]: newAsset } }))
       return newAsset.id
     },
     openAssetEditor: (id: AssetId) => {
       update((state) => {
-        state.assetEditor.setAsset(clone(state.assets[id]))
+        const asset = state.assets[id]!
+        const clonedAsset = inMemoryAsset(atRestAsset(asset))
+        state.assetEditor.setAsset(clonedAsset)
         return state
       })
     },

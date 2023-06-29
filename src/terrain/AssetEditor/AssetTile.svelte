@@ -1,25 +1,36 @@
 <script lang="ts">
-  import { gameState } from '../../state'
-  import type { AssetState } from './state'
+  import { TILE_SIZE, type AssetState } from './state'
 
+  export let onMouseMove = (e: MouseEvent) => {}
+  export let onMouseDown = (e: MouseEvent) => {}
+  export let border = 0
+  export let size = TILE_SIZE
   export let asset: AssetState
   export let onClick = () => {}
 
+  const px = (s: number) => `${s}px`
   $: ({ sprite } = asset)
 </script>
 
-<div class="tile" on:click={onClick}>
-  <img src={sprite} />
-</div>
+<div
+  class="tile"
+  on:click={onClick}
+  on:mousedown={onMouseDown}
+  on:mousemove={onMouseMove}
+  style:--size={px(size)}
+  style:background-image={`url(${sprite})`}
+  style:--border={px(border)}
+/>
 
 <style lang="scss">
-  $pixelSize: 25px;
-
   .tile {
+    width: var(--size);
+    height: var(--size);
     display: inline-block;
-    img {
-      width: $pixelSize * 2;
-      height: $pixelSize * 2;
-    }
+    image-rendering: pixelated;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: var(--border) solid gray;
+    cursor: pointer;
   }
 </style>

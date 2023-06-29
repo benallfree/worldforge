@@ -4,36 +4,39 @@
   import AssetTile from './AssetTile.svelte'
   import Tools from './Tools.svelte'
   import Preview from './Preview.svelte'
+  import { SPRITE_SIZE, type AssetEditorState } from './state'
+  import type { SetRequired } from 'type-fest'
 
   $: ({ assetEditor } = $gameState)
-  $: ({ asset, selectedColor } = $assetEditor)
+  $: ({ asset, selectedColor } = $assetEditor as SetRequired<AssetEditorState, 'asset'>)
   $: ({ setPixel, setSelectedColor } = assetEditor)
-  $: ({ canvas, customPalette } = asset!)
+  $: ({ canvas, palette, sprite } = asset)
 
-  const onMouseMove = (e: MouseEvent, r: number, c: number) => {
+  const CANVAS_SIZE = 300
+  const STEP = CANVAS_SIZE / SPRITE_SIZE
+  const onMouse = (e: MouseEvent) => {
     if (!e.buttons) return
-    setPixel(r, c)
+    const x = Math.floor(e.offsetX / STEP)
+    const y = Math.floor(e.offsetY / STEP)
+    setPixel(x, y)
   }
+
+  let myCanvas: HTMLCanvasElement
 </script>
 
 <div>
   <Tools />
   <div class="row">
     <div class="column">
-      <div class="canvas">
-        {#each canvas as row, r}
-          {#each row as pixelColor, c}
-            <div
-              class="pixel"
-              style={`background-color: ${pixelColor}`}
-              on:mouseenter={(e) => onMouseMove(e, r, c)}
-              on:mousedown={(e) => setPixel(r, c)}
-            />
-          {/each}
-        {/each}
-      </div>
+      <AssetTile
+        {asset}
+        border={1}
+        size={CANVAS_SIZE}
+        onMouseMove={onMouse}
+        onMouseDown={onMouse}
+      />
       <div class="custom-palette">
-        {#each customPalette as color}
+        {#each palette as color}
           <ColorBlock {color} onClick={() => setSelectedColor(color)} />
         {/each}
       </div>
@@ -45,32 +48,11 @@
 </div>
 
 <style lang="scss">
-  $pixelSize: 25px;
-
   .row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-
-    .column {
-    }
   }
   .custom-palette {
     margin-top: 15px;
-  }
-  .canvas {
-    width: (($pixelSize + 2) * 16);
-    line-height: 0;
-  }
-  .pixel {
-    &:hover {
-      cursor: pointer;
-    }
-    margin: 0px;
-    width: ($pixelSize);
-    height: ($pixelSize);
-    display: inline-block;
-  }
-  .pixel {
-    border: 1px solid gray;
   }
 </style>

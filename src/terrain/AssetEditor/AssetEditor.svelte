@@ -5,7 +5,6 @@
 
   $: ({ assetEditor } = $gameState)
   $: ({ asset } = $assetEditor)
-  $: console.log($assetEditor.asset)
 </script>
 
 <div class="editor">

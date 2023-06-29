@@ -15,7 +15,7 @@ import {
   slugToPoint,
   xyToPointArray
 } from '../helpers'
-import { RGB_TRANSPARENT } from './AssetEditor/helpers'
+import { RGB_TRANSPARENT } from './AssetEditor/state'
 
 export type TerrainConfig = { size: GridSize; nPeaks: GridSize }
 
