@@ -4,24 +4,14 @@
   import AssetEditor from './AssetEditor/AssetEditor.svelte'
   import TerrainCell from './TerrainCell.svelte'
   import { ScreenNames, gameState } from '../state'
+  import ShareTool from './ShareTool.svelte'
 
   const { navigate } = gameState
   export let size = mkGridSize($gameState.terrain.size())
 </script>
 
 <button on:click={() => navigate(ScreenNames.Editor)}>Edit Assets</button>
-<div>
-  <div>
-    Copy and paste this to <a
-      href="https://discord.com/channels/998741996715900938/998741996715900941/1123455318731526144"
-      >Ben's Discord Thread</a
-    >
-  </div>
-  <textarea
-    >@charlie submitted a pull request
-    http://pleasentvalleugame.io?state=Wwp7ICJ4IjogNSwgInkiOiAxMCwgYWN0aW9uOiB7ICJ0eXBlIjogInJvY2siIH0gfSwKeyAieCI6IDYsICJ5IjogMTAsIGFjdGlvbjogeyAidHlwZSI6ICJyb2NrIiB9IH0KXQ==</textarea
-  >
-</div>
+<ShareTool />
 {#each range(size) as r}
   <div class="row">
     {#each range(size) as c}

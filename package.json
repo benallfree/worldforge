@@ -28,9 +28,7 @@
     "type-fest": "^3.12.0",
     "typescript": "^5.0.2",
     "vite": "^4.3.9",
-    "wavesurfer.js": "^7.0.0-beta.11"
-  },
-  "dependencies": {
+    "wavesurfer.js": "^7.0.0-beta.11",
     "nanoid": "^4.0.2"
   }
 }

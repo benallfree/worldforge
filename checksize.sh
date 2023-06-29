@@ -7,6 +7,6 @@ warn=1024
 remain=$((max-myfilesize))
 
 echo $myfilesize, $remain
-if [  $myfilesize -lt $warn ] ; then
+if [  $remain -lt $warn ] ; then
     osascript -e "tell app \"System Events\" to display dialog \"${myfilesize} bytes used, ${remain} remaining\""
 fi

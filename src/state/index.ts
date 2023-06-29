@@ -1,4 +1,5 @@
 import { forEach, reduce } from '@s-libs/micro-dash'
+import { nanoid } from 'nanoid'
 import { Writable, writable } from 'svelte/store'
 import { clone, mkGridSize } from '../helpers'
 import Splash from '../screens/Splash/Splash.svelte'
@@ -28,6 +29,8 @@ export const Screens: { [_ in ScreenNames]: () => any } = {
 }
 
 export type GameState = {
+  id: string
+  name: string
   assets: { [assetId: AssetId]: AssetState }
   assetEditor: AssetEditorApi
   screen: ScreenNames
@@ -36,20 +39,6 @@ export type GameState = {
 
 export type GameState_AtRest = {
   assets: { [assetId: AssetId]: AssetState_AtRest }
-}
-
-const saveState = (state: GameState): GameState_AtRest => {
-  const saved: GameState_AtRest = {
-    assets: reduce(
-      state.assets,
-      (c, v, k) => {
-        c[k] = atRestAsset(v)
-        return c
-      },
-      {} as AssetState_AtRest
-    )
-  }
-  return saved
 }
 
 const hydrateState = () => {
@@ -70,6 +59,8 @@ const hydrateState = () => {
   return hydrated
 }
 export const DEFAULT_GAME_STATE: GameState = {
+  id: nanoid(),
+  name: 'New Game',
   assets: {},
   screen: localStorage.getItem('splash') ? ScreenNames.Home : ScreenNames.Splash,
   assetEditor: createAssetEditorStore(),
@@ -94,7 +85,9 @@ export const createGameState = () => {
         {}
       )
     }
+    const json = JSON.stringify(save)
     localStorage.setItem('game', JSON.stringify(save))
+    shareStore.set(json)
   })
 
   const api = {
@@ -127,5 +120,13 @@ export const createGameState = () => {
   }
   return api
 }
+
+export const shareStore = (() => {
+  const store = writable('')
+
+  const { subscribe, update, set } = store
+
+  return { subscribe, set: (s: string) => set(s) }
+})()
 
 export const gameState = createGameState()
