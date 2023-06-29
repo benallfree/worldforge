@@ -1,7 +1,9 @@
 <script lang="ts">
+  import { TILE_SIZE } from '../../util/constants'
+  import { px } from '../../util/px'
   import { range } from '../../util/range'
   import AssetTile from './AssetTile.svelte'
-  import { TILE_SIZE, px, type AssetState } from './state'
+  import type { AssetState } from './store'
 
   export let backgroundColor = 'black'
   export let size = TILE_SIZE

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { gameState } from '../../state'
   import AssetTile from './AssetTile.svelte'
-  import { mkAssetId } from './state'
+  import { mkAssetId } from './store'
 
   const { createAsset, openAssetEditor, closeAssetEditor } = gameState
 

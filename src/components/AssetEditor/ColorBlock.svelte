@@ -1,11 +1,10 @@
 <script lang="ts">
-  import type { RgbHex } from '../../helpers'
-  import { RGB_WHITE } from './state'
+  import type { RgbHex } from '../../util/helpers'
+  import { RGB_WHITE } from './store'
 
   export let selected = false
   export let color: RgbHex
   export let onClick: () => void = () => {}
-  console.log({ selected })
 </script>
 
 <div

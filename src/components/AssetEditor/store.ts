@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
 import { writable } from 'svelte/store'
 import { Opaque, PartialDeep, SetReturnType } from 'type-fest'
-import { RgbHex } from '../../helpers'
+import { RgbHex } from '../../util/helpers'
 import { uniq } from '../../util/uniq'
 
 export const RGB_TRANSPARENT = '#00000000' as RgbHex
@@ -10,7 +10,6 @@ export const RGB_GREEN = '#00FF00' as RgbHex
 export const RGB_WHITE = '#FFFFFF' as RgbHex
 
 export const SPRITE_SIZE = 16
-export const TILE_SIZE = 50
 export enum EditorTools {
   Draw,
   Erase
@@ -19,8 +18,6 @@ export const TOOL_NAMES: { [_ in EditorTools]: string } = {
   [EditorTools.Draw]: '✏️',
   [EditorTools.Erase]: '🧹'
 }
-
-export const px = (s: number) => `${s}px`
 
 export type AssetId = Opaque<string, 'asset-id'>
 export type Asset = {

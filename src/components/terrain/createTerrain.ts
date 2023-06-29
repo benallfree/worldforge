@@ -1,3 +1,4 @@
+import { clone } from '../../util/clone'
 import {
   GridSize,
   Height,
@@ -8,14 +9,13 @@ import {
   TerrainCell,
   TerrainCell_Create,
   TerrainType,
-  clone,
   mkGridSize,
   mkHeight,
   pointToSlug,
   slugToPoint,
   xyToPointArray
-} from '../helpers'
-import { RGB_TRANSPARENT } from './AssetEditor/state'
+} from '../../util/helpers'
+import { RGB_TRANSPARENT } from '../AssetEditor/store'
 
 export type TerrainConfig = { size: GridSize; nPeaks: GridSize }
 

@@ -4,7 +4,7 @@
   import AssetTile from './AssetTile.svelte'
   import Tools from './Tools.svelte'
   import Preview from './Preview.svelte'
-  import { SPRITE_SIZE, type AssetEditorState } from './state'
+  import { SPRITE_SIZE, type AssetEditorState } from './store'
   import type { SetRequired } from 'type-fest'
 
   $: ({ assetEditor } = $gameState)

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { gameState } from '../../state'
-  import { EditorTools, TOOL_NAMES } from './state'
+  import { EditorTools, TOOL_NAMES } from './store'
 
   $: ({ assetEditor } = $gameState)
   $: ({ asset, currentTool } = $assetEditor)

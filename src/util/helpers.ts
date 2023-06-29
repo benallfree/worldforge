@@ -8,7 +8,6 @@ export const DEFAULT_FEATURE_COUNT_PICKER = (r: number, c: number) => {
   return n
 }
 
-export const clone = <T>(o: T) => JSON.parse(JSON.stringify(o)) as T
 export const mkHeight = (height: number) => {
   if (height < MIN_HEIGHT || height > MAX_HEIGHT) throw new Error(`Invalid height ${height}`)
   return height as Height

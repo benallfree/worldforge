@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { RgbHex } from '../../helpers'
+  import type { RgbHex } from '../../util/helpers'
   import { gameState } from '../../state'
   import ToolButton from './ToolButton.svelte'
-  import { TOOL_NAMES, mkTool } from './state'
+  import { TOOL_NAMES, mkTool } from './store'
 
   $: ({ saveAsset, openAssetEditor, createAsset } = gameState)
   $: ({ assetEditor } = $gameState)

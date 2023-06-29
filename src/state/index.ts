@@ -1,9 +1,7 @@
 import { nanoid } from 'nanoid'
 import { Writable, writable } from 'svelte/store'
 import { Opaque } from 'type-fest'
-import { mkGridSize } from '../helpers'
-import Splash from '../screens/Splash/Splash.svelte'
-import AssetEditor from '../terrain/AssetEditor/AssetEditor.svelte'
+import AssetEditor from '../components/AssetEditor/AssetEditor.svelte'
 import {
   AssetEditorApi,
   AssetId,
@@ -13,9 +11,11 @@ import {
   createAssetEditorStore,
   createNewAssetState,
   inMemoryAsset
-} from '../terrain/AssetEditor/state'
-import TerrainMap from '../terrain/TerrainMap.svelte'
-import { TerrainApi, createTerrain } from '../terrain/createTerrain'
+} from '../components/AssetEditor/store'
+import TerrainMap from '../components/terrain/TerrainMap.svelte'
+import { TerrainApi, createTerrain } from '../components/terrain/createTerrain'
+import Splash from '../screens/Splash/Splash.svelte'
+import { mkGridSize } from '../util/helpers'
 
 export enum ScreenNames {
   Splash,

@@ -1,4 +1,5 @@
 import { Opaque } from 'type-fest'
+import { clone } from '../../util/clone'
 import {
   GridSize,
   Height,
@@ -12,7 +13,6 @@ import {
   XOffset,
   YCoordinate,
   YOffset,
-  clone,
   mkHeight,
   mkX,
   mkXOffset,
@@ -21,7 +21,7 @@ import {
   xyToPoint,
   xyToPointArray,
   xyToSlug
-} from '../helpers'
+} from '../../util/helpers'
 import { TerrainApi } from './createTerrain'
 
 export const mkRgbHex = (s: string) => s as RgbHex

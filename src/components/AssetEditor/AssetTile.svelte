@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { TILE_SIZE, type AssetState, px } from './state'
+  import { TILE_SIZE } from '../../util/constants'
+  import { px } from '../../util/px'
+  import type { AssetState } from './store'
 
   export let onMouseMove = (e: MouseEvent) => {}
   export let onMouseDown = (e: MouseEvent) => {}

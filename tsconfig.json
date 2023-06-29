@@ -12,6 +12,11 @@
     "resolvePackageJsonImports": true,
     "noUncheckedIndexedAccess": true
   },
+  "paths": {
+    "$util/*": ["src/util/*"],
+    "$components/*": ["src/components/*"],
+    "$store/*": ["src/store/*"]
+  },
   "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
