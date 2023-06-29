@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { TILE_SIZE, type AssetState } from './state'
+  import { TILE_SIZE, type AssetState, px } from './state'
 
   export let onMouseMove = (e: MouseEvent) => {}
   export let onMouseDown = (e: MouseEvent) => {}
@@ -8,7 +8,6 @@
   export let asset: AssetState
   export let onClick = () => {}
 
-  const px = (s: number) => `${s}px`
   $: ({ sprite } = asset)
 </script>
 

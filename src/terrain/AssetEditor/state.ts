@@ -20,6 +20,8 @@ export const TOOL_NAMES: { [_ in EditorTools]: string } = {
   [EditorTools.Erase]: '🧹'
 }
 
+export const px = (s: number) => `${s}px`
+
 export type AssetId = Opaque<string, 'asset-id'>
 export type Asset = {
   id: AssetId
