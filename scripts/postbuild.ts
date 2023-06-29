@@ -7,7 +7,7 @@ writeFileSync(BUILDINFO, JSON.stringify(buildInfo, null, 2))
 
 const readme = readFileSync('./README.md').toString()
 const newReadme = readme
-  .replace(/<!-- BUILD -->\d+/, buildInfo.build)
-  .replace(/<!-- BYTES -->\d+/, buildInfo.bytes)
+  .replace(/<!-- BUILD -->\d+/, `<!-- BUILD -->${buildInfo.build}`)
+  .replace(/<!-- BYTES -->\d+/, `<!-- BYTES -->${buildInfo.bytes}`)
 
 writeFileSync(`./README.md`, newReadme)
