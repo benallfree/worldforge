@@ -4,4 +4,4 @@
 </script>
 
 <svelte:component this={Screens[$gameState.screen]()} />
-WorldForge build {buildInfo.build}
+<div>WorldForge build {buildInfo.build}</div>
