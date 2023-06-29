@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { range, reduce } from '@s-libs/micro-dash'
   import { onMount } from 'svelte'
   import { writable } from 'svelte/store'
 
@@ -21,10 +20,9 @@
               console.log('playing')
               const interval = video.duration / Math.floor(window.innerWidth / 50)
               console.log({ interval })
-              const times = range(video.duration / interval).map((v, i) => i * interval)
-              reduce(
-                times,
-                (c, t) => {
+              const times = Array(video.duration / interval).map((v, i) => i * interval)
+              Object.values(times)
+                .reduce((c, t) => {
                   return c.then(
                     () =>
                       new Promise<void>((resolve) => {
@@ -51,9 +49,8 @@
                         video.currentTime = t
                       })
                   )
-                },
-                Promise.resolve()
-              ).catch(console.error)
+                }, Promise.resolve())
+                .catch(console.error)
             })
           })
         }, 0)

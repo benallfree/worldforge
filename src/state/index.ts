@@ -1,4 +1,3 @@
-import { forEach, reduce } from '@s-libs/micro-dash'
 import { nanoid } from 'nanoid'
 import { Writable, writable } from 'svelte/store'
 import { clone, mkGridSize } from '../helpers'
@@ -51,7 +50,7 @@ const hydrateState = () => {
   })()
   const hydrated = DEFAULT_GAME_STATE
   if (savedState) {
-    forEach(savedState.assets, (atRestAsset) => {
+    Object.values(savedState.assets).forEach((atRestAsset) => {
       hydrated.assets[atRestAsset.id] = inMemoryAsset(atRestAsset)
     })
   }
@@ -76,14 +75,10 @@ export const createGameState = () => {
   subscribe((state) => {
     const { assets } = state
     const save: GameState_AtRest = {
-      assets: reduce(
-        assets,
-        (c, v, k) => {
-          c[k] = atRestAsset(v)
-          return c
-        },
-        {}
-      )
+      assets: Object.values(assets).reduce((c, v, k) => {
+        c[k] = atRestAsset(v)
+        return c
+      }, {})
     }
     const json = JSON.stringify(save)
     localStorage.setItem('game', JSON.stringify(save))

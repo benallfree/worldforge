@@ -1,4 +1,3 @@
-import { map as _map } from '@s-libs/micro-dash'
 import {
   GridSize,
   Height,
@@ -66,7 +65,7 @@ export const createTerrain = (config?: Partial<TerrainConfig>) => {
   }
 
   const mapCells = <O>(iteratee: (cell: TerrainCell, slug: PointSlug) => O) =>
-    _map<Terrain['cells'], O>(terrain.cells, (v, k) => iteratee(v, k as PointSlug))
+    Object.entries(terrain.cells).map(([k, v]) => iteratee(v, k as PointSlug))
 
   const api = {
     set: setCell,

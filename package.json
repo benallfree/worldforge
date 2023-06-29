@@ -12,7 +12,6 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
-    "@s-libs/micro-dash": "^16.0.0",
     "@sveltejs/vite-plugin-svelte": "^2.0.4",
     "@tsconfig/svelte": "^4.0.1",
     "chokidar-cli": "^3.0.0",

@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { range } from '@s-libs/micro-dash'
   import { mkGridSize, xyToSlug } from '../helpers'
   import AssetEditor from './AssetEditor/AssetEditor.svelte'
   import TerrainCell from './TerrainCell.svelte'
   import { ScreenNames, gameState } from '../state'
   import ShareTool from './ShareTool.svelte'
+  import { range } from '../util/range'
 
   const { navigate } = gameState
   export let size = mkGridSize($gameState.terrain.size())

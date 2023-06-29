@@ -1,8 +1,9 @@
-import { flatten, pick, uniq } from '@s-libs/micro-dash'
 import { nanoid } from 'nanoid'
 import { writable } from 'svelte/store'
 import { Opaque } from 'type-fest'
 import { RgbHex } from '../../helpers'
+import { flatten } from '../../util/flatten'
+import { uniq } from '../../util/uniq'
 import {
   RGB_GREEN,
   RGB_TRANSPARENT,
@@ -56,8 +57,10 @@ export const createAsset = () => {
 }
 
 export type AssetState_AtRest = Pick<AssetState, 'id' | 'name' | 'canvas'>
-export const atRestAsset = (asset: AssetState): AssetState_AtRest =>
-  pick(asset, 'canvas', 'id', 'name')
+export const atRestAsset = (asset: AssetState): AssetState_AtRest => {
+  const { canvas, id, name } = asset
+  return { canvas, id, name }
+}
 
 export const inMemoryAsset = (atRestAsset: AssetState_AtRest) => {
   const { id, canvas, name } = atRestAsset
