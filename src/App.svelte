@@ -1,6 +1,6 @@
 <script lang="ts">
   import buildInfo from '../buildInfo.json'
-  import { Screens, gameState } from './state'
+  import { Screens, gameState } from './store'
 
   $: ({ loaded } = $gameState)
 </script>

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { mkGridSize, xyToSlug } from '../../util/helpers'
-  import { ScreenNames, gameState } from '../../state'
+  import { ScreenNames, gameState } from '../../store'
   import { TILE_SIZE } from '../../util/constants'
   import { px } from '../../util/px'
   import { range } from '../../util/range'

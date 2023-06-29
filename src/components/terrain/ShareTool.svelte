@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { gameState, shareStore } from '../../state'
+  import { gameState, shareStore } from '../../store'
   import { compress, decompress } from '../../util/compress'
 
   const WF_PACK_HEADER = `WFDLC*`

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ScreenNames, gameState } from '../../state'
+  import { ScreenNames, gameState } from '../../store'
 
   const { navigate } = gameState
 </script>

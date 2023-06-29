@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { RgbHex } from '../../util/helpers'
-  import { gameState } from '../../state'
+  import { gameState } from '../../store'
   import ToolButton from './ToolButton.svelte'
   import { TOOL_NAMES, mkTool } from './store'
 

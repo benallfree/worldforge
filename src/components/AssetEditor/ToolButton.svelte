@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { gameState } from '../../state'
+  import { gameState } from '../../store'
   import { EditorTools, TOOL_NAMES } from './store'
 
   $: ({ assetEditor } = $gameState)

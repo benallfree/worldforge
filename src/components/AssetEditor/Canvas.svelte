@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { gameState } from '../../state'
+  import { gameState } from '../../store'
   import ColorBlock from './ColorBlock.svelte'
   import AssetTile from './AssetTile.svelte'
   import Tools from './Tools.svelte'
