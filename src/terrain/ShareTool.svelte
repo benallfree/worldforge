@@ -35,6 +35,10 @@
 
   const onImport = () => {
     const [, blob] = shareTextArea.value.match(/WFDLC\*([a-zA-Z0-9%]+)/) || []
+    if (!blob) {
+      alert(`Failed to import`)
+      return
+    }
     decompress(blob)
       .then((payload) => {
         console.log({ payload })
@@ -44,9 +48,9 @@
   }
 </script>
 
-<button on:click={onOpen}>⤴️</button>
+<button class="share" on:click={onOpen}>⤴️<br />share</button>
 {#if isOpen}
-  <div>
+  <div class="sharemodal">
     <h1>WorldForge Share Tool</h1>
     <textarea bind:this={shareTextArea}>{shareMessage}</textarea>
     <div>
@@ -63,6 +67,24 @@
 {/if}
 
 <style lang="scss">
+  .share {
+    background-color: rgb(245, 114, 20);
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    height: 40px;
+  }
+  .sharemodal {
+    width: 400px;
+    padding: 20px;
+    background-color: black;
+    border: 1px solid gray;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
   textarea {
     width: 300px;
     height: 300px;
