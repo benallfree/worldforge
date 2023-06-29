@@ -14,10 +14,10 @@ WorldForge exists in hyperlinks and messaging. All states and assets are stored 
 
 ## Build Stats
 
-| Spec  | Info           |
-| ----- | -------------- |
-| Build | <!-- BUILD-->7 |
-| Bytes | 12008          |
+| Spec  | Info                |
+| ----- | ------------------- |
+| Build | <!-- BUILD -->9     |
+| Bytes | <!-- BYTES -->12009 |
 
 ## Getting Started
 
