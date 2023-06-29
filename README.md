@@ -1,12 +1,27 @@
+# Get Connected
+
+## --> [Discord](https://discord.gg/mD5Ms69J)
+
+## --> [awesome-worldforge](https://github.com/benallfree/awesome-worldforge)
+
+---
+
 # WorldForge
 
 WorldForge is a decentralized [js13k](https://js13kgames.com/)-compatible collaborative and sharable creative experience. Build and share worlds and assets with individuals, groups, or the Internet at large.
 
-WorldForge exists in hyperlinks and messaging. All states and assets are stored as URL payloads which can be shared with others.
+WorldForge exists in hyperlinks and messaging. All states and assets are stored as sharable URL payloads.
 
-# Getting Started
+## Build Stats
 
-# Contributing
+| Spec  | Info           |
+| ----- | -------------- |
+| Build | <!-- BUILD-->7 |
+| Bytes | 12008          |
+
+## Getting Started
+
+## Contributing
 
 Contributing to WorldForge is simple. Here's how:
 

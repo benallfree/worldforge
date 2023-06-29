@@ -5,16 +5,21 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "tsx scripts/prebuild.ts",
+    "postbuild": "tsx scripts/postbuild.ts",
     "build": "((rm -rf dist) || true) && vite build && yarn zip ",
-    "build:watch": "chokidar src -c 'yarn build'",
+    "build:watch": "chokidar src *.json *.js *.html *.ts -c 'yarn build'",
     "zip": "((rm out.zip) || true) && (cd dist  && zip -r ../out.zip .) && ./checksize.sh",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.4",
+    "@tsconfig/node16": "^16.1.0",
     "@tsconfig/svelte": "^4.0.1",
+    "@types/node": "^20.3.2",
     "chokidar-cli": "^3.0.0",
+    "nanoid": "^4.0.2",
     "prettier": "^2.8.8",
     "prettier-plugin-organize-imports": "^3.2.2",
     "prettier-plugin-svelte": "^2.10.1",
@@ -27,7 +32,6 @@
     "type-fest": "^3.12.0",
     "typescript": "^5.0.2",
     "vite": "^4.3.9",
-    "wavesurfer.js": "^7.0.0-beta.11",
-    "nanoid": "^4.0.2"
+    "wavesurfer.js": "^7.0.0-beta.11"
   }
 }
