@@ -15,9 +15,12 @@
     clearAsset()
   }
   const onClone = () => {
-    const assetId = createAsset()
-    saveAsset({ ...asset!, name: `Clone of ${asset!.name}`, id: assetId })
-    openAssetEditor(assetId)
+    createAsset()
+      .then((assetId) => {
+        saveAsset({ ...asset!, name: `Clone of ${asset!.name}`, id: assetId })
+        openAssetEditor(assetId).catch(console.error)
+      })
+      .catch(console.error)
   }
 
   let colorPicker: HTMLInputElement

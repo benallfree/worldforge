@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid'
 import { Writable, writable } from 'svelte/store'
+import { Opaque } from 'type-fest'
 import { mkGridSize } from '../helpers'
 import Splash from '../screens/Splash/Splash.svelte'
 import AssetEditor from '../terrain/AssetEditor/AssetEditor.svelte'
@@ -27,8 +28,12 @@ export const Screens: { [_ in ScreenNames]: () => any } = {
   [ScreenNames.Editor]: () => AssetEditor
 }
 
+export type WorldId = Opaque<string, 'world-id'>
+export const newWorldId = () => nanoid() as WorldId
+
 export type GameState = {
-  id: string
+  loaded: boolean
+  id: WorldId
   name: string
   assets: { [assetId: AssetId]: AssetState }
   assetEditor: AssetEditorApi
@@ -40,7 +45,7 @@ export type GameState_AtRest = {
   assets: { [assetId: AssetId]: AssetState_AtRest }
 }
 
-const hydrateState = () => {
+const hydrateState = async () => {
   const savedState = (() => {
     try {
       const json = localStorage.getItem('game')
@@ -50,15 +55,18 @@ const hydrateState = () => {
   })()
   const hydrated = DEFAULT_GAME_STATE
   if (savedState) {
-    Object.values(savedState.assets).forEach((atRestAsset) => {
-      hydrated.assets[atRestAsset.id] = inMemoryAsset(atRestAsset)
-    })
+    await Promise.all(
+      Object.values(savedState.assets).map(async (atRestAsset) => {
+        hydrated.assets[atRestAsset.id] = await inMemoryAsset(atRestAsset)
+      })
+    )
   }
 
   return hydrated
 }
 export const DEFAULT_GAME_STATE: GameState = {
-  id: nanoid(),
+  loaded: false,
+  id: newWorldId(),
   name: 'New Game',
   assets: {},
   screen: localStorage.getItem('splash') ? ScreenNames.Home : ScreenNames.Splash,
@@ -68,9 +76,12 @@ export const DEFAULT_GAME_STATE: GameState = {
 export type GameStateApi = ReturnType<typeof createGameState>
 export type GameStore = Writable<GameState>
 export const createGameState = () => {
-  const initialState = hydrateState()
-  const _state = writable(initialState)
+  const _state = writable(DEFAULT_GAME_STATE)
   const { subscribe, set, update } = _state
+
+  hydrateState().then((initialState) => {
+    _state.set({ ...initialState, loaded: true })
+  })
 
   subscribe((state) => {
     const { assets } = state
@@ -86,16 +97,22 @@ export const createGameState = () => {
   })
 
   const api = {
-    createAsset: () => {
-      const newAsset = createNewAssetState()
+    createAsset: async () => {
+      const newAsset = await createNewAssetState()
       update((state) => ({ ...state, assets: { ...state.assets, [newAsset.id]: newAsset } }))
       return newAsset.id
     },
-    openAssetEditor: (id: AssetId) => {
+    openAssetEditor: async (id: AssetId) => {
       update((state) => {
         const asset = state.assets[id]!
-        const clonedAsset = inMemoryAsset(atRestAsset(asset))
-        state.assetEditor.setAsset(clonedAsset)
+        inMemoryAsset(atRestAsset(asset))
+          .then((clonedAsset) => {
+            update((state) => {
+              state.assetEditor.setAsset(clonedAsset)
+              return state
+            })
+          })
+          .catch(console.error)
         return state
       })
     },

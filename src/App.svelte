@@ -1,7 +1,13 @@
 <script lang="ts">
-  import { Screens, gameState } from './state'
   import buildInfo from '../buildInfo.json'
+  import { Screens, gameState } from './state'
+
+  $: ({ loaded } = $gameState)
 </script>
 
-<svelte:component this={Screens[$gameState.screen]()} />
+{#if loaded}
+  <svelte:component this={Screens[$gameState.screen]()} />
+{:else}
+  Loading...
+{/if}
 <div>WorldForge build {buildInfo.build}</div>

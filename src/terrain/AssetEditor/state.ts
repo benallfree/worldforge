@@ -69,8 +69,8 @@ export type AssetState = {
   palette: Palette
 }
 
-export const createNewAssetState = (): AssetState => {
-  const canvas = createCanvas()
+export const createNewAssetState = async (): Promise<AssetState> => {
+  const canvas = await createCanvas()
   return {
     id: newAssetId(),
     name: 'New Asset',
@@ -80,6 +80,7 @@ export const createNewAssetState = (): AssetState => {
   }
 }
 
+export const mkAssetId = (id: string) => id as AssetId
 export const newAssetId = () => nanoid() as AssetId
 
 export type AssetState_AtRest = Pick<AssetState, 'id' | 'name' | 'sprite'>
@@ -89,18 +90,21 @@ export const atRestAsset = (asset: AssetState): AssetState_AtRest => {
   return { sprite, id, name }
 }
 
-function createCanvas(sprite?: Sprite) {
+const createCanvas = async (sprite?: Sprite) => {
   const canvas = document.createElement('canvas') as Canvas
   canvas.width = SPRITE_SIZE
   canvas.height = SPRITE_SIZE
 
   if (sprite) {
     {
-      const imageObj = new Image()
-      imageObj.onload = function () {
-        ctx(canvas).drawImage(imageObj, 0, 0)
-      }
-      imageObj.src = sprite
+      await new Promise<void>((resolve) => {
+        const imageObj = new Image()
+        imageObj.onload = function () {
+          ctx(canvas).drawImage(imageObj, 0, 0)
+          resolve()
+        }
+        imageObj.src = sprite
+      })
     }
   }
   return canvas
@@ -108,7 +112,7 @@ function createCanvas(sprite?: Sprite) {
 
 const EMPTY_SPRITE = 'data:null' as Sprite
 
-export const inMemoryAsset = (untrustedAsset: Asset_AtRest_Untrusted) => {
+export const inMemoryAsset = async (untrustedAsset: Asset_AtRest_Untrusted) => {
   const trustedAsset: AssetState_AtRest = {
     id: newAssetId(),
     sprite: EMPTY_SPRITE,
@@ -116,7 +120,7 @@ export const inMemoryAsset = (untrustedAsset: Asset_AtRest_Untrusted) => {
     ...untrustedAsset
   }
   const { id, sprite, name } = trustedAsset
-  const canvas = createCanvas(sprite)
+  const canvas = await createCanvas(sprite)
   const memory: AssetState = {
     id,
     name,
