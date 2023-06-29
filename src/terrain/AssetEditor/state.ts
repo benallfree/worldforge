@@ -4,12 +4,7 @@ import { Opaque } from 'type-fest'
 import { RgbHex } from '../../helpers'
 import { flatten } from '../../util/flatten'
 import { uniq } from '../../util/uniq'
-import {
-  RGB_GREEN,
-  RGB_TRANSPARENT,
-  convertRGBArrayToImageData,
-  generateColorSpectrum
-} from './helpers'
+import { convertRGBArrayToImageData, RGB_GREEN, RGB_TRANSPARENT } from './helpers'
 
 export const SPRITE_SIZE = 16
 export enum EditorTools {
@@ -116,8 +111,7 @@ export const createAssetEditorStore = () => {
       update((state) => ({
         ...state,
         isColorPickerShowing: false,
-        selectedColor,
-        palette: generateColorSpectrum(selectedColor)
+        selectedColor
       }))
     },
     setPixel: (x: number, y: number) => {
