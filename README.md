@@ -1,47 +1,27 @@
-# Svelte + TS + Vite
+# WorldForge
 
-This template should help get you started developing with Svelte and TypeScript in Vite.
+WorldForge is a decentralized [js13k](https://js13kgames.com/)-compatible collaborative and sharable creative experience. Build and share worlds and assets with individuals, groups, or the Internet at large.
 
-## Recommended IDE Setup
+WorldForge exists in hyperlinks and messaging. All states and assets are stored as URL payloads which can be shared with others.
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+# Getting Started
 
-## Need an official Svelte framework?
+# Contributing
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+Contributing to WorldForge is simple. Here's how:
 
-## Technical considerations
+## Assets
 
-**Why use this over SvelteKit?**
+The easiest way to contribute to WorldForge is by creating an asset that can be shared with others. When you have created your own asset, submit it to [awesome-worldforge](https://github.com/benallfree/awesome-worldforge) as a pull request. We'll add it to the growing collection of assets that others can use in their worlds.
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+## Worlds
 
-This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+Creating a world in WorldForge is a big job, but you're a big person and we believe in you. When you have a world you'd like to share, submit a PR to [awesome-worldforge](https://github.com/benallfree/awesome-worldforge) to get an official entry in our directory of known worlds.
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
+## Docs
 
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
+You can also help maintain the docs for [awesome-worldforge](https://github.com/benallfree/awesome-worldforge) or [worldforge](https://github.com/benallfree/worldforge). This helps other players get started.
 
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
+## Code
 
-**Why include `.vscode/extensions.json`?**
-
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
-
-**Why enable `allowJs` in the TS template?**
-
-While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds: not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```ts
-// store.ts
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
-```
+If you have coding chops, you can contribute to the [worldforge](https://github.com/benallfree/worldforge) engine. See [engine docs](./engine.md) for more details.
