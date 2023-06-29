@@ -11,7 +11,8 @@
     "prebuild": "tsx scripts/prebuild.ts",
     "postbuild": "tsx scripts/postbuild.ts",
     "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "analyze": "vite-bundle-visualizer"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.4",
@@ -32,6 +33,7 @@
     "type-fest": "^3.12.0",
     "typescript": "^5.0.2",
     "vite": "^4.3.9",
+    "vite-bundle-visualizer": "^0.8.0",
     "wavesurfer.js": "^7.0.0-beta.11"
   }
 }

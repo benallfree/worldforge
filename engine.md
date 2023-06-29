@@ -17,7 +17,7 @@ When you submit a pull request for major changes, please run `yarn build` to get
 
 ## Managing Build Size
 
-The build size is a big consideration for WorldForge. The entire zip needs to be under 13k. `npx vite-bundle-visualizer` can help you understand where your bundle size is coming from. These general guidelines help a lot:
+The build size is a big consideration for WorldForge. The entire zip needs to be under 13k. `yarn analyze` can help you understand where your bundle size is coming from. These general guidelines help a lot:
 
 - Terser does a lot of work. Variable renaming, hoisting, and generally making things DRY is almost wasted time because Terser is so good already.
 - Dependencies are a big culprit of bloat. In general, do not add them. Instead, take what you need from them and add it yourself.
