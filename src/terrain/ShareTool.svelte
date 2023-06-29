@@ -25,7 +25,7 @@
     compress(payload)
       .then((packed) => {
         // Set the input value to the text to be copied
-        shareMessage = `Hey, check out my WorldForge map!\n\nMap name: ${name}\nMap ID: ${id}\n\nhttps://worldforge.pockethost.io?pm=${WF_PACK_HEADER}${packed}\n\nNote: If the link doesn't work, just copy this whole message into the WorldForge share tool and click Import.`
+        shareMessage = `Hey, check out my WorldForge map!\n\nMap name: ${name}\nMap ID: ${id}\n\nhttps://worldforgegame.web.app?pm=${WF_PACK_HEADER}${packed}\n\nNote: If the link doesn't work, just copy this whole message into the WorldForge share tool and click Import.`
       })
       .catch(console.error)
   })
