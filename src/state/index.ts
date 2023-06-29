@@ -64,6 +64,7 @@ const hydrateState = async () => {
 
   return hydrated
 }
+
 export const DEFAULT_GAME_STATE: GameState = {
   loaded: false,
   id: newWorldId(),
@@ -73,6 +74,7 @@ export const DEFAULT_GAME_STATE: GameState = {
   assetEditor: createAssetEditorStore(),
   terrain: createTerrain({ size: mkGridSize(20) })
 }
+
 export type GameStateApi = ReturnType<typeof createGameState>
 export type GameStore = Writable<GameState>
 export const createGameState = () => {
