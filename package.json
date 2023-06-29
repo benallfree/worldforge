@@ -7,7 +7,7 @@
     "dev": "vite",
     "size": "((rm -rf .build) || true) && vite build --outDir .build && ((rm out.zip) || true) && (cd .build && zip -r ../out.zip .) && ./checksize.sh",
     "size:watch": "chokidar src *.json *.js *.html *.ts -c 'yarn size'",
-    "build": "yarn size && (rm -rf dist || true) && cp .build dist",
+    "build": "yarn size && (rm -rf dist || true) && (mkdir dist) && (cp -r .build/* dist)",
     "prebuild": "tsx scripts/prebuild.ts",
     "postbuild": "tsx scripts/postbuild.ts",
     "preview": "vite preview",
