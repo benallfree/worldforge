@@ -2,12 +2,10 @@
   import { onMount } from 'svelte'
   import { gameState, shareStore } from '../../store'
   import { pack, unpack } from './pack'
-
-  $: ({ id, name } = $gameState)
+  import Modal from './Modal.svelte'
 
   export let onClose = () => {}
   export let shareMessage = (url: string) => url
-  let isOpen = false
   let shareTextArea: HTMLTextAreaElement
   let packedUrl = ''
   $: payload = $shareStore
@@ -38,9 +36,7 @@
   }
 </script>
 
-<div class="sharemodal">
-  <h1>WorldForge Share Tool</h1>
-  <div class="close" on:click={onClose}>❌</div>
+<Modal title={`WorldForge Share Tool`} {onClose}>
   <textarea bind:this={shareTextArea}>{shareMessage(packedUrl)}</textarea>
   <div>
     <button on:click={onClipboardCopy}>📋</button>
@@ -51,26 +47,9 @@
       <button class="danger" on:click={onImport}>import</button>
     </div>
   </div>
-</div>
+</Modal>
 
 <style lang="scss">
-  .sharemodal {
-    width: 400px;
-    padding: 20px;
-    background-color: black;
-    border: 1px solid gray;
-    border-radius: 10px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    .close {
-      position: absolute;
-      cursor: pointer; //foo
-      top: 5px;
-      right: 5px;
-    }
-  }
   textarea {
     width: 100%;
     height: 300px;
