@@ -18,6 +18,7 @@
 
 <style lang="scss">
   .editor {
+    background-color: var(--backgroundColor);
     margin: 20px;
     padding: 20px;
     border-radius: 10px;
