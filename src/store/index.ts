@@ -1,7 +1,6 @@
 import { nanoid } from 'nanoid'
 import { Writable, writable } from 'svelte/store'
 import { Opaque } from 'type-fest'
-import AssetEditor from '../components/AssetEditor/AssetEditor.svelte'
 import {
   AssetEditorApi,
   AssetId,
@@ -13,29 +12,9 @@ import {
   createNewAssetState,
   inMemoryAsset
 } from '../components/AssetEditor/store'
-import Splash from '../components/Splash.svelte'
-import TerrainMap from '../components/terrain/TerrainMap.svelte'
 import { TerrainApi, createTerrain } from '../components/terrain/createTerrain'
 import { mkGridSize } from '../util/helpers'
-import {
-  loadCurrentWorldId,
-  loadSplash,
-  loadWorld,
-  saveCurrentWorldId,
-  saveSplash,
-  saveWorld
-} from './localStorage'
-
-export enum ScreenNames {
-  Splash,
-  Home,
-  Editor
-}
-export const Screens: { [_ in ScreenNames]: () => any } = {
-  [ScreenNames.Splash]: () => Splash,
-  [ScreenNames.Home]: () => TerrainMap,
-  [ScreenNames.Editor]: () => AssetEditor
-}
+import { loadCurrentWorldId, loadWorld, saveCurrentWorldId, saveWorld } from './localStorage'
 
 export type WorldId = Opaque<string, 'world-id'>
 export const newWorldId = () => nanoid() as WorldId
@@ -46,7 +25,6 @@ export type WorldState = {
   name: WorldName
   assets: AssetStateCollection
   assetEditor: AssetEditorApi
-  screen: ScreenNames
   terrain: TerrainApi
 }
 
@@ -88,7 +66,6 @@ export const DEFAULT_WORLD_STATE: WorldState = {
   id: newWorldId(),
   name: mkWorldName('New World'),
   assets: {},
-  screen: loadSplash() ? ScreenNames.Home : ScreenNames.Splash,
   assetEditor: createAssetEditorStore(),
   terrain: createTerrain({ size: mkGridSize(20) })
 }
@@ -141,15 +118,10 @@ export const createGameState = () => {
         state.assetEditor.clearAsset()
         return state
       })
-      api.navigate(ScreenNames.Home)
     },
     saveAsset: (asset: AssetState) =>
       update((state) => ({ ...state, assets: { ...state.assets, [asset.id]: asset } })),
-    navigate: (screen: ScreenNames) =>
-      update((state) => {
-        saveSplash(true)
-        return { ...state, screen }
-      }),
+
     subscribe
   }
   return api
