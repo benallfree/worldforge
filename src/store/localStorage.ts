@@ -1,7 +1,7 @@
 import { Opaque } from 'type-fest'
 import { WorldId, WorldState_AtRest } from '.'
+import { clone } from '../util/clone'
 
-type StorageKey = Opaque<string, 'storage-key'>
 type RootKey = Opaque<string, 'root-key'>
 const ROOT_KEY = '__worldcraft__' as RootKey
 
@@ -11,15 +11,21 @@ enum StorageKeys {
   CurrentWorldId = 'currentWorldId'
 }
 
-type Root = {
-  [StorageKeys.Splash]: boolean
-  [StorageKeys.Worlds]: WorldCollection
-  [StorageKeys.CurrentWorldId]?: WorldId
-}
+type Root = Opaque<
+  {
+    [StorageKeys.Splash]: boolean
+    [StorageKeys.Worlds]: WorldCollection
+    [StorageKeys.CurrentWorldId]?: WorldId
+  },
+  'storage-root'
+>
 
-type WorldCollection = {
-  [worldId: WorldId]: WorldState_AtRest
-}
+type WorldCollection = Opaque<
+  {
+    [worldId: WorldId]: WorldState_AtRest
+  },
+  'worlds'
+>
 
 export const safeParse = (json: string | null): string | number | object | null => {
   if (!json) return null
@@ -39,12 +45,14 @@ const _getRoot = (): Root => {
   const root = safeParse(localStorage.getItem(ROOT_KEY))
   return {
     [StorageKeys.Splash]: false,
-    [StorageKeys.Worlds]: {},
-    ...((typeof root === 'object' ? root : {}) as Partial<Root>)
-  }
+    [StorageKeys.Worlds]: {} as WorldCollection,
+    ...(typeof root === 'object' ? root : {})
+  } as Root
 }
-const _setRoot = (data: object | boolean | string | number) =>
-  localStorage.setItem(ROOT_KEY, JSON.stringify(data))
+const _setRoot = (data: object | boolean | string | number) => {
+  console.log(`Writing to storage`, clone(data))
+  return localStorage.setItem(ROOT_KEY, JSON.stringify(data))
+}
 
 const getKeyOrDefault = <K extends StorageKeys>(name: K, def: Root[K]): Root[K] => {
   const root = _getRoot()
@@ -58,13 +66,16 @@ const setKey = <K extends StorageKeys>(name: K, data: Root[K]): void => {
   _setRoot(current)
 }
 
-export const getCurrentWorldId = () => getKeyOrDefault(StorageKeys.CurrentWorldId, undefined)
+export const loadCurrentWorldId = () => getKeyOrDefault(StorageKeys.CurrentWorldId, undefined)
+export const saveCurrentWorldId = (data: Root[StorageKeys.CurrentWorldId]) =>
+  setKey(StorageKeys.CurrentWorldId, data)
 
-export const loadWorld = (id: WorldId) => getKeyOrDefault(StorageKeys.Worlds, {})[id]
+export const loadWorld = (id: WorldId) =>
+  getKeyOrDefault(StorageKeys.Worlds, {} as WorldCollection)[id]
 export const saveWorld = (data: WorldState_AtRest) => {
-  const worlds = getKeyOrDefault(StorageKeys.Worlds, {})
+  const worlds = getKeyOrDefault(StorageKeys.Worlds, {} as WorldCollection)
   worlds[data.id] = data
-  setKey(StorageKeys.Worlds, data)
+  setKey(StorageKeys.Worlds, worlds)
 }
 
 export const loadSplash = () => getKeyOrDefault(StorageKeys.Splash, false)

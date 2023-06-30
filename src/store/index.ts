@@ -6,6 +6,7 @@ import {
   AssetEditorApi,
   AssetId,
   AssetState,
+  AssetStateCollection,
   AssetState_AtRest,
   atRestAsset,
   createAssetEditorStore,
@@ -16,7 +17,14 @@ import TerrainMap from '../components/terrain/TerrainMap.svelte'
 import { TerrainApi, createTerrain } from '../components/terrain/createTerrain'
 import Splash from '../screens/Splash/Splash.svelte'
 import { mkGridSize } from '../util/helpers'
-import { getCurrentWorldId, loadSplash, loadWorld, saveSplash, saveWorld } from './localStorage'
+import {
+  loadCurrentWorldId,
+  loadSplash,
+  loadWorld,
+  saveCurrentWorldId,
+  saveSplash,
+  saveWorld
+} from './localStorage'
 
 export enum ScreenNames {
   Splash,
@@ -36,7 +44,7 @@ export type WorldState = {
   loaded: boolean
   id: WorldId
   name: WorldName
-  assets: { [assetId: AssetId]: AssetState }
+  assets: AssetStateCollection
   assetEditor: AssetEditorApi
   screen: ScreenNames
   terrain: TerrainApi
@@ -50,18 +58,28 @@ export type WorldState_AtRest = {
 
 export type WorldName = Opaque<string, 'world-name'>
 
-const hydrateState = async () => {
-  const currentWorldId = getCurrentWorldId()
-  const hydrated = DEFAULT_WORLD_STATE
-  if (!currentWorldId) return DEFAULT_WORLD_STATE
+const hydrateState = async (): Promise<WorldState> => {
+  const currentWorldId = loadCurrentWorldId()
+  if (!currentWorldId) {
+    saveCurrentWorldId(DEFAULT_WORLD_STATE.id)
+    saveWorld(DEFAULT_WORLD_STATE)
+    return DEFAULT_WORLD_STATE
+  }
   const savedState = loadWorld(currentWorldId)
   if (!savedState) return DEFAULT_WORLD_STATE
-  await Promise.all(
-    Object.values(savedState.assets).map(async (atRestAsset) => {
-      hydrated.assets[atRestAsset.id] = await inMemoryAsset(atRestAsset)
-    })
-  )
-  return hydrated
+  const inMemoryState: WorldState = {
+    ...DEFAULT_WORLD_STATE,
+    ...savedState,
+    assets: await Object.values(savedState.assets).reduce(async (carry, atRestAsset) => {
+      return carry.then((assets) => {
+        return inMemoryAsset(atRestAsset).then((asset) => {
+          assets[asset.id] = asset
+          return assets
+        })
+      })
+    }, Promise.resolve({} as AssetStateCollection))
+  }
+  return inMemoryState
 }
 
 export const mkWorldName = (s: string) => s as WorldName

@@ -52,6 +52,7 @@
 {#if isOpen}
   <div class="sharemodal">
     <h1>WorldForge Share Tool</h1>
+    <div class="close" on:click={() => (isOpen = false)}>❌</div>
     <textarea bind:this={shareTextArea}>{shareMessage}</textarea>
     <div>
       <button on:click={onClipboardCopy}>copy</button>
@@ -84,6 +85,12 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    .close {
+      position: absolute;
+      cursor: pointer; //foo
+      top: 5px;
+      right: 5px;
+    }
   }
   textarea {
     width: 300px;

@@ -68,6 +68,10 @@ export type AssetState = {
   palette: Palette
 }
 
+export type AssetStateCollection = {
+  [id: AssetId]: AssetState
+}
+
 export const createNewAssetState = async (): Promise<AssetState> => {
   const canvas = await createCanvas()
   return {
@@ -182,7 +186,6 @@ export const createAssetEditorStore = () => {
       update((state) => ({ ...state, asset, currentTool: EditorTools.Draw })),
     clearAsset: () =>
       update((state) => {
-        console.log('clearing asset')
         delete state.asset
         return { ...state }
       }),
@@ -198,7 +201,6 @@ export const createAssetEditorStore = () => {
       }))
     },
     setPixel: (x: number, y: number) => {
-      console.log({ x, y })
       updateAsset((state, asset) => {
         const { currentTool, selectedColor } = state
         const { canvas } = asset
