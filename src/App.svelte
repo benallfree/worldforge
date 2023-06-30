@@ -1,6 +1,5 @@
 <script lang="ts">
   import buildInfo from '../buildInfo.json'
-  import Splash from './components/Splash.svelte'
   import TerrainMap from './components/terrain/TerrainMap.svelte'
   import { gameState } from './store'
 
@@ -10,6 +9,6 @@
 {#if loaded}
   <TerrainMap />
 {:else}
-  <Splash />
+  <h1>WorldForge</h1>
 {/if}
 <div><a href="https://github.com/benallfree/worldforge">WorldForge</a> build {buildInfo.build}</div>
