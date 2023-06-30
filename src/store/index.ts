@@ -16,6 +16,7 @@ import TerrainMap from '../components/terrain/TerrainMap.svelte'
 import { TerrainApi, createTerrain } from '../components/terrain/createTerrain'
 import Splash from '../screens/Splash/Splash.svelte'
 import { mkGridSize } from '../util/helpers'
+import { getCurrentWorldId, loadSplash, loadWorld, saveSplash, saveWorld } from './localStorage'
 
 export enum ScreenNames {
   Splash,
@@ -31,54 +32,53 @@ export const Screens: { [_ in ScreenNames]: () => any } = {
 export type WorldId = Opaque<string, 'world-id'>
 export const newWorldId = () => nanoid() as WorldId
 
-export type GameState = {
+export type WorldState = {
   loaded: boolean
   id: WorldId
-  name: string
+  name: WorldName
   assets: { [assetId: AssetId]: AssetState }
   assetEditor: AssetEditorApi
   screen: ScreenNames
   terrain: TerrainApi
 }
 
-export type GameState_AtRest = {
+export type WorldState_AtRest = {
+  id: WorldId
+  name: WorldName
   assets: { [assetId: AssetId]: AssetState_AtRest }
 }
 
-const hydrateState = async () => {
-  const savedState = (() => {
-    try {
-      const json = localStorage.getItem('game')
-      if (!json) return
-      return JSON.parse(json) as GameState_AtRest
-    } catch {}
-  })()
-  const hydrated = DEFAULT_GAME_STATE
-  if (savedState) {
-    await Promise.all(
-      Object.values(savedState.assets).map(async (atRestAsset) => {
-        hydrated.assets[atRestAsset.id] = await inMemoryAsset(atRestAsset)
-      })
-    )
-  }
+export type WorldName = Opaque<string, 'world-name'>
 
+const hydrateState = async () => {
+  const currentWorldId = getCurrentWorldId()
+  const hydrated = DEFAULT_WORLD_STATE
+  if (!currentWorldId) return DEFAULT_WORLD_STATE
+  const savedState = loadWorld(currentWorldId)
+  if (!savedState) return DEFAULT_WORLD_STATE
+  await Promise.all(
+    Object.values(savedState.assets).map(async (atRestAsset) => {
+      hydrated.assets[atRestAsset.id] = await inMemoryAsset(atRestAsset)
+    })
+  )
   return hydrated
 }
 
-export const DEFAULT_GAME_STATE: GameState = {
+export const mkWorldName = (s: string) => s as WorldName
+export const DEFAULT_WORLD_STATE: WorldState = {
   loaded: false,
   id: newWorldId(),
-  name: 'New Game',
+  name: mkWorldName('New World'),
   assets: {},
-  screen: localStorage.getItem('splash') ? ScreenNames.Home : ScreenNames.Splash,
+  screen: loadSplash() ? ScreenNames.Home : ScreenNames.Splash,
   assetEditor: createAssetEditorStore(),
   terrain: createTerrain({ size: mkGridSize(20) })
 }
 
 export type GameStateApi = ReturnType<typeof createGameState>
-export type GameStore = Writable<GameState>
+export type GameStore = Writable<WorldState>
 export const createGameState = () => {
-  const _state = writable(DEFAULT_GAME_STATE)
+  const _state = writable(DEFAULT_WORLD_STATE)
   const { subscribe, set, update } = _state
 
   hydrateState().then((initialState) => {
@@ -86,27 +86,27 @@ export const createGameState = () => {
   })
 
   subscribe((state) => {
-    const { assets } = state
-    const save: GameState_AtRest = {
+    const { assets, loaded, id, name } = state
+    if (!loaded) return
+    const save: WorldState_AtRest = {
+      id,
+      name,
       assets: Object.values(assets).reduce((c, v, k) => {
-        c[k] = atRestAsset(v)
+        c[v.id] = atRestAsset(v)
         return c
       }, {})
     }
-    const json = JSON.stringify(save)
-    localStorage.setItem('game', JSON.stringify(save))
-    shareStore.set(json)
+    saveWorld(save)
+    shareStore.set(JSON.stringify(save))
   })
 
   const api = {
     createAsset: async () => {
       const newAsset = await createNewAssetState()
-      update((state) => ({ ...state, assets: { ...state.assets, [newAsset.id]: newAsset } }))
-      return newAsset.id
+      return newAsset
     },
-    openAssetEditor: async (id: AssetId) => {
+    openAssetEditor: async (asset: AssetState) => {
       update((state) => {
-        const asset = state.assets[id]!
         inMemoryAsset(atRestAsset(asset))
           .then((clonedAsset) => {
             update((state) => {
@@ -129,7 +129,7 @@ export const createGameState = () => {
       update((state) => ({ ...state, assets: { ...state.assets, [asset.id]: asset } })),
     navigate: (screen: ScreenNames) =>
       update((state) => {
-        localStorage.setItem('splash', '1')
+        saveSplash(true)
         return { ...state, screen }
       }),
     subscribe
