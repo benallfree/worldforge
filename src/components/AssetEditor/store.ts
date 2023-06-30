@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
 import { writable } from 'svelte/store'
 import { Opaque, PartialDeep, SetReturnType } from 'type-fest'
-import { RgbHex } from '../../util/helpers'
+import { RgbHex, RgbaHex } from '../../util/helpers'
 import { uniq } from '../../util/uniq'
 
 export const RGB_TRANSPARENT = '#00000000' as RgbHex
@@ -41,6 +41,8 @@ export function createPaletteFromCanvas(canvas: Canvas): Palette {
     const red = pixelData[i]!
     const green = pixelData[i + 1]!
     const blue = pixelData[i + 2]!
+    const alpha = pixelData[i + 3]!
+    if (alpha === 0) continue
     const rgbHex = `#${toHex(red)}${toHex(green)}${toHex(blue)}` as RgbHex
     flattened.push(rgbHex)
   }
@@ -143,13 +145,17 @@ const ctx = (canvas: Canvas) => {
   return context
 }
 
-function drawPixel(x: number, y: number, color: RgbHex, canvas: Canvas): void {
+function drawPixel(x: number, y: number, color: RgbHex | RgbaHex, canvas: Canvas): void {
   // Convert the RGB hex value to individual RGB components
+  const context = ctx(canvas)
+  context.clearRect(x, y, 1, 1)
+  const alpha = parseInt(color.slice(7, 9), 16)
+  if (!isNaN(alpha) && !alpha) return
   const red = parseInt(color.slice(1, 3), 16)
   const green = parseInt(color.slice(3, 5), 16)
   const blue = parseInt(color.slice(5, 7), 16)
-  const context = ctx(canvas)
-  context.fillStyle = `rgb(${red}, ${green}, ${blue})`
+  const rgb = `rgb(${red}, ${green}, ${blue})`
+  context.fillStyle = rgb
   context.fillRect(x, y, 1, 1)
 }
 
@@ -172,7 +178,8 @@ export const createAssetEditorStore = () => {
     })
   const api = {
     subscribe,
-    setAsset: (asset: AssetState) => update((state) => ({ ...state, asset })),
+    setAsset: (asset: AssetState) =>
+      update((state) => ({ ...state, asset, currentTool: EditorTools.Draw })),
     clearAsset: () =>
       update((state) => {
         console.log('clearing asset')
@@ -186,6 +193,7 @@ export const createAssetEditorStore = () => {
       update((state) => ({
         ...state,
         isColorPickerShowing: false,
+        currentTool: EditorTools.Draw,
         selectedColor
       }))
     },
