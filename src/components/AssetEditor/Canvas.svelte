@@ -20,8 +20,6 @@
     const y = Math.floor(e.offsetY / STEP)
     setPixel(x, y)
   }
-
-  let myCanvas: HTMLCanvasElement
 </script>
 
 <div>

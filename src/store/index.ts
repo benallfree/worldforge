@@ -13,9 +13,9 @@ import {
   createNewAssetState,
   inMemoryAsset
 } from '../components/AssetEditor/store'
+import Splash from '../components/Splash.svelte'
 import TerrainMap from '../components/terrain/TerrainMap.svelte'
 import { TerrainApi, createTerrain } from '../components/terrain/createTerrain'
-import Splash from '../screens/Splash/Splash.svelte'
 import { mkGridSize } from '../util/helpers'
 import {
   loadCurrentWorldId,

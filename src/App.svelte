@@ -1,13 +1,15 @@
 <script lang="ts">
   import buildInfo from '../buildInfo.json'
-  import { Screens, gameState } from './store'
+  import Splash from './components/Splash.svelte'
+  import TerrainMap from './components/terrain/TerrainMap.svelte'
+  import { gameState } from './store'
 
   $: ({ loaded } = $gameState)
 </script>
 
 {#if loaded}
-  <svelte:component this={Screens[$gameState.screen]()} />
+  <TerrainMap />
 {:else}
-  Loading...
+  <Splash />
 {/if}
-<div>WorldForge build {buildInfo.build}</div>
+<div><a href="https://github.com/benallfree/worldforge">WorldForge</a> build {buildInfo.build}</div>
