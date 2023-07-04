@@ -72,7 +72,13 @@ export const ShareTool = (props?: Partial<ShareToolProps>) => {
       TabManager({
         tabs: {
           ['Link']: () =>
-            div(p(`The easiest way to share your work is by sharing a link with your friends.`)),
+            div(
+              p(
+                `The easiest way to share your work is by sharing a link with your friends. Copy and paste `,
+                a({ href: share }, `this link`),
+                ` to share with your friends.`
+              )
+            ),
           ['github']: () =>
             div(
               p(`The best way to share your assets is through the official github repo.`),
