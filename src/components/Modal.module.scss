@@ -12,7 +12,6 @@
 
   z-index: 999;
   min-width: 400px;
-  padding: 20px;
   background-color: black;
   border: 1px solid gray;
   border-radius: 10px;
@@ -20,10 +19,24 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  .title {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    height: 30px;
+    background-color: var(--accent2);
+    padding: 5px 0px 5px 10px;
+    border-radius: 9px 9px 0px 0px;
+    line-height: 30px;
+  }
+  .body {
+    margin-top: 30px;
+    padding: 20px;
+  }
   .close {
     position: absolute;
-    cursor: pointer; //foo
-    top: 5px;
-    right: 5px;
+    cursor: pointer;
+    top: 10px;
+    right: 10px;
   }
 }

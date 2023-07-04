@@ -3,7 +3,7 @@ import { Opaque } from 'type-fest'
 import { assert } from '../util/assert'
 import { mkOnClick } from '../util/mkOnClick'
 import { nextTick } from '../util/nextTick'
-import { ChildDom, State, bind, div, h1, state } from '../van'
+import { ChildDom, State, bind, div, state } from '../van'
 import classes from './Modal.module.scss'
 
 type ModalId = Opaque<ReturnType<typeof nanoid>, 'modal-id'>
@@ -107,7 +107,7 @@ export const Modal = (): ModalResult => {
         },
         div(
           { id, class: classes.Modal },
-          h1(title()),
+          div({ class: classes.title }, title()),
           div(
             {
               class: classes.close,
@@ -115,7 +115,7 @@ export const Modal = (): ModalResult => {
             },
             `❌`
           ),
-          body()
+          div({ class: classes.body }, body())
         )
       )
     })
