@@ -26,7 +26,7 @@ import { assert } from '../util/assert'
 import { keys } from '../util/keys'
 import { range } from '../util/range'
 import { uniq, uniqBy } from '../util/uniq'
-import { State, bind, input, state } from '../van'
+import { State, state } from '../van'
 import {
   backupWorld,
   loadCurrentWorldId,
@@ -221,20 +221,7 @@ export const createGameStore = () => {
       await assetEditor.setAsset(clonedAsset)
       const { currentAsset } = assetEditor
       openModal({
-        title: () =>
-          bind(currentAsset, (asset) => {
-            assert(asset)
-            const { name } = asset
-            return input({
-              type: 'text',
-              value: name,
-              onchange: function (this: HTMLInputElement) {
-                const asset = currentAsset.val
-                assert(asset)
-                currentAsset.val = { ...asset, name: this.value }
-              }
-            })
-          }),
+        title: () => `Asset Editor`,
         body: () => AssetEditor({})
       })
     },
