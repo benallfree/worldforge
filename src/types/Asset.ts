@@ -15,6 +15,8 @@ export const newAssetId = () => nanoid() as AssetId
 export type AssetState = {
   id: AssetId
   name: string
+  description: string
+  code: string
   sprite: Sprite
 }
 
@@ -22,7 +24,7 @@ export type AssetStateCollection = {
   [id: AssetId]: AssetState
 }
 
-export type AssetState_AtRest = Pick<AssetState, 'id' | 'name' | 'sprite'>
+export type AssetState_AtRest = Pick<AssetState, 'id' | 'name' | 'sprite' | 'description' | 'code'>
 export type Asset_AtRest_Untrusted = PartialDeep<AssetState_AtRest>
 
 export const EMPTY_SPRITE =
@@ -32,14 +34,16 @@ export const createNewAssetState = () => {
   const asset: AssetState = {
     id: newAssetId(),
     name: 'New Asset',
+    description: ``,
+    code: ``,
     sprite: EMPTY_SPRITE
   }
   return asset
 }
 
 export const inMemoryToAtRestAsset = (asset: AssetState): AssetState_AtRest => {
-  const { sprite, id, name } = asset
-  return { sprite, id, name }
+  const { sprite, id, name, description, code } = asset
+  return { sprite, id, name, description, code }
 }
 
 export const atRestToInMemoryAsset = async (untrustedAsset: Asset_AtRest_Untrusted) => {
@@ -47,12 +51,16 @@ export const atRestToInMemoryAsset = async (untrustedAsset: Asset_AtRest_Untrust
     id: newAssetId(),
     sprite: EMPTY_SPRITE,
     name: `Unknown asset`,
+    description: ``,
+    code: ``,
     ...untrustedAsset
   }
-  const { id, sprite, name } = trustedAsset
+  const { id, sprite, name, description, code } = trustedAsset
   const memory: AssetState = {
     id,
     name,
+    description,
+    code,
     sprite
   }
   return memory
