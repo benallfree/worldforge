@@ -23,12 +23,15 @@ export const ShareTool = () => {
     return openModal({
       title: () => `Share a World`,
       body: () =>
-        bind(shareText, (_shareText) =>
-          Copyable({
-            content: _shareText,
-            success: `DLC copied to clipboard! Share on messaging apps!`,
-            instructions: `Copy your DLC below and share it over text, Discord, WhatsApp, Twitter, or anywhere else you want!`
-          })
+        div(
+          { class: classes.ShareTool },
+          bind(shareText, (_shareText) =>
+            Copyable({
+              content: _shareText,
+              success: `DLC copied to clipboard! Share on messaging apps!`,
+              instructions: `Copy your DLC below and share it over text, Discord, WhatsApp, Twitter, or anywhere else you want!`
+            })
+          )
         )
     })
   }
