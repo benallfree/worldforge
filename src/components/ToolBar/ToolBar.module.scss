@@ -1,6 +1,11 @@
-.Tools {
+.ToolBar {
   overflow: hidden;
 
+  .floating {
+    position: absolute;
+    right: 0px;
+    top: 40px;
+  }
   .tool-button {
     display: flex;
     flex-direction: column;

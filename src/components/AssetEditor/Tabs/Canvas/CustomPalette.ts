@@ -1,7 +1,7 @@
-import { gameStore } from '../../store/gameStore'
-import { assert } from '../../util/assert'
-import { mkOnClick } from '../../util/mkOnClick'
-import { bind, div } from '../../van'
+import { gameStore } from '../../../../store/gameStore'
+import { assert } from '../../../../util/assert'
+import { mkOnClick } from '../../../../util/mkOnClick'
+import { bind, div } from '../../../../van'
 import classes from './CustomPalette.module.scss'
 
 type CustomPaletteProps = {}

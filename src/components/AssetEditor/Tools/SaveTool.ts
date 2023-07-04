@@ -1,17 +1,19 @@
 import { gameStore } from '../../../store/gameStore'
 import { assert } from '../../../util/assert'
-import { ToolButton } from './ToolButton'
+import { ToolButtonProps_In } from '../../ToolBar/ToolButton'
 
 type SaveToolProps = {}
-export const SaveTool = (props?: SaveToolProps) => {
+export const SaveTool = (): ToolButtonProps_In => {
   const { saveAsset, assetEditor } = gameStore
   const { currentAsset } = assetEditor
-  return ToolButton({
-    name: '💾',
+  return {
+    title: () => '💾',
     onClick: () => {
+      console.log(`saving`)
       const asset = currentAsset.val
       assert(asset)
-      return saveAsset(asset)
-    }
-  })
+      saveAsset(asset)
+    },
+    selected: false
+  }
 }

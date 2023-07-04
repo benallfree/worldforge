@@ -1,0 +1,12 @@
+// ShareTool.module.scss
+.ShareTool {
+  img {
+    border: 1px solid var(--accent2);
+    display: block;
+  }
+
+  textarea {
+    width: 100%;
+    height: 200px;
+  }
+}

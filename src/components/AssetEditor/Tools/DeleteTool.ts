@@ -1,10 +1,10 @@
 import { gameStore } from '../../../store/gameStore'
 import { assert } from '../../../util/assert'
-import { ToolButton } from './ToolButton'
+import { ToolButtonProps_In } from '../../ToolBar/ToolButton'
 
 type DeleteToolProps = {}
 const DefaultDeleteToolProps: DeleteToolProps = {}
-export const DeleteTool = (props?: Partial<DeleteToolProps>, ...rest: ChildNode[]) => {
+export const DeleteTool = (props?: Partial<DeleteToolProps>): ToolButtonProps_In => {
   const {} = { ...DefaultDeleteToolProps, ...props }
 
   const { closeModal, deleteAsset, assetEditor } = gameStore
@@ -15,14 +15,15 @@ export const DeleteTool = (props?: Partial<DeleteToolProps>, ...rest: ChildNode[
   assert(asset)
   const { id } = asset
 
-  return ToolButton({
+  return {
     extraProps: { class: `danger` },
-    name: `💀`,
+    title: () => `💀`,
     onClick: () => {
       assert(id)
       closeModal().then(() => {
         deleteAsset(id)
       })
-    }
-  })
+    },
+    selected: false
+  }
 }

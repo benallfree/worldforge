@@ -1,6 +1,6 @@
-import { gameStore } from '../../store/gameStore'
-import { assert } from '../../util/assert'
-import { bind, input } from '../../van'
+import { gameStore } from '../../../../store/gameStore'
+import { assert } from '../../../../util/assert'
+import { bind, input } from '../../../../van'
 
 export type TitleEditorProps = {}
 export const DefaultTitleEditorProps: TitleEditorProps = {}

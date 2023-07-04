@@ -1,8 +1,8 @@
-import { SPRITE_SIZE } from '../../constants/sprite'
-import { gameStore } from '../../store/gameStore'
-import { mkOnMouseDown, mkOnMouseMove } from '../../util/mkOnClick'
-import { noRightClick } from '../../util/noRightClick'
-import { div } from '../../van'
+import { SPRITE_SIZE } from '../../../../constants/sprite'
+import { gameStore } from '../../../../store/gameStore'
+import { mkOnMouseDown, mkOnMouseMove } from '../../../../util/mkOnClick'
+import { noRightClick } from '../../../../util/noRightClick'
+import { div } from '../../../../van'
 import classes from './PixelEditor.module.scss'
 
 type PixelEditorProps = {}

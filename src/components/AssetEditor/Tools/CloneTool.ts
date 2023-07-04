@@ -1,13 +1,13 @@
 import { gameStore } from '../../../store/gameStore'
-import { ToolButton } from './ToolButton'
+import { ToolButtonProps_In } from '../../ToolBar/ToolButton'
 
 type CloneToolProps = {}
-export const CloneTool = (props?: CloneToolProps) =>
-  ToolButton({
-    name: '👯‍♀️',
-    onClick: () => {
-      const { assetEditor } = gameStore
-      const { cloneAsset } = assetEditor
-      cloneAsset()
-    }
-  })
+export const CloneTool = (props?: CloneToolProps): ToolButtonProps_In => ({
+  title: () => '👯‍♀️',
+  onClick: () => {
+    const { assetEditor } = gameStore
+    const { cloneAsset } = assetEditor
+    cloneAsset()
+  },
+  selected: false
+})

@@ -1,8 +1,8 @@
 import { gameStore } from '../../../store/gameStore'
-import { ToolButton } from './ToolButton'
+import { ToolButtonProps_In } from '../../ToolBar/ToolButton'
 
 type CancelToolProps = {}
-export const CancelTool = (props?: CancelToolProps) => {
+export const CancelTool = (props?: CancelToolProps): ToolButtonProps_In => {
   const { closeAssetEditor } = gameStore
-  return ToolButton({ name: '😾', onClick: closeAssetEditor })
+  return { title: () => '😾', onClick: closeAssetEditor, selected: false }
 }

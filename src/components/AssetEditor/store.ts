@@ -1,20 +1,20 @@
 import { RGB_GREEN, RGB_TRANSPARENT } from '../../constants/RGB'
 import { SPRITE_SIZE } from '../../constants/sprite'
-import { AssetState, cloneAsset, EMPTY_SPRITE } from '../../types/Asset'
-import { RgbaHex, rgbaToRgb, RgbHex, rgbToRgba } from '../../types/RgbHex'
+import { AssetState, EMPTY_SPRITE, cloneAsset } from '../../types/Asset'
+import { RgbHex, RgbaHex, rgbToRgba, rgbaToRgb } from '../../types/RgbHex'
 import { Sprite } from '../../types/Sprite'
 import { assert } from '../../util/assert'
 import { uniq } from '../../util/uniq'
 import { State, state } from '../../van'
 import {
-  blitSpriteToCanvas,
   Canvas,
+  blitSpriteToCanvas,
   clearPixel,
   createCanvas,
   drawPixel,
   getCanvasPixelData,
   initializeCanvas
-} from './canvas-helpers'
+} from './Tabs/Canvas/canvas-helpers'
 import { EditorTools } from './Tools/tool'
 
 export type Palette = RgbHex[]
