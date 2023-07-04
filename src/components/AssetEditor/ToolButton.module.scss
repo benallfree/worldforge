@@ -1,0 +1,15 @@
+.ToolButton {
+  background-color: var(--buttonBackgroundColor);
+  height: 40px;
+  width: 40px;
+  padding: 0px;
+  position: relative;
+  float: left;
+  margin: 5px;
+  &.selected {
+    background-color: gray;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}

@@ -1,218 +1,91 @@
-import { nanoid } from 'nanoid'
-import { writable } from 'svelte/store'
-import { Opaque, PartialDeep, SetReturnType } from 'type-fest'
-import { RgbHex, RgbaHex } from '../../util/helpers'
+import { RGB_GREEN, RGB_TRANSPARENT } from '../../constants/RGB'
+import { SPRITE_SIZE } from '../../constants/sprite'
+import { AssetState, EMPTY_SPRITE, cloneAsset } from '../../types/Asset'
+import { RgbHex, RgbaHex, rgbToRgba, rgbaToRgb } from '../../types/RgbHex'
+import { Sprite } from '../../types/Sprite'
+import { assert } from '../../util/assert'
 import { uniq } from '../../util/uniq'
-
-export const RGB_TRANSPARENT = '#00000000' as RgbHex
-export const RGB_BLACK = '#000000' as RgbHex
-export const RGB_GREEN = '#00FF00' as RgbHex
-export const RGB_WHITE = '#FFFFFF' as RgbHex
-
-export const SPRITE_SIZE = 16
-export enum EditorTools {
-  Draw,
-  Erase
-}
-export const TOOL_NAMES: { [_ in EditorTools]: string } = {
-  [EditorTools.Draw]: '✏️',
-  [EditorTools.Erase]: '🧹'
-}
-
-export type AssetId = Opaque<string, 'asset-id'>
-export type Asset = {
-  id: AssetId
-  sprite: string[]
-}
-
-export const mkTool = (s: string) => parseInt(s) as EditorTools
-
-export function toHex(value: number): string {
-  const hex = value.toString(16)
-  return hex.length === 1 ? '0' + hex : hex
-}
-
-export function createPaletteFromCanvas(canvas: Canvas): Palette {
-  const imageData = ctx(canvas).getImageData(0, 0, canvas.width, canvas.height)
-  const pixelData = imageData.data
-  const flattened: Palette = []
-
-  for (let i = 0; i < pixelData.length; i += 4) {
-    const red = pixelData[i]!
-    const green = pixelData[i + 1]!
-    const blue = pixelData[i + 2]!
-    const alpha = pixelData[i + 3]!
-    if (alpha === 0) continue
-    const rgbHex = `#${toHex(red)}${toHex(green)}${toHex(blue)}` as RgbHex
-    flattened.push(rgbHex)
-  }
-
-  const nonTransparent = uniq(flattened).filter((c) => c !== RGB_TRANSPARENT)
-  return nonTransparent
-}
-
-export type Canvas = Opaque<
-  Omit<HTMLCanvasElement, 'toDataURL'> & {
-    toDataURL: SetReturnType<HTMLCanvasElement['toDataURL'], Sprite>
-  },
-  'canvas'
->
-
-export type Sprite = Opaque<string, 'sprite'>
-
-export type AssetState = {
-  id: AssetId
-  name: string
-  canvas: Canvas
-  sprite: Sprite
-  palette: Palette
-}
-
-export type AssetStateCollection = {
-  [id: AssetId]: AssetState
-}
-
-export const createNewAssetState = async (): Promise<AssetState> => {
-  const canvas = await createCanvas()
-  return {
-    id: newAssetId(),
-    name: 'New Asset',
-    canvas,
-    sprite: canvas.toDataURL(),
-    palette: createPaletteFromCanvas(canvas)
-  }
-}
-
-export const mkAssetId = (id: string) => id as AssetId
-export const newAssetId = () => nanoid() as AssetId
-
-export type AssetState_AtRest = Pick<AssetState, 'id' | 'name' | 'sprite'>
-export type Asset_AtRest_Untrusted = PartialDeep<AssetState_AtRest>
-export const atRestAsset = (asset: AssetState): AssetState_AtRest => {
-  const { sprite, id, name } = asset
-  return { sprite, id, name }
-}
-
-const createCanvas = async (sprite?: Sprite) => {
-  const canvas = document.createElement('canvas') as Canvas
-  canvas.width = SPRITE_SIZE
-  canvas.height = SPRITE_SIZE
-
-  if (sprite) {
-    {
-      await new Promise<void>((resolve) => {
-        const imageObj = new Image()
-        imageObj.onload = function () {
-          ctx(canvas).drawImage(imageObj, 0, 0)
-          resolve()
-        }
-        imageObj.src = sprite
-      })
-    }
-  }
-  return canvas
-}
-
-const EMPTY_SPRITE = 'data:null' as Sprite
-
-export const inMemoryAsset = async (untrustedAsset: Asset_AtRest_Untrusted) => {
-  const trustedAsset: AssetState_AtRest = {
-    id: newAssetId(),
-    sprite: EMPTY_SPRITE,
-    name: `Unknown asset`,
-    ...untrustedAsset
-  }
-  const { id, sprite, name } = trustedAsset
-  const canvas = await createCanvas(sprite)
-  const memory: AssetState = {
-    id,
-    name,
-    canvas,
-    sprite,
-    palette: createPaletteFromCanvas(canvas)
-  }
-  return memory
-}
+import { State, state } from '../../van'
+import {
+  Canvas,
+  blitSpriteToCanvas,
+  clearPixel,
+  createCanvas,
+  drawPixel,
+  getCanvasPixelData,
+  initializeCanvas
+} from './canvas-helpers'
+import { EditorTools } from './tool'
 
 export type Palette = RgbHex[]
 
-export type AssetEditorState = {
-  isColorPickerShowing: boolean
-  currentTool: EditorTools
-  selectedColor: RgbHex
-  asset?: AssetState
-}
-
-const ctx = (canvas: Canvas) => {
-  const context = canvas.getContext('2d')
-  if (!context) throw new Error(`ctx required`)
-  return context
-}
-
-function drawPixel(x: number, y: number, color: RgbHex | RgbaHex, canvas: Canvas): void {
-  // Convert the RGB hex value to individual RGB components
-  const context = ctx(canvas)
-  context.clearRect(x, y, 1, 1)
-  const alpha = parseInt(color.slice(7, 9), 16)
-  if (!isNaN(alpha) && !alpha) return
-  const red = parseInt(color.slice(1, 3), 16)
-  const green = parseInt(color.slice(3, 5), 16)
-  const blue = parseInt(color.slice(5, 7), 16)
-  const rgb = `rgb(${red}, ${green}, ${blue})`
-  context.fillStyle = rgb
-  context.fillRect(x, y, 1, 1)
+function createPaletteFromCanvas(canvas: Canvas): Palette {
+  const nonTransparent = uniq(getCanvasPixelData(canvas))
+    .filter((c) => c !== RGB_TRANSPARENT)
+    .map(rgbaToRgb)
+  return nonTransparent
 }
 
 export const createAssetEditorStore = () => {
-  const _store = writable<AssetEditorState>({
-    isColorPickerShowing: false,
-    selectedColor: RGB_GREEN,
-    currentTool: EditorTools.Draw
-  })
-  const { set, update, subscribe } = _store
+  const currentTool = state(EditorTools.Draw)
+  const selectedColor = state(RGB_GREEN)
+  const currentAsset = state<AssetState | undefined>(undefined)
+  const canvas = createCanvas()
+  const palette = state<Palette>([])
+  const dataUrl = state<Sprite>(canvas.toDataURL())
+  const rgbHexPixels: State<RgbaHex>[] = getCanvasPixelData(canvas).map((rgb) => state(rgb))
+  console.log({ rgbHexPixels })
 
-  const updateAsset = (cb: (state: AssetEditorState, asset: AssetState) => AssetState) =>
-    update((state) => {
-      const { asset } = state
-      if (!asset) throw new Error(`Asset required`)
-      return {
-        ...state,
-        asset: cb(state, asset)
-      }
-    })
   const api = {
-    subscribe,
-    setAsset: (asset: AssetState) =>
-      update((state) => ({ ...state, asset, currentTool: EditorTools.Draw })),
-    clearAsset: () =>
-      update((state) => {
-        delete state.asset
-        return { ...state }
-      }),
-    showColorPicker: () => update((state) => ({ ...state, isColorPickerShowing: true })),
-    hideColorPicker: () => update((state) => ({ ...state, isColorPickerShowing: false })),
-
-    setSelectedColor: (selectedColor: RgbHex) => {
-      update((state) => ({
-        ...state,
-        isColorPickerShowing: false,
-        currentTool: EditorTools.Draw,
-        selectedColor
-      }))
+    setAsset: async (asset: AssetState) => {
+      currentAsset.val = asset
+      const { sprite } = asset
+      initializeCanvas(canvas)
+      palette.val = []
+      rgbHexPixels.forEach((px) => (px.val = RGB_TRANSPARENT))
+      dataUrl.val = EMPTY_SPRITE
+      await blitSpriteToCanvas(canvas, sprite)
+      palette.val = createPaletteFromCanvas(canvas)
+      getCanvasPixelData(canvas).forEach((rgb, i) => (rgbHexPixels[i]!.val = rgb))
+      dataUrl.val = canvas.toDataURL()
+    },
+    cloneAsset: () => {
+      const asset = currentAsset.val
+      assert(asset)
+      const cloned = cloneAsset(asset)
+      api.setAsset(cloned)
+    },
+    clearAsset: () => {
+      currentAsset.val = undefined
+    },
+    setSelectedColor: (c: RgbHex) => {
+      selectedColor.val = c
+      currentTool.val = EditorTools.Draw
     },
     setPixel: (x: number, y: number) => {
-      updateAsset((state, asset) => {
-        const { currentTool, selectedColor } = state
-        const { canvas } = asset
-        drawPixel(x, y, currentTool === EditorTools.Draw ? selectedColor : RGB_TRANSPARENT, canvas)
-        return {
-          ...asset,
-          sprite: canvas.toDataURL(),
-          palette: createPaletteFromCanvas(canvas)
-        }
-      })
+      const asset = currentAsset.val
+      assert(asset)
+      if (currentTool.val === EditorTools.Erase) {
+        clearPixel(x, y, canvas)
+        rgbHexPixels[y * SPRITE_SIZE + x]!.val = RGB_TRANSPARENT
+      } else {
+        drawPixel(x, y, selectedColor.val, canvas)
+        rgbHexPixels[y * SPRITE_SIZE + x]!.val = rgbToRgba(selectedColor.val, 255)
+      }
+      palette.val = createPaletteFromCanvas(canvas)
+      dataUrl.val = canvas.toDataURL()
+      currentAsset.val = { ...asset, sprite: dataUrl.val }
     },
-    setTool: (currentTool: EditorTools) => update((state) => ({ ...state, currentTool }))
+    setTool: (_c: EditorTools) => {
+      currentTool.val = _c
+    },
+    currentTool,
+    selectedColor,
+    currentAsset,
+    rgbHexPixels,
+    palette,
+    canvas,
+    dataUrl
   }
   return api
 }

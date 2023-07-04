@@ -1,9 +1,9 @@
 import { Opaque } from 'type-fest'
-import { WorldId, WorldState_AtRest } from '.'
 import { clone } from '../util/clone'
+import { WorldId, WorldState_AtRest } from './gameStore'
 
 type RootKey = Opaque<string, 'root-key'>
-const ROOT_KEY = '__worldcraft__' as RootKey
+const ROOT_KEY = '__worldforge__' as RootKey
 
 enum StorageKeys {
   Worlds = 'worlds',
@@ -36,9 +36,11 @@ export const safeParse = (json: string | null): string | number | object | null 
   return null
 }
 
-const old = localStorage.getItem(ROOT_KEY)
-if (old) {
-  localStorage.setItem(`${ROOT_KEY}_${+new Date()}`, old)
+export const backupWorld = (worldId: WorldId) => {
+  const old = loadWorld(worldId)
+  if (old) {
+    localStorage.setItem(`${ROOT_KEY}_${worldId}_backup_${+new Date()}`, JSON.stringify(old))
+  }
 }
 
 const _getRoot = (): Root => {
@@ -77,6 +79,3 @@ export const saveWorld = (data: WorldState_AtRest) => {
   worlds[data.id] = data
   setKey(StorageKeys.Worlds, worlds)
 }
-
-export const loadSplash = () => getKeyOrDefault(StorageKeys.Splash, false)
-export const saveSplash = (data: Root[StorageKeys.Splash]) => setKey(StorageKeys.Splash, data)

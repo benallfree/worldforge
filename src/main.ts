@@ -1,8 +1,5 @@
-import './app.css'
-import App from './App.svelte'
+import './app.scss'
+import { App } from './components/App'
+import { van } from './van'
 
-const app = new App({
-  target: document.getElementById('app'),
-})
-
-export default app
+van.add(document.getElementById('app')!, App())

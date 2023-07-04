@@ -1,0 +1,7 @@
+.TerrainMap {
+  overflow: hidden;
+  .grid {
+    user-select: none;
+    overflow: hidden;
+  }
+}

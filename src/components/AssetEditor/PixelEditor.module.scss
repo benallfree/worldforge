@@ -1,0 +1,16 @@
+.PixelEditor {
+  border: 1px solid gray;
+  margin: 5px;
+  &:hover {
+    cursor: pointer;
+  }
+  overflow: hidden;
+  width: calc(var(--pixelSize) * var(--spriteSize));
+  .pixel {
+    box-sizing: border-box;
+    border: 1px solid var(--accent2);
+    width: var(--pixelSize);
+    height: var(--pixelSize);
+    float: left;
+  }
+}

@@ -1,0 +1,25 @@
+.Preview {
+  overflow: hidden;
+  width: calc(var(--tileSize) * 3);
+  line-height: 0px;
+  .preview-cell {
+    position: relative;
+    float: left;
+  }
+  .preview-cell,
+  img,
+  .border-overlay {
+    width: var(--tileSize);
+    height: var(--tileSize);
+  }
+  img,
+  .border-overlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+  .border-overlay {
+    box-sizing: border-box;
+    border: 1px solid #e1bdbd45;
+  }
+}

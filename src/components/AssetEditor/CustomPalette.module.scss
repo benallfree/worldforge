@@ -1,0 +1,11 @@
+.CustomPalette {
+  overflow: hidden;
+
+  .color {
+    box-sizing: border-box;
+    border: 1px solid var(--accent2);
+    width: var(--pixelSize);
+    height: var(--pixelSize);
+    float: left;
+  }
+}

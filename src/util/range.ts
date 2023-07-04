@@ -1,1 +1,1 @@
-export const range = (i: number) => Array(i).fill(0)
+export const range = (i: number) => [...Array(i)].map((v, i) => i)

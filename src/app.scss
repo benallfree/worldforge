@@ -1,0 +1,53 @@
+:root {
+  --backgroundColor: #242424;
+  --buttonBackgroundColor: #1a1a1a;
+  --dangerBg: red;
+  --dangerFg: white;
+  --tileSize: 50px;
+  --pixelSize: 20px;
+  --spriteSize: 16;
+  --accent2: rgb(28, 27, 27);
+
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  background-color: var(--backgroundColor);
+  color: white;
+}
+
+.danger {
+  color: var(--dangerFg);
+  background-color: var(--dangerBg) !important;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+
+  button {
+    color: white;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: var(--buttonBackgroundColor);
+    cursor: pointer;
+    transition: border-color 0.25s;
+    &:hover {
+      border-color: #646cff;
+    }
+    &:focus,
+    &:focus-visible {
+      // outline: 4px auto -webkit-focus-ring-color;
+    }
+  }
+
+  .row {
+    overflow: hidden;
+    .col {
+      float: left;
+    }
+  }
+}

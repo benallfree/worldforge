@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "size": "((rm -rf .build) || true) && vite build --outDir .build && ((rm out.zip) || true) && (cd .build && zip -r ../out.zip .) && ./checksize.sh",
+    "size": "((rm -rf .build/*) || true) && vite build --outDir .build && ((rm out.zip) || true) && (cd .build && zip -r ../out.zip .) && ./checksize.sh",
     "size:watch": "chokidar src *.json *.js *.html *.ts -c 'yarn size'",
     "build": "yarn size && (rm -rf dist || true) && (mkdir dist) && (cp -r .build/* dist)",
     "prebuild": "tsx scripts/prebuild.ts",
@@ -15,25 +15,18 @@
     "analyze": "vite-bundle-visualizer"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^2.0.4",
     "@tsconfig/node16": "^16.1.0",
-    "@tsconfig/svelte": "^4.0.1",
-    "@types/node": "^20.3.2",
     "chokidar-cli": "^3.0.0",
     "nanoid": "^4.0.2",
     "prettier": "^2.8.8",
     "prettier-plugin-organize-imports": "^3.2.2",
-    "prettier-plugin-svelte": "^2.10.1",
-    "rollup-plugin-visualizer": "^5.9.2",
     "sass": "^1.63.6",
-    "svelte": "^3.58.0",
-    "svelte-check": "^3.3.1",
     "terser": "^5.18.1",
     "tslib": "^2.5.0",
     "type-fest": "^3.12.0",
     "typescript": "^5.0.2",
+    "typescript-plugin-css-modules": "^5.0.1",
     "vite": "^4.3.9",
-    "vite-bundle-visualizer": "^0.8.0",
-    "wavesurfer.js": "^7.0.0-beta.11"
+    "vite-bundle-visualizer": "^0.8.0"
   }
 }
