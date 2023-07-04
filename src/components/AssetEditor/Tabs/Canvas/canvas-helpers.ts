@@ -10,10 +10,27 @@ import {
 } from '../../../../types/RgbHex'
 import { Sprite } from '../../../../types/Sprite'
 
-export const scaleImageWithDataURL = async <T extends string>(
-  dataURL: T,
-  N: number
-): Promise<T> => {
+export const scaleDataURL = async <T extends string>(dataURL: T, scale: number): Promise<T> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => {
+      const canvas = document.createElement('canvas')
+      canvas.width = img.width * scale
+      canvas.height = img.height * scale
+      const _c = ctx(canvas)
+      _c.imageSmoothingEnabled = false
+      _c.drawImage(img, 0, 0, canvas.width, canvas.height)
+      const scaledDataURL = canvas.toDataURL()
+      resolve(scaledDataURL as T)
+    }
+    img.onerror = () => {
+      reject(new Error('Failed to load image.'))
+    }
+    img.src = dataURL
+  })
+}
+
+export const mkTilingProof = async <T extends string>(dataURL: T, N: number): Promise<T> => {
   return new Promise<T>((resolve, reject) => {
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')

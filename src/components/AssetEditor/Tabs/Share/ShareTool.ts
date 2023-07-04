@@ -1,22 +1,33 @@
 import { gameStore } from '../../../../store/gameStore'
 import { AssetState_AtRest, EMPTY_SPRITE, inMemoryToAtRestAsset } from '../../../../types/Asset'
 import { assert } from '../../../../util/assert'
+import { mkShareUrl } from '../../../../util/mkShareUrl'
 import { a, bind, div, h1, img, p, state } from '../../../../van'
 import { Copyable } from '../../../Copyable'
 import { TabManager } from '../../../TabManager/TabManager'
-import { scaleImageWithDataURL } from '../Canvas/canvas-helpers'
+import { mkTilingProof, scaleDataURL } from '../Canvas/canvas-helpers'
 import ShareToolClasses from './ShareTool.module.scss'
 
-const mkIssueTemplate = (asset: AssetState_AtRest) => {
-  const { name, description, sprite } = asset
+const mkIssueTemplate = (asset: AssetState_AtRest, shareUrl: string) => {
+  const { name, description, code } = asset
   return `
-Hello, I'd like to share my asset named ${name}.
+# ${name}.
 
-Description: ${description}
+[[THUMBNAIL]]
 
-[[IMAGE]]
+${description || 'No description provided.'}
 
-And the complete export:
+[Click to import this asset](${shareUrl}) or copy/paste the Import section below to import manually.
+
+## Tiling Proof
+
+[[TILING]]
+
+## Code
+
+${code ? `Code:\n\n\`\`\`js\n${code}\n\`\`\`` : 'This asset contains no code.'}
+
+## Import
 
 \`\`\`json
 ${JSON.stringify(asset, null, 2)}
@@ -30,7 +41,9 @@ export const DefaultShareToolProps: ShareToolProps = {}
 export const ShareTool = (props?: Partial<ShareToolProps>) => {
   const {} = { ...DefaultShareToolProps, ...props }
 
-  const scaledDataUrl = state(EMPTY_SPRITE)
+  const upsizedDataUrl = state(EMPTY_SPRITE)
+  const proofDataUrl = state(EMPTY_SPRITE)
+  const shareUrl = state('')
 
   const { assetEditor } = gameStore
   const { currentAsset } = assetEditor
@@ -41,13 +54,19 @@ export const ShareTool = (props?: Partial<ShareToolProps>) => {
 
   const { sprite } = asset
 
-  scaleImageWithDataURL(sprite, 10)
-    .then((scaled) => {
-      scaledDataUrl.val = scaled
+  Promise.all([
+    mkTilingProof(sprite, 10).then((scaled) => {
+      proofDataUrl.val = scaled
+    }),
+    scaleDataURL(sprite, 3).then((scaled) => {
+      upsizedDataUrl.val = scaled
+    }),
+    mkShareUrl(JSON.stringify(inMemoryToAtRestAsset(asset))).then((url) => {
+      shareUrl.val = url
     })
-    .catch(console.error)
+  ]).catch(console.error)
 
-  return bind(asset, scaledDataUrl, (asset, sprite) => {
+  return bind(asset, proofDataUrl, upsizedDataUrl, shareUrl, (asset, proof, sprite, share) => {
     return div(
       { class: ShareToolClasses['ShareTool'] },
       TabManager({
@@ -71,11 +90,15 @@ export const ShareTool = (props?: Partial<ShareToolProps>) => {
               h1(`Step 2: Copy and paste this for the title`),
               Copyable({ content: `[Asset Submission] ${asset.name}` }),
               h1(`Step 3: Copy and paste this into the issue body`),
-              Copyable({ content: mkIssueTemplate(inMemoryToAtRestAsset(asset)) }),
+              Copyable({ content: mkIssueTemplate(inMemoryToAtRestAsset(asset), share) }),
               h1(
-                `Step 4: Copy and paste this into the issue body where the [[IMAGE]] placeholder is.`
+                `Step 4: Copy and paste this into the issue body where the [[THUMBNAIL]] placeholder is.`
               ),
-              img({ src: sprite })
+              img({ src: sprite }),
+              h1(
+                `Step 5: Copy and paste this into the issue body where the [[TILING]] placeholder is.`
+              ),
+              img({ src: proof })
             )
         }
       })
