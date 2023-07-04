@@ -1,6 +1,6 @@
-import { gameStore } from '../../store/gameStore'
-import { RgbHex } from '../../types/RgbHex'
-import { input } from '../../van'
+import { gameStore } from '../../../store/gameStore'
+import { RgbHex } from '../../../types/RgbHex'
+import { input } from '../../../van'
 import classes from './ToolButton.module.scss'
 
 type ColorToolProps = {}

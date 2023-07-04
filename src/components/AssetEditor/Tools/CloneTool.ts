@@ -1,4 +1,4 @@
-import { gameStore } from '../../store/gameStore'
+import { gameStore } from '../../../store/gameStore'
 import { ToolButton } from './ToolButton'
 
 type CloneToolProps = {}

@@ -1,7 +1,7 @@
-import { gameStore } from '../../store/gameStore'
-import { bind } from '../../van'
-import { EditorTools, TOOL_NAMES } from './tool'
+import { gameStore } from '../../../store/gameStore'
+import { bind } from '../../../van'
 import { ToolButton } from './ToolButton'
+import { EditorTools, TOOL_NAMES } from './tool'
 
 type ToggleToolButtonProps = { tool: EditorTools }
 export const ToggleToolButton = (props: ToggleToolButtonProps) => {

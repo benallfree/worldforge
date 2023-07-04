@@ -1,4 +1,4 @@
-import { div } from '../../van'
+import { div } from '../../../van'
 import { CancelTool } from './CancelTool'
 import { CloneTool } from './CloneTool'
 import { ColorTool } from './ColorTool'

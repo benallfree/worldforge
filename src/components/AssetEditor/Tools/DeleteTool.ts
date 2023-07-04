@@ -1,5 +1,5 @@
-import { gameStore } from '../../store/gameStore'
-import { assert } from '../../util/assert'
+import { gameStore } from '../../../store/gameStore'
+import { assert } from '../../../util/assert'
 import { ToolButton } from './ToolButton'
 
 type DeleteToolProps = {}

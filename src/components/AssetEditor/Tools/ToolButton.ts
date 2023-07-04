@@ -1,6 +1,6 @@
 import { SetRequired } from 'type-fest'
-import { PointerEventHandler, mkOnClick } from '../../util/mkOnClick'
-import { Props, button } from '../../van'
+import { PointerEventHandler, mkOnClick } from '../../../util/mkOnClick'
+import { Props, button } from '../../../van'
 import classes from './ToolButton.module.scss'
 
 type ToolButtonProps = {
