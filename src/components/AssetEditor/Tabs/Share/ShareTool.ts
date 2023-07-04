@@ -25,7 +25,7 @@ ${description || 'No description provided.'}
 
 ## Code
 
-${code ? `Code:\n\n\`\`\`js\n${code}\n\`\`\`` : 'This asset contains no code.'}
+${code ? `\`\`\`js\n${code}\n\`\`\`` : 'This asset contains no code.'}
 
 ## Import
 
