@@ -5,7 +5,7 @@ import classes from './Sprite.module.scss'
 
 type Sprite = { asset: State<AssetState>; onclick?: PointerEventHandler }
 export const Sprite = (props: Sprite) => {
-  const { asset, onclick } = { onclick: () => {}, ...props }
+  const { asset, onclick }: Sprite = { onclick: () => {}, ...props }
   return bind(asset, (asset) => {
     const { id, sprite } = asset
     return img({ class: classes.sprite, src: sprite, ...mkOnClick(onclick) })
