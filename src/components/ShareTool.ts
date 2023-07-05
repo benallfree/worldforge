@@ -3,7 +3,6 @@ import { mkOnClick } from '../util/mkOnClick'
 import { mkShareUrl } from '../util/mkShareUrl'
 import { bind, br, button, div, state } from '../van'
 import { Copyable } from './Copyable'
-import classes from './ShareTool.module.scss'
 
 export const ShareTool = () => {
   const { worldId: worldId, name, serializeWorld } = gameStore
@@ -24,7 +23,7 @@ export const ShareTool = () => {
       title: () => `Share a World`,
       body: () =>
         div(
-          { class: classes.ShareTool },
+          { class: `ShareTool` },
           bind(shareText, (_shareText) =>
             Copyable({
               content: _shareText,
@@ -36,5 +35,5 @@ export const ShareTool = () => {
     })
   }
 
-  return button({ class: classes.share, ...mkOnClick(open) }, div(`⤴️`, br(), `share`))
+  return button({ class: `ShareToolButton`, ...mkOnClick(open) }, div(`⤴️`, br(), `share`))
 }
