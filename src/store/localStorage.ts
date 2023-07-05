@@ -27,6 +27,13 @@ type WorldCollection = Opaque<
   'worlds'
 >
 
+if (import.meta.env.DEV) {
+  Object.entries(localStorage)
+    .map(([k, v]) => k)
+    .filter((k) => k.match(/backup/))
+    .forEach((k) => localStorage.removeItem(k))
+}
+
 export const safeParse = (json: string | null): string | number | object | null => {
   if (!json) return null
   try {

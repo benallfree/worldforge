@@ -1,7 +1,7 @@
 import { gameStore } from '../store/gameStore'
 import { XOffset, YOffset } from '../types/XY'
 import { xyToSlug } from '../types/helpers'
-import { CONTAINER, INTERACTIVE, LAYER, TILE, mkClass } from '../util/mkClass'
+import { CONTAINER, INTERACTIVE, LAYER, PULSING, TILE, mkClass } from '../util/mkClass'
 import { mkOnMouseDown, mkOnMouseMove } from '../util/mkOnClick'
 import { bind, div, img, state } from '../van'
 
@@ -54,9 +54,6 @@ export const TerrainCell = (props: TerrainCellProps) => {
         })
       )
     }),
-    bind(isActive, (isActive) => {
-      if (!isActive) return div()
-      return div({ ...mkClass(`active`, LAYER) })
-    })
+    bind(isActive, (isActive) => (isActive ? div({ ...mkClass(`active`, LAYER, PULSING) }) : div()))
   )
 }

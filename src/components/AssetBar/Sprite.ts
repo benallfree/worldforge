@@ -1,13 +1,13 @@
 import { AssetState } from '../../types/Asset'
+import { TILE, mkClass } from '../../util/mkClass'
 import { PointerEventHandler, mkOnClick } from '../../util/mkOnClick'
-import { State, bind, img } from '../../van'
-import classes from './Sprite.module.scss'
+import { bind, img } from '../../van'
 
-type Sprite = { asset: State<AssetState>; onclick?: PointerEventHandler }
+type Sprite = { asset: AssetState; onclick?: PointerEventHandler }
 export const Sprite = (props: Sprite) => {
   const { asset, onclick }: Sprite = { onclick: () => {}, ...props }
   return bind(asset, (asset) => {
     const { id, sprite } = asset
-    return img({ class: classes.sprite, src: sprite, ...mkOnClick(onclick) })
+    return img({ ...mkClass(TILE), src: sprite, ...mkOnClick(onclick) })
   })
 }

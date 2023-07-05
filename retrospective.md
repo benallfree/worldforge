@@ -24,3 +24,7 @@
 - Dramatic reduction: over 50% smaller, and total control
 - Porting to Svelte was tedious, but not hard
 - Learning VanJS was easy. It's so raw that some things taken for granted were again remembered. Example: click handler propagation is not handled natively. Passing `function()` instead of `()=>{}` so you can have `this` referring to the element that fired the event. Old school HTML.
+
+## CSS Modules experiment
+
+- created 20-30 bytes of bloat for every component

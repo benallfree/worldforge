@@ -4,5 +4,8 @@ export const INTERACTIVE = 'interactive'
 export const CONTAINER = 'container'
 export const CLEARFIX = `clearfix`
 export const NOSELECT = `no-select`
+export const PULSING = `pulsing`
 
-export const mkClass = (...args: string[]) => ({ class: args.join(' ') })
+export const mkClass = (...args: (string | string[])[]) => ({
+  class: args.map((arg) => (Array.isArray(arg) ? arg.join(' ') : arg)).join(' ')
+})

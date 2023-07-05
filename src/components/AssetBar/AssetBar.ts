@@ -1,9 +1,9 @@
 import { gameStore } from '../../store/gameStore'
 import { assert } from '../../util/assert'
+import { mkClass } from '../../util/mkClass'
 import { mkOnClick } from '../../util/mkOnClick'
 import { bind, button, div } from '../../van'
-import classes from './AssetBar.module.scss'
-import { ToolbarSprite } from './ToolbarSprite'
+import { AssetBarItem } from './AssetBarItem'
 
 export const Toolbar = () => {
   const {
@@ -19,21 +19,25 @@ export const Toolbar = () => {
     const tiles = assetIds.map((id) => {
       const asset = assets[id]
       assert(asset)
-      return ToolbarSprite({
-        asset,
-        active: activeAssetId === asset.val.id,
-        onClick: () => {
-          if (activeAssetId === asset.val.id) {
-            setActiveAssetId(undefined)
-          } else {
-            closeModal()
-            setActiveAssetId(asset.val.id)
+      return bind(asset, (asset) => {
+        const { id } = asset
+        return AssetBarItem({
+          asset,
+          active: activeAssetId === id,
+          onClick: () => {
+            console.log(`click`, { activeAssetId, id })
+            if (activeAssetId === id) {
+              setActiveAssetId(undefined)
+            } else {
+              closeModal()
+              setActiveAssetId(id)
+            }
           }
-        }
+        })
       })
     })
     return div(
-      { class: classes.AssetBar },
+      { ...mkClass(`AssetBar`) },
       ...tiles,
       button(
         {

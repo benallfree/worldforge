@@ -102,7 +102,7 @@ export const Modal = (): ModalResult => {
       const { title, event, body } = openProps
       return div(
         {
-          ...mkClass(event ? '' : 'modal-overlay', LAYER),
+          ...mkClass(event ? '' : ['modal-overlay', LAYER]),
           ...mkOnClick(() => close(), { targetOnly: true })
         },
         div(
