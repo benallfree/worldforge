@@ -5,6 +5,8 @@ import { mkOnMouseDown, mkOnMouseMove } from '../util/mkOnClick'
 import { bind, div, img, state } from '../van'
 import classes from './TerrainCell.module.scss'
 
+export const mkClass = (...args: string[]) => ({ class: args.join(' ') })
+
 type TerrainCellProps = {
   x: XOffset
   y: YOffset
@@ -36,27 +38,27 @@ export const TerrainCell = (props: TerrainCellProps) => {
 
   return div(
     {
-      class: classes.cell,
+      ...mkClass(classes.Root, classes.tile, classes.interactive, classes.container),
       ...mkOnMouseDown(onMouse),
       ...mkOnMouseMove(onMouse)
     },
-    div({ class: classes['border-hint'] }),
+    div({ ...mkClass(classes.layer, classes['border-hint']) }),
 
     bind(cells[slug], (cell) => {
       if (!cell) return div()
       return div(
-        { class: classes['content-container'] },
+        { ...mkClass(classes.layer, classes['content-container']) },
         ...cell.assets.map((state) => {
           const asset = assets[state.assetId]
           return bind(asset, (asset) => {
-            return img({ src: asset.sprite })
+            return img({ src: asset.sprite, ...mkClass(classes.layer) })
           })
         })
       )
     }),
     bind(isActive, (isActive) => {
       if (!isActive) return div()
-      return div({ class: classes.active })
+      return div({ ...mkClass(classes.active, classes.layer) })
     })
   )
 }
