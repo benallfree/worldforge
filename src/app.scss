@@ -65,9 +65,11 @@ button,
 .container {
   position: relative;
 }
+
 .interactive {
   cursor: pointer;
 }
+
 .layer {
   top: 0px;
   left: 0px;
@@ -165,7 +167,6 @@ textarea {
   }
   .close {
     position: absolute;
-    cursor: pointer;
     top: 10px;
     right: 10px;
   }
@@ -217,6 +218,29 @@ textarea {
   }
 }
 
+.Toolbar {
+  .floating {
+    position: absolute;
+    right: 0px;
+    top: 40px;
+  }
+  .ToolButton {
+    background-color: var(--buttonBackgroundColor);
+    height: 40px;
+    min-width: 40px;
+    padding: 0px 5px 0px 5px;
+    position: relative;
+    float: left;
+    margin: 5px;
+    &.selected {
+      background-color: gray;
+    }
+    &.unstyled {
+      padding: 0px;
+    }
+  }
+}
+
 .AssetEditor {
   .Canvas {
     .grid-container {
@@ -257,9 +281,6 @@ textarea {
   .PixelEditor {
     border: 1px solid gray;
     margin: 5px;
-    &:hover {
-      cursor: pointer;
-    }
     overflow: hidden;
     width: calc(var(--pixelSize) * var(--spriteSize));
     .pixel {

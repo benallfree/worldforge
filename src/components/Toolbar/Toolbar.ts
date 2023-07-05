@@ -1,5 +1,5 @@
+import { CLEARFIX, mkClass } from '../../util/mkClass'
 import { bind, div, state } from '../../van'
-import classes from './Toolbar.module.scss'
 import { ToolButton, ToolButtonProps_In } from './ToolButton'
 
 type ToolProps_In = Partial<ToolsProps>
@@ -24,9 +24,9 @@ export const Toolbar = (props: ToolProps_In) => {
 
   return bind(activeTabIdx, (_activeTabIndex) => {
     return div(
-      { class: classes.ToolBar },
+      { ...mkClass(`Toolbar`, CLEARFIX) },
       div(
-        { class: floating ? classes.floating : '' },
+        { ...mkClass(floating ? `floating` : '') },
         ...tools.map((itemProps, i) =>
           ToolButton({
             selected: _activeTabIndex === i,

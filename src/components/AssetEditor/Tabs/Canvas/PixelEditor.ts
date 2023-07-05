@@ -1,6 +1,6 @@
 import { SPRITE_SIZE } from '../../../../constants/sprite'
 import { gameStore } from '../../../../store/gameStore'
-import { mkClass } from '../../../../util/mkClass'
+import { INTERACTIVE, mkClass } from '../../../../util/mkClass'
 import { mkOnMouseDown, mkOnMouseMove } from '../../../../util/mkOnClick'
 import { noRightClick } from '../../../../util/noRightClick'
 import { div } from '../../../../van'
@@ -23,7 +23,7 @@ export const PixelEditor = (props: PixelEditorProps) => {
     { ...mkClass(`PixelEditor`) },
     ...rgbHexPixels.map((rgb, i) =>
       div({
-        ...mkClass(`pixel`),
+        ...mkClass(`pixel`, INTERACTIVE),
         style: { deps: [rgb], f: (rgb) => `background-color: ${rgb}` },
         ...mkOnMouseMove((e) => onMouse(e, i)),
         ...mkOnMouseDown((e) => onMouse(e, i))

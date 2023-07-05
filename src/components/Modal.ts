@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
 import { Opaque } from 'type-fest'
 import { assert } from '../util/assert'
-import { LAYER, mkClass } from '../util/mkClass'
+import { INTERACTIVE, LAYER, mkClass } from '../util/mkClass'
 import { mkOnClick } from '../util/mkOnClick'
 import { nextTick } from '../util/nextTick'
 import { ChildDom, State, bind, div, state } from '../van'
@@ -110,7 +110,7 @@ export const Modal = (): ModalResult => {
           div({ ...mkClass(`title`, LAYER) }, title()),
           div(
             {
-              ...mkClass(`close`),
+              ...mkClass(`close`, INTERACTIVE),
               ...mkOnClick(close)
             },
             `❌`
