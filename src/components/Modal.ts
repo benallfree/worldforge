@@ -1,10 +1,10 @@
 import { nanoid } from 'nanoid'
 import { Opaque } from 'type-fest'
 import { assert } from '../util/assert'
+import { LAYER, mkClass } from '../util/mkClass'
 import { mkOnClick } from '../util/mkOnClick'
 import { nextTick } from '../util/nextTick'
 import { ChildDom, State, bind, div, state } from '../van'
-import classes from './Modal.module.scss'
 
 type ModalId = Opaque<ReturnType<typeof nanoid>, 'modal-id'>
 export const newModalId = () => nanoid() as ModalId
@@ -102,20 +102,20 @@ export const Modal = (): ModalResult => {
       const { title, event, body } = openProps
       return div(
         {
-          class: event ? '' : classes['modal-overlay'],
+          ...mkClass(event ? '' : 'modal-overlay', LAYER),
           ...mkOnClick(() => close(), { targetOnly: true })
         },
         div(
-          { id, class: classes.Modal },
-          div({ class: classes.title }, title()),
+          { id, ...mkClass(`Modal`) },
+          div({ ...mkClass(`title`, LAYER) }, title()),
           div(
             {
-              class: classes.close,
+              ...mkClass(`close`),
               ...mkOnClick(close)
             },
             `❌`
           ),
-          div({ class: classes.body }, body())
+          div({ ...mkClass(`body`) }, body())
         )
       )
     })
