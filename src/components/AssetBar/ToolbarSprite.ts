@@ -1,7 +1,7 @@
-import { gameStore } from '../store/gameStore'
-import { StatefulAsset } from '../types/Asset'
-import { PointerEventHandler, mkOnClick } from '../util/mkOnClick'
-import { button, div } from '../van'
+import { gameStore } from '../../store/gameStore'
+import { StatefulAsset } from '../../types/Asset'
+import { PointerEventHandler, mkOnClick } from '../../util/mkOnClick'
+import { button, div } from '../../van'
 import { Sprite } from './Sprite'
 import classes from './ToolbarSprite.module.scss'
 

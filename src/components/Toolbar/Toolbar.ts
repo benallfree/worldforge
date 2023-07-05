@@ -1,5 +1,5 @@
 import { bind, div, state } from '../../van'
-import classes from './ToolBar.module.scss'
+import classes from './Toolbar.module.scss'
 import { ToolButton, ToolButtonProps_In } from './ToolButton'
 
 type ToolProps_In = Partial<ToolsProps>

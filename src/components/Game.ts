@@ -1,6 +1,6 @@
 import { div } from '../van'
+import { Toolbar } from './AssetBar/AssetBar'
 import { TerrainMap } from './TerrainMap'
-import { Toolbar } from './Toolbar'
 
 export const Game = () => {
   return div(Toolbar(), TerrainMap())

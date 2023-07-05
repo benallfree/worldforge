@@ -1,6 +1,6 @@
-import { AssetState } from '../types/Asset'
-import { PointerEventHandler, mkOnClick } from '../util/mkOnClick'
-import { State, bind, img } from '../van'
+import { AssetState } from '../../types/Asset'
+import { PointerEventHandler, mkOnClick } from '../../util/mkOnClick'
+import { State, bind, img } from '../../van'
 import classes from './Sprite.module.scss'
 
 type Sprite = { asset: State<AssetState>; onclick?: PointerEventHandler }

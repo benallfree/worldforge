@@ -1,8 +1,8 @@
-import { gameStore } from '../store/gameStore'
-import { assert } from '../util/assert'
-import { mkOnClick } from '../util/mkOnClick'
-import { bind, button, div } from '../van'
-import classes from './Toolbar.module.scss'
+import { gameStore } from '../../store/gameStore'
+import { assert } from '../../util/assert'
+import { mkOnClick } from '../../util/mkOnClick'
+import { bind, button, div } from '../../van'
+import classes from './AssetBar.module.scss'
 import { ToolbarSprite } from './ToolbarSprite'
 
 export const Toolbar = () => {
@@ -33,7 +33,7 @@ export const Toolbar = () => {
       })
     })
     return div(
-      { class: classes.Toolbar },
+      { class: classes.AssetBar },
       ...tiles,
       button(
         {
