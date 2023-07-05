@@ -5,7 +5,7 @@ import { mkOnClick } from '../../util/mkOnClick'
 import { bind, button, div } from '../../van'
 import { AssetBarItem } from './AssetBarItem'
 
-export const Toolbar = () => {
+export const AssetBar = () => {
   const {
     activeAssetId,
     assetIds,

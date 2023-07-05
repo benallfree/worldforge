@@ -1,7 +1,7 @@
 import { assert } from '../../util/assert'
+import { mkClass } from '../../util/mkClass'
 import { ChildDom, bind, div, state } from '../../van'
 import { Toolbar } from '../Toolbar/Toolbar'
-import classes from './TabManager.module.scss'
 
 export type TabManagerProps = { tabs: { [_: string]: () => ChildDom } }
 
@@ -15,7 +15,7 @@ export const TabManager = (props?: Partial<TabManagerProps>) => {
 
   return bind(activeTabIdx, (_activeTablIdx) => {
     return div(
-      { class: classes.TabManager },
+      { ...mkClass(`TabManager`) },
       Toolbar({
         tools: entries.map(([title], i) => ({
           title: () => title,
