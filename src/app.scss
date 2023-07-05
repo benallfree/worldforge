@@ -32,53 +32,61 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
+}
 
-  button,
-  .button {
-    display: inline-block;
-    text-decoration: none;
-    color: white;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: var(--buttonBackgroundColor);
-    cursor: pointer;
-    transition: border-color 0.25s;
-    &:hover {
-      border-color: #646cff;
-    }
-    &:focus,
-    &:focus-visible {
-      // outline: 4px auto -webkit-focus-ring-color;
-    }
+button,
+.button {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--buttonBackgroundColor);
+  cursor: pointer;
+  transition: border-color 0.25s;
+  &:hover {
+    border-color: #646cff;
   }
+  &:focus,
+  &:focus-visible {
+    // outline: 4px auto -webkit-focus-ring-color;
+  }
+}
 
-  .tile {
-    width: var(--tileSize);
-    height: var(--tileSize);
-  }
-  .container {
-    position: relative;
-  }
-  .interactive {
-    cursor: pointer;
-  }
-  .layer {
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  }
+.tile {
+  width: var(--tileSize);
+  height: var(--tileSize);
+}
+.container {
+  position: relative;
+}
+.interactive {
+  cursor: pointer;
+}
+.layer {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
 
-  .row {
-    overflow: hidden;
-    .col {
-      float: left;
-    }
+.clearfix {
+  overflow: hidden;
+}
+
+.no-select {
+  user-select: none;
+}
+
+.row {
+  overflow: hidden;
+  .col {
+    float: left;
   }
 }
 
@@ -98,5 +106,10 @@ body {
   .active {
     animation: pulse-background-color 2s infinite;
     background-color: rgba(164, 89, 89, 0.5); /* Second color */
+  }
+}
+
+.TerrainMap {
+  .grid {
   }
 }

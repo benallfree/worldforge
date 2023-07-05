@@ -1,15 +1,9 @@
 import { gameStore } from '../store/gameStore'
 import { XOffset, YOffset } from '../types/XY'
 import { xyToSlug } from '../types/helpers'
+import { CONTAINER, INTERACTIVE, LAYER, TILE, mkClass } from '../util/mkClass'
 import { mkOnMouseDown, mkOnMouseMove } from '../util/mkOnClick'
 import { bind, div, img, state } from '../van'
-
-const TILE = 'tile'
-const LAYER = 'layer'
-const INTERACTIVE = 'interactive'
-const CONTAINER = 'container'
-
-export const mkClass = (...args: string[]) => ({ class: args.join(' ') })
 
 type TerrainCellProps = {
   x: XOffset
