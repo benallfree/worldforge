@@ -1,9 +1,9 @@
 import { gameStore } from '../../../../store/gameStore'
+import { mkClass } from '../../../../util/mkClass'
 import { bind, div } from '../../../../van'
 import { Toolbar } from '../../../Toolbar/Toolbar'
 import { Preview } from '../../Preview'
 import { EditorTools } from '../../Tools/tool'
-import classes from './Canvas.module.scss'
 import { ColorTool } from './ColorTool'
 import { CustomPalette } from './CustomPalette'
 import { PixelEditor } from './PixelEditor'
@@ -20,7 +20,7 @@ export const Canvas = () => {
 
   return bind(currentTool, (_currentTool) =>
     div(
-      { class: 'Canvas' },
+      { ...mkClass('Canvas') },
       Toolbar({
         tools: [
           {
@@ -46,7 +46,7 @@ export const Canvas = () => {
         ]
       }),
       div(
-        { class: classes['grid-container'] },
+        { ...mkClass('grid-container') },
         div(PixelEditor({}), CustomPalette({})),
         div(Preview({ background: 'black' }), Preview({ background: 'white' }))
       )

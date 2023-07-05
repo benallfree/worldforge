@@ -216,3 +216,27 @@ textarea {
     border-radius: 10px;
   }
 }
+
+.AssetEditor {
+  .Canvas {
+    .grid-container {
+      display: grid;
+      overflow: hidden;
+      grid-gap: 10px;
+      grid-template-columns: auto auto;
+    }
+  }
+
+  .Preview {
+    width: calc(var(--tileSize) * 3);
+    line-height: 0px;
+    .preview-cell {
+      position: relative;
+      float: left;
+    }
+    .border-overlay {
+      box-sizing: border-box;
+      border: 1px solid #e1bdbd45;
+    }
+  }
+}

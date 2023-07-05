@@ -1,7 +1,7 @@
 import { gameStore } from '../../store/gameStore'
+import { CLEARFIX, LAYER, TILE, mkClass } from '../../util/mkClass'
 import { range } from '../../util/range'
 import { div, img } from '../../van'
-import classes from './Preview.module.scss'
 
 type PreviewProps = { background: 'black' | 'white' }
 export const Preview = (props: PreviewProps) => {
@@ -9,12 +9,12 @@ export const Preview = (props: PreviewProps) => {
   const { assetEditor } = gameStore
   const { dataUrl } = assetEditor
   return div(
-    { class: classes.Preview, style: `background-color: ${background}` },
+    { ...mkClass(`Preview`, CLEARFIX), style: `background-color: ${background}` },
     ...range(9).map(() =>
       div(
-        { class: classes['preview-cell'] },
-        div({ class: classes['border-overlay'] }),
-        img({ src: dataUrl })
+        { ...mkClass('preview-cell', TILE) },
+        div({ ...mkClass(`border-overlay`, TILE, LAYER) }),
+        img({ ...mkClass(TILE, LAYER), src: dataUrl })
       )
     )
   )
