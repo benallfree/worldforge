@@ -1,6 +1,7 @@
 import { gameStore } from '../../../../store/gameStore'
 import { assert } from '../../../../util/assert'
-import { bind, input } from '../../../../van'
+import { mkClass } from '../../../../util/mkClass'
+import { bind, div, input } from '../../../../van'
 
 export type TitleEditorProps = {}
 export const DefaultTitleEditorProps: TitleEditorProps = {}
@@ -13,14 +14,17 @@ export const TitleEditor = (props?: Partial<TitleEditorProps>, ...rest: ChildNod
   return bind(currentAsset, (asset) => {
     assert(asset)
     const { name } = asset
-    return input({
-      type: 'text',
-      value: name,
-      onchange: function (this: HTMLInputElement) {
-        const asset = currentAsset.val
-        assert(asset)
-        currentAsset.val = { ...asset, name: this.value }
-      }
-    })
+    return div(
+      { ...mkClass(`TitleEditor`) },
+      input({
+        type: 'text',
+        value: name,
+        onchange: function (this: HTMLInputElement) {
+          const asset = currentAsset.val
+          assert(asset)
+          currentAsset.val = { ...asset, name: this.value }
+        }
+      })
+    )
   })
 }
