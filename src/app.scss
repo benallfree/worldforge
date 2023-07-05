@@ -166,3 +166,17 @@ textarea {
     right: 10px;
   }
 }
+
+.App {
+  .footer {
+    width: 50%;
+    margin: 10px;
+    padding: 10px;
+    background-color: rgb(48 32 20);
+    border-radius: 10px;
+    font-size: 10px;
+    a {
+      color: white;
+    }
+  }
+}
