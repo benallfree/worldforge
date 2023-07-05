@@ -3,7 +3,11 @@ import { XOffset, YOffset } from '../types/XY'
 import { xyToSlug } from '../types/helpers'
 import { mkOnMouseDown, mkOnMouseMove } from '../util/mkOnClick'
 import { bind, div, img, state } from '../van'
-import classes from './TerrainCell.module.scss'
+
+const TILE = 'tile'
+const LAYER = 'layer'
+const INTERACTIVE = 'interactive'
+const CONTAINER = 'container'
 
 export const mkClass = (...args: string[]) => ({ class: args.join(' ') })
 
@@ -38,27 +42,27 @@ export const TerrainCell = (props: TerrainCellProps) => {
 
   return div(
     {
-      ...mkClass(classes.Root, classes.tile, classes.interactive, classes.container),
+      ...mkClass('TerrainCell', TILE, INTERACTIVE, CONTAINER),
       ...mkOnMouseDown(onMouse),
       ...mkOnMouseMove(onMouse)
     },
-    div({ ...mkClass(classes.layer, classes['border-hint']) }),
+    div({ ...mkClass(LAYER, `border-hint`) }),
 
     bind(cells[slug], (cell) => {
       if (!cell) return div()
       return div(
-        { ...mkClass(classes.layer, classes['content-container']) },
+        { ...mkClass(LAYER, 'content-container') },
         ...cell.assets.map((state) => {
           const asset = assets[state.assetId]
           return bind(asset, (asset) => {
-            return img({ src: asset.sprite, ...mkClass(classes.layer) })
+            return img({ src: asset.sprite, ...mkClass(LAYER) })
           })
         })
       )
     }),
     bind(isActive, (isActive) => {
       if (!isActive) return div()
-      return div({ ...mkClass(classes.active, classes.layer) })
+      return div({ ...mkClass(`active`, LAYER) })
     })
   )
 }
