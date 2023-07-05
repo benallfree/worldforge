@@ -1,8 +1,8 @@
 import { gameStore } from '../../../../store/gameStore'
 import { assert } from '../../../../util/assert'
+import { CLEARFIX, mkClass } from '../../../../util/mkClass'
 import { mkOnClick } from '../../../../util/mkOnClick'
 import { bind, div } from '../../../../van'
-import classes from './CustomPalette.module.scss'
 
 type CustomPaletteProps = {}
 export const CustomPalette = (props: CustomPaletteProps) => {
@@ -14,10 +14,10 @@ export const CustomPalette = (props: CustomPaletteProps) => {
   return bind(currentAsset, palette, (currentAsset, palette) => {
     assert(currentAsset)
     return div(
-      { class: classes.CustomPalette },
+      { ...mkClass(`CustomPalette`, CLEARFIX) },
       ...(palette.map((hex) =>
         div({
-          class: classes.color,
+          ...mkClass(`color`),
           style: `background-color: ${hex}`,
           ...mkOnClick(() => {
             setSelectedColor(hex)
