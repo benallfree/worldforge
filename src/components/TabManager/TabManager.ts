@@ -1,6 +1,6 @@
 import { assert } from '../../util/assert'
 import { ChildDom, bind, div, state } from '../../van'
-import { ToolBar } from '../ToolBar/ToolBar'
+import { Toolbar } from '../Toolbar/Toolbar'
 import classes from './TabManager.module.scss'
 
 export type TabManagerProps = { tabs: { [_: string]: () => ChildDom } }
@@ -16,7 +16,7 @@ export const TabManager = (props?: Partial<TabManagerProps>) => {
   return bind(activeTabIdx, (_activeTablIdx) => {
     return div(
       { class: classes.TabManager },
-      ToolBar({
+      Toolbar({
         tools: entries.map(([title], i) => ({
           title: () => title,
           selected: _activeTablIdx === i

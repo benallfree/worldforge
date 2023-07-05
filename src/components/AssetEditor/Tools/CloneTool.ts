@@ -1,5 +1,5 @@
 import { gameStore } from '../../../store/gameStore'
-import { ToolButtonProps_In } from '../../ToolBar/ToolButton'
+import { ToolButtonProps_In } from '../../Toolbar/ToolButton'
 
 type CloneToolProps = {}
 export const CloneTool = (props?: CloneToolProps): ToolButtonProps_In => ({

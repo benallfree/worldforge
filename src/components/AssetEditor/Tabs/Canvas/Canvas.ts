@@ -1,6 +1,6 @@
 import { gameStore } from '../../../../store/gameStore'
 import { bind, div } from '../../../../van'
-import { ToolBar } from '../../../ToolBar/ToolBar'
+import { Toolbar } from '../../../Toolbar/Toolbar'
 import { Preview } from '../../Preview'
 import { EditorTools } from '../../Tools/tool'
 import classes from './Canvas.module.scss'
@@ -21,7 +21,7 @@ export const Canvas = () => {
   return bind(currentTool, (_currentTool) =>
     div(
       { class: 'Canvas' },
-      ToolBar({
+      Toolbar({
         tools: [
           {
             title: () => `✏️`,

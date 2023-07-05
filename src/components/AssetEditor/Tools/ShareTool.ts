@@ -1,5 +1,5 @@
 import { gameStore } from '../../../store/gameStore'
-import { ToolButton } from '../../ToolBar/ToolButton'
+import { ToolButton } from '../../Toolbar/ToolButton'
 
 type ShareToolProps = {}
 export const ShareTool = (props?: ShareToolProps) =>

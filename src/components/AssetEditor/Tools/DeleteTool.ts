@@ -1,6 +1,6 @@
 import { gameStore } from '../../../store/gameStore'
 import { assert } from '../../../util/assert'
-import { ToolButtonProps_In } from '../../ToolBar/ToolButton'
+import { ToolButtonProps_In } from '../../Toolbar/ToolButton'
 
 type DeleteToolProps = {}
 const DefaultDeleteToolProps: DeleteToolProps = {}

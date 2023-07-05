@@ -1,5 +1,5 @@
 import { bind, div, state } from '../../van'
-import classes from './ToolBar.module.scss'
+import classes from './Toolbar.module.scss'
 import { ToolButton, ToolButtonProps_In } from './ToolButton'
 
 type ToolProps_In = Partial<ToolsProps>
@@ -9,7 +9,7 @@ type ToolsProps = {
   tools: ToolButtonProps_In[]
   onToolItemClicked: (idx: number) => void
 }
-export const ToolBar = (props: ToolProps_In) => {
+export const Toolbar = (props: ToolProps_In) => {
   const { floating, tools, onToolItemClicked, activeItemIdx }: ToolsProps = {
     activeItemIdx: 0,
     floating: false,

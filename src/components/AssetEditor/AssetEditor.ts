@@ -1,6 +1,6 @@
 import { div } from '../../van'
 import { TabManager } from '../TabManager/TabManager'
-import { ToolBar } from '../ToolBar/ToolBar'
+import { Toolbar } from '../Toolbar/Toolbar'
 import { Canvas } from './Tabs/Canvas/Canvas'
 import { CodeEditor } from './Tabs/Code/CodeEditor'
 import { Meta } from './Tabs/Meta/Meta'
@@ -14,7 +14,7 @@ type AssetEditorProps = {}
 export const AssetEditor = (props: AssetEditorProps) => {
   return div(
     { class: `AssetEditor` },
-    ToolBar({
+    Toolbar({
       floating: true,
       tools: [SaveTool(), CancelTool({}), CloneTool({}), DeleteTool({})]
     }),

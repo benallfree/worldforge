@@ -1,5 +1,5 @@
 import { gameStore } from '../../../store/gameStore'
-import { ToolButtonProps_In } from '../../ToolBar/ToolButton'
+import { ToolButtonProps_In } from '../../Toolbar/ToolButton'
 
 type CancelToolProps = {}
 export const CancelTool = (props?: CancelToolProps): ToolButtonProps_In => {
