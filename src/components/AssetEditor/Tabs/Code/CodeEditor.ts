@@ -1,8 +1,8 @@
 import { gameStore } from '../../../../store/gameStore'
 import { assert } from '../../../../util/assert'
+import { mkClass } from '../../../../util/mkClass'
 import { checkRenderFn } from '../../../../util/renderFn'
 import { bind, div, p, state, textarea } from '../../../../van'
-import CodeEditorClasses from './CodeEditor.module.scss'
 
 export type CodeEditorProps = {}
 export const DefaultCodeEditorProps: CodeEditorProps = {}
@@ -19,7 +19,7 @@ export const CodeEditor = (props?: Partial<CodeEditorProps>) => {
   const hasSyntaxError = state(checkRenderFn(code))
 
   return div(
-    { class: CodeEditorClasses['CodeEditor'] },
+    { ...mkClass(`CodeEditor`) },
     p(`Write your custom code here.`),
     bind(hasSyntaxError, (hasSyntaxError) =>
       hasSyntaxError ? p({ class: 'danger' }, `Syntax error: ${hasSyntaxError}`) : div()
