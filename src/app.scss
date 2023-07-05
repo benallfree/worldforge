@@ -239,4 +239,11 @@ textarea {
       border: 1px solid #e1bdbd45;
     }
   }
+
+  .ShareTool {
+    img {
+      border: 1px solid var(--accent2);
+      display: block;
+    }
+  }
 }

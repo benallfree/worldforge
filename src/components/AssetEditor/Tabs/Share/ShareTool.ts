@@ -1,12 +1,12 @@
 import { gameStore } from '../../../../store/gameStore'
 import { AssetState_AtRest, EMPTY_SPRITE, inMemoryToAtRestAsset } from '../../../../types/Asset'
 import { assert } from '../../../../util/assert'
+import { mkClass } from '../../../../util/mkClass'
 import { mkShareUrl } from '../../../../util/mkShareUrl'
 import { a, bind, div, h1, img, p, state } from '../../../../van'
 import { Copyable } from '../../../Copyable'
 import { TabManager } from '../../../TabManager/TabManager'
 import { mkTilingProof, scaleDataURL } from '../Canvas/canvas-helpers'
-import ShareToolClasses from './ShareTool.module.scss'
 
 const mkIssueTemplate = (asset: AssetState_AtRest, shareUrl: string) => {
   const { name, description, code } = asset
@@ -68,7 +68,7 @@ export const ShareTool = (props?: Partial<ShareToolProps>) => {
 
   return bind(asset, proofDataUrl, upsizedDataUrl, shareUrl, (asset, proof, sprite, share) => {
     return div(
-      { class: ShareToolClasses['ShareTool'] },
+      { ...mkClass(`ShareTool`) },
       TabManager({
         tabs: {
           ['Link']: () =>
