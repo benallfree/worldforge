@@ -10,7 +10,7 @@ type TerrainCellProps = {
   y: YOffset
 }
 export const TerrainCell = (props: TerrainCellProps) => {
-  const { activeAssetId, addAssetToTerrainCell, openModal, cells, assets } = gameStore
+  const { activeAssetId, addAssetToTerrainCell, openModal, closeModal, cells, assets } = gameStore
   const isActive = state(false)
   const { x, y } = props
   const slug = xyToSlug(x, y)
@@ -22,15 +22,19 @@ export const TerrainCell = (props: TerrainCellProps) => {
       addAssetToTerrainCell(x, y, activeAssetId.val)
     } else {
       activeAssetId.val = undefined
-      openModal({
-        title: () => `Asset Editor ${x}x${y}`,
-        event,
-        onClose: () => {
-          isActive.val = false
-        },
-        body: () => div(`asset editor`)
-      })
-      isActive.val = true
+      closeModal()
+        .then(() => {
+          openModal({
+            title: () => `Asset Editor ${x}x${y}`,
+            event,
+            onClosed: () => {
+              isActive.val = false
+            },
+            body: () => div(`asset editor`)
+          }).catch(console.error)
+          isActive.val = true
+        })
+        .catch(console.error)
     }
   }
 

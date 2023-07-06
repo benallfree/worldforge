@@ -6,25 +6,22 @@ import { bind, button, div } from '../../../../van'
 
 export type BedrockEditorProps = {}
 export const DefaultBedrockEditorProps: BedrockEditorProps = {}
-export const BedrockEditor = (props?: Partial<BedrockEditorProps>, ...rest: ChildNode[]) => {
+export const BedrockEditor = (props?: Partial<BedrockEditorProps>) => {
   const {} = { ...DefaultBedrockEditorProps, ...props }
 
   const { assetEditor } = gameStore
   const { currentAsset } = assetEditor
 
   return bind(currentAsset, (asset) => {
-    console.log({ asset })
     assert(asset)
-    const { name } = asset
+    const { isBedrock } = asset
     return div(
       { ...mkClass(`BedrockEditor`) },
       button(
         {
-          ...mkClass(asset.isBedrock ? `selected` : ``),
+          ...mkClass(isBedrock ? `selected` : ``),
           ...mkOnClick(() => {
-            const asset = currentAsset.val
-            assert(asset)
-            currentAsset.val = { ...asset, isBedrock: !asset.isBedrock }
+            currentAsset.val = { ...asset, isBedrock: !isBedrock }
           })
         },
         `Bedrock`

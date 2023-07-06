@@ -18,7 +18,7 @@ export const AssetBar = () => {
   return bind(assetIds, activeAssetId, (assetIds, activeAssetId) => {
     const tiles = assetIds.map((id) => {
       const asset = assets[id]
-      assert(asset)
+      assert(asset.val)
       return bind(asset, (asset) => {
         const { id } = asset
         return AssetBarItem({

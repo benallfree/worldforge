@@ -14,7 +14,9 @@ type OpenProps = {
   title: ModalBodyRenderFunc
   body: ModalBodyRenderFunc
   event?: ClientXY
-  onClose?: () => void
+  onClosed?: () => void
+  onCloseClicked?: () => void
+  onClickAway?: () => void
   id?: ModalId
 }
 type ModalElement = Opaque<() => ReturnType<typeof bind>, 'modal-render-func'>
@@ -83,7 +85,6 @@ export const Modal = (): ModalResult => {
   })
 
   const open: ModalOpener = async (props) => {
-    await close()
     openProps.val = { ...props }
     isOpen.val = true
     await nextTick()
@@ -92,18 +93,24 @@ export const Modal = (): ModalResult => {
   const close: ModalCloser = async () => {
     isOpen.val = false
     await nextTick()
-    openProps.val.onClose?.()
+    openProps.val.onClosed?.()
     await nextTick()
   }
 
   const element = (() => {
     return bind(isOpen, openProps, (isOpen, openProps) => {
       if (!isOpen) return div()
-      const { title, event, body } = openProps
+      const { title, event, body, onClickAway, onCloseClicked } = openProps
       return div(
         {
           ...mkClass(event ? '' : ['modal-overlay', LAYER]),
-          ...mkOnClick(() => close(), { targetOnly: true })
+          ...mkOnClick(
+            () => {
+              onClickAway?.()
+              close().catch(console.error)
+            },
+            { targetOnly: true }
+          )
         },
         div(
           { id, ...mkClass(`Modal`) },
@@ -111,7 +118,10 @@ export const Modal = (): ModalResult => {
           div(
             {
               ...mkClass(`close`, INTERACTIVE),
-              ...mkOnClick(close)
+              ...mkOnClick(() => {
+                onCloseClicked?.()
+                close().catch(console.error)
+              })
             },
             `❌`
           ),

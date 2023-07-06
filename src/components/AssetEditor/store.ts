@@ -1,6 +1,6 @@
 import { RGB_GREEN, RGB_TRANSPARENT } from '../../constants/RGB'
 import { SPRITE_SIZE } from '../../constants/sprite'
-import { AssetState, EMPTY_SPRITE, cloneAsset } from '../../types/Asset'
+import { AssetState, EMPTY_SPRITE, cloneAsset, createNewAssetState } from '../../types/Asset'
 import { RgbHex, RgbaHex, rgbToRgba, rgbaToRgb } from '../../types/RgbHex'
 import { Sprite } from '../../types/Sprite'
 import { assert } from '../../util/assert'
@@ -29,7 +29,7 @@ function createPaletteFromCanvas(canvas: Canvas): Palette {
 export const createAssetEditorStore = () => {
   const currentTool = state(EditorTools.Draw)
   const selectedColor = state(RGB_GREEN)
-  const currentAsset = state<AssetState | undefined>(undefined)
+  const currentAsset = state<AssetState>(createNewAssetState())
   const canvas = createCanvas()
   const palette = state<Palette>([])
   const dataUrl = state<Sprite>(canvas.toDataURL())
@@ -56,7 +56,7 @@ export const createAssetEditorStore = () => {
       api.setAsset(cloned)
     },
     clearAsset: () => {
-      currentAsset.val = undefined
+      api.setAsset(createNewAssetState())
     },
     setSelectedColor: (c: RgbHex) => {
       selectedColor.val = c

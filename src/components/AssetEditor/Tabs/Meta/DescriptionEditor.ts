@@ -5,19 +5,15 @@ import { bind, div, textarea } from '../../../../van'
 
 export type DescriptionEditorProps = {}
 export const DefaultDescriptionEditorProps: DescriptionEditorProps = {}
-export const DescriptionEditor = (
-  props?: Partial<DescriptionEditorProps>,
-  ...rest: ChildNode[]
-) => {
+export const DescriptionEditor = (props?: Partial<DescriptionEditorProps>) => {
   const {} = { ...DefaultDescriptionEditorProps, ...props }
 
   const { assetEditor } = gameStore
   const { currentAsset } = assetEditor
-  const asset = currentAsset.val
 
   return div(
     { ...mkClass(`DescriptionEditor`) },
-    bind(asset, (_asset) => {
+    bind(currentAsset, (_asset) => {
       assert(_asset)
       const { description } = _asset
       return textarea(

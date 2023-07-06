@@ -224,16 +224,14 @@ export const createGameStore = () => {
       openModal({
         title: () => `Asset Editor`,
         body: () => AssetEditor({}),
-        onClose: () => {
+        onCloseClicked: () => {
           const asset = currentAsset.val
           assert(asset)
           api.saveAsset(asset)
+        },
+        onClosed: () => {
+          assetEditor.clearAsset()
         }
-      })
-    },
-    closeAssetEditor: () => {
-      closeModal().then(() => {
-        assetEditor.clearAsset()
       })
     },
     saveAsset: (asset: AssetState) => {
@@ -241,7 +239,6 @@ export const createGameStore = () => {
       assets[asset.id]!.val = asset
       assetIds.val = uniq([...assetIds.val, asset.id])
       save()
-      api.closeAssetEditor()
     },
     worldId,
     loaded,

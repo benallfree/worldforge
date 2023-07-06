@@ -63,7 +63,7 @@ export const ImportTool = (props?: Partial<ImportToolProps>) => {
         openModal({
           title: () => 'Import error',
           body: () => p(`${e}`),
-          onClose: finalize
+          onClosed: finalize
         })
       }
     })()
