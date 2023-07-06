@@ -16,8 +16,8 @@ WorldForge exists in hyperlinks and messaging. All states and assets are stored 
 
 | Spec  | Info                |
 | ----- | ------------------- |
-| Build | <!-- BUILD -->10     |
-| Bytes | <!-- BYTES -->9495 |
+| Build | <!-- BUILD -->11     |
+| Bytes | <!-- BYTES -->11138 |
 
 ## Getting Started
 
