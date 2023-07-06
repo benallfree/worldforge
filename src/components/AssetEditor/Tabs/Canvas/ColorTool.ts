@@ -1,6 +1,6 @@
 import { gameStore } from '../../../../store/gameStore'
 import { RgbHex } from '../../../../types/RgbHex'
-import { input } from '../../../../van'
+import { bind, input } from '../../../../van'
 
 type ColorToolProps = {}
 export const ColorTool = (props: ColorToolProps) => {
@@ -11,10 +11,12 @@ export const ColorTool = (props: ColorToolProps) => {
     setSelectedColor(this.value as RgbHex)
   }
 
-  return input({
-    type: 'color',
-    style: `border-radius: 8px;`,
-    value: selectedColor.val,
-    onchange: onColorChange
-  })
+  return bind(selectedColor, (selectedColor) =>
+    input({
+      type: 'color',
+      style: `border-radius: 8px;`,
+      value: selectedColor,
+      onchange: onColorChange
+    })
+  )
 }
