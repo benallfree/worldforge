@@ -62,13 +62,15 @@ function positionDivAroundMouse(div: HTMLDivElement, event: ClientXY) {
 type OpenState = State<boolean>
 type ModalResult = [ModalElement, ModalOpener, ModalCloser, OpenState]
 
+const DEFAULT_MODAL: OpenProps = {
+  title: () => `New Modal`,
+  body: () => div(`Empty modal body`)
+}
+
 export const Modal = (): ModalResult => {
   const id = newModalId()
   const isOpen = state(false)
-  const openProps = state<OpenProps>({
-    title: () => `New Modal`,
-    body: () => div(`Empty modal body`)
-  })
+  const openProps = state<OpenProps>(DEFAULT_MODAL)
 
   isOpen.onnew((isOpen) => {
     setTimeout(() => {
@@ -93,6 +95,7 @@ export const Modal = (): ModalResult => {
     isOpen.val = false
     await nextTick()
     openProps.val.onClose?.()
+    openProps.val = DEFAULT_MODAL
     await nextTick()
   }
 

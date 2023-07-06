@@ -217,7 +217,12 @@ export const createGameStore = () => {
       const { currentAsset } = assetEditor
       openModal({
         title: () => `Asset Editor`,
-        body: () => AssetEditor({})
+        body: () => AssetEditor({}),
+        onClose: () => {
+          const asset = currentAsset.val
+          assert(asset)
+          api.saveAsset(asset)
+        }
       })
     },
     closeAssetEditor: () => {
