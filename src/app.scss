@@ -3,6 +3,7 @@
   --buttonBackgroundColor: #1a1a1a;
   --dangerBg: red;
   --dangerFg: white;
+  --success: rgb(64, 183, 64);
   --tileSize: 50px;
   --pixelSize: 20px;
   --spriteSize: 16;
@@ -14,6 +15,9 @@
   color: white;
 }
 
+.success {
+  color: var(--success);
+}
 .danger {
   color: var(--dangerFg);
   background-color: var(--dangerBg) !important;

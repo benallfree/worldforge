@@ -1,6 +1,7 @@
 import { SetRequired } from 'type-fest'
+import { SUCCESS, mkClass } from '../util/mkClass'
 import { mkOnClick } from '../util/mkOnClick'
-import { button, div, p, textarea } from '../van'
+import { bind, button, div, p, state, textarea } from '../van'
 
 export type CopyableProps_In = SetRequired<Partial<CopyableProps>, 'content'>
 export type CopyableProps = {
@@ -16,13 +17,25 @@ export const Copyable = (props: CopyableProps_In) => {
     ...props
   }
 
+  const isCopied = state(false)
+
   const shareTextArea = textarea({ readonly: true }, content)
 
   const onClipboardCopy = () => {
     shareTextArea.select()
     document.execCommand('copy')
-    alert(success)
+    isCopied.val = true
   }
 
-  return div(p(instructions), shareTextArea, div(button({ ...mkOnClick(onClipboardCopy) }, `📋`)))
+  return div(
+    p(instructions),
+    shareTextArea,
+    div(
+      button({ ...mkOnClick(onClipboardCopy) }, `📋`),
+      bind(isCopied, (isCopied) => {
+        if (!isCopied) return div()
+        return div({ ...mkClass(SUCCESS) }, success)
+      })
+    )
+  )
 }
