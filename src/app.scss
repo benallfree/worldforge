@@ -306,3 +306,11 @@ textarea {
 .TabManager {
   min-width: 600px;
 }
+
+.Sprite {
+  img {
+    width: 100%;
+    user-drag: none;
+    -webkit-user-drag: none;
+  }
+}

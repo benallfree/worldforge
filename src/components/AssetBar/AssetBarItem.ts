@@ -3,7 +3,7 @@ import { AssetState } from '../../types/Asset'
 import { CONTAINER, LAYER, PULSING, mkClass } from '../../util/mkClass'
 import { PointerEventHandler, mkOnClick } from '../../util/mkOnClick'
 import { button, div } from '../../van'
-import { Sprite } from './Sprite'
+import { Sprite } from '../Sprite'
 
 type ToolbarSpriteProps = {
   asset: AssetState

@@ -88,6 +88,7 @@ const atRestCell = (cellIn: CellState): CellState_AtRest => {
 export type GameStateApi = ReturnType<typeof createGameStore>
 export const createGameStore = () => {
   const loaded = state(false)
+  const imported = state(false)
   const worldId = state(newWorldId())
   const size = DEFAULT_GRID_SIZE
   const name = state(mkWorldName('New World'))
@@ -253,7 +254,8 @@ export const createGameStore = () => {
     setActiveAssetId,
     addAssetToTerrainCell,
     cells,
-    assetEditor
+    assetEditor,
+    imported
   }
   return api
 }

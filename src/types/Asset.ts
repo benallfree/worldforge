@@ -20,6 +20,10 @@ export type AssetState = {
   sprite: Sprite
 }
 
+export const isAssetAtRest = (o: any): o is AssetState_AtRest => {
+  return `id` in o && `code` in o && `sprite` in o
+}
+
 export type AssetStateCollection = {
   [id: AssetId]: AssetState
 }
