@@ -74,7 +74,7 @@ export const ShareTool = (props?: Partial<ShareToolProps>) => {
           ['Link']: () =>
             div(
               p(`Share your asset with your friends. Copy and paste `),
-              Copyable({ content: `Check out my WorldForge asset!\n\n${share}` })
+              Copyable({ content: `Check out my WorldForge asset: ${asset.name}!\n\n${share}` })
             ),
           ['github']: () =>
             div(
