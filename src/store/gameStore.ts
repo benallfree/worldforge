@@ -27,13 +27,7 @@ import { keys } from '../util/keys'
 import { range } from '../util/range'
 import { uniq, uniqBy } from '../util/uniq'
 import { State, state } from '../van'
-import {
-  backupWorld,
-  loadCurrentWorldId,
-  loadWorld,
-  saveCurrentWorldId,
-  saveWorld
-} from './localStorage'
+import { loadCurrentWorldId, loadWorld, saveCurrentWorldId, saveWorld } from './localStorage'
 
 export type WorldId = Opaque<string, 'world-id'>
 export const newWorldId = () => nanoid() as WorldId
@@ -107,7 +101,7 @@ export const createGameStore = () => {
   })
 
   const save = () => {
-    backupWorld(worldId.val)
+    // backupWorld(worldId.val)
     saveWorld(worldAtRest())
     saveCurrentWorldId(worldId.val)
   }
