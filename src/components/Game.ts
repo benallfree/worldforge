@@ -1,4 +1,5 @@
 import { gameStore } from '../store/gameStore'
+import { hasDlc } from '../util/qs'
 import { bind, div } from '../van'
 import { AssetBar } from './AssetBar/AssetBar'
 import { ImportTool } from './ImportTool'
@@ -12,7 +13,17 @@ export const Game = () => {
       if (_imported) {
         return div(AssetBar(), TerrainMap())
       }
-      return ImportTool({ onFinished: () => (imported.val = true) })
+      return ImportTool({
+        onFinished: () => {
+          console.log(`done`)
+          imported.val = true
+          if (hasDlc()) {
+            setTimeout(() => {
+              location.href = location.origin
+            })
+          }
+        }
+      })
     })
   )
 }

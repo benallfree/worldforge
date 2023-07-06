@@ -1,11 +1,10 @@
-import { WF_QS } from '../constants/share'
 import { gameStore } from '../store/gameStore'
 import { atRestToInMemoryAsset, isAssetAtRest } from '../types/Asset'
 import { assert } from '../util/assert'
-import { getQueryStringVariable } from '../util/getQueryStringVariable'
 import { DANGER, mkClass } from '../util/mkClass'
 import { mkOnClick } from '../util/mkOnClick'
 import { unpack } from '../util/pack'
+import { getDlc } from '../util/qs'
 import { button, div, h1, h2, p } from '../van'
 import { Sprite } from './Sprite'
 
@@ -22,7 +21,7 @@ export const ImportTool = (props?: Partial<ImportToolProps>) => {
   const finalize = () => {
     setTimeout(onFinished)
   }
-  const sharePayload = getQueryStringVariable(WF_QS)
+  const sharePayload = getDlc()
   if (!sharePayload) {
     finalize()
   } else {
@@ -60,7 +59,6 @@ export const ImportTool = (props?: Partial<ImportToolProps>) => {
             )
           }
         })
-        finalize()
       } catch (e) {
         openModal({
           title: () => 'Import error',
