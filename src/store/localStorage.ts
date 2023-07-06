@@ -1,5 +1,6 @@
 import { Opaque } from 'type-fest'
 import { clone } from '../util/clone'
+import { objectEntries } from '../util/objectEntries'
 import { WorldId, WorldState_AtRest } from './gameStore'
 
 type RootKey = Opaque<string, 'root-key'>
@@ -28,7 +29,7 @@ type WorldCollection = Opaque<
 >
 
 if (import.meta.env.DEV) {
-  Object.entries(localStorage)
+  objectEntries(localStorage)
     .map(([k, v]) => k)
     .filter((k) => k.match(/backup/))
     .forEach((k) => localStorage.removeItem(k))

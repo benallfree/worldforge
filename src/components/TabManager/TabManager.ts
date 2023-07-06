@@ -1,5 +1,6 @@
 import { assert } from '../../util/assert'
 import { mkClass } from '../../util/mkClass'
+import { objectEntries } from '../../util/objectEntries'
 import { ChildDom, bind, div, state } from '../../van'
 import { Toolbar } from '../Toolbar/Toolbar'
 
@@ -9,7 +10,7 @@ export const DefaultTabManagerProps: TabManagerProps = { tabs: {} }
 export const TabManager = (props?: Partial<TabManagerProps>) => {
   const { tabs } = { ...DefaultTabManagerProps, ...props }
 
-  const entries = Object.entries(tabs)
+  const entries = objectEntries(tabs)
   assert(entries.length > 0)
   const activeTabIdx = state(0)
 
