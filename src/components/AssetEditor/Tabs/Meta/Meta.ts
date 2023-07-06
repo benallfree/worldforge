@@ -1,5 +1,6 @@
 import { mkClass } from '../../../../util/mkClass'
 import { div, p } from '../../../../van'
+import { BedrockEditor } from './BedrockEditor'
 import { DescriptionEditor } from './DescriptionEditor'
 import { TitleEditor } from './TitleEditor'
 
@@ -13,6 +14,8 @@ export const Meta = (props?: Partial<MetaProps>) => {
     p(`Title`),
     TitleEditor(),
     p(`Description`),
-    DescriptionEditor()
+    DescriptionEditor(),
+    p(`Bedrock`),
+    BedrockEditor()
   )
 }

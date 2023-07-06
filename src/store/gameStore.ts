@@ -15,6 +15,7 @@ import {
   toAssetId
 } from '../types/Asset'
 import {
+  CellAssetState,
   CellCollection_AtRest,
   CellState,
   CellState_AtRest,
@@ -25,7 +26,7 @@ import { GridSize, PointSlug, xyToSlug } from '../types/helpers'
 import { assert } from '../util/assert'
 import { keys } from '../util/keys'
 import { range } from '../util/range'
-import { uniq, uniqBy } from '../util/uniq'
+import { uniq } from '../util/uniq'
 import { State, state } from '../van'
 import { loadCurrentWorldId, loadWorld, saveCurrentWorldId, saveWorld } from './localStorage'
 
@@ -190,10 +191,15 @@ export const createGameStore = () => {
     const slug = xyToSlug(x, y)
     if (!cells[slug]) cells[slug] = state<CellState>({ assets: [] })
     const cellData = cells[slug]!.val
-    const { assets } = cellData
+    const copy = [...cellData.assets, { assetId: activeAssetId }].reverse()
+    const newAssets: CellAssetState[] = [
+      copy.find((asset) => assets[asset.assetId].val.isBedrock),
+      copy.find((asset) => !assets[asset.assetId].val.isBedrock)
+    ].filter((v): v is CellAssetState => !!v)
+    console.log({ newAssets })
     cells[slug]!.val = {
       ...cellData,
-      assets: uniqBy([...assets, { assetId: activeAssetId }], (asset) => asset.assetId)
+      assets: newAssets
     }
     save()
   }

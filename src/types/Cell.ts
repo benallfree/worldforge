@@ -14,7 +14,7 @@ export type CellState_AtRest = {
 }
 export type CellState_AtRest_Untrusted = PartialDeep<CellState_AtRest>
 
-type CellAssetState = {
+export type CellAssetState = {
   assetId: AssetId
 }
 
