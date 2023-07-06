@@ -44,7 +44,7 @@ export const createNewAssetState = () => {
     name: 'New Asset',
     description: ``,
     code: ``,
-    isBedrock: true,
+    isBedrock: false,
     sprite: EMPTY_SPRITE
   }
   return asset
