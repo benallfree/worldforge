@@ -1,3 +1,4 @@
+import { execSync } from 'child_process'
 import { readFileSync, statSync, writeFileSync } from 'fs'
 // Bump the build number
 const BUILDINFO = './buildInfo.json'
@@ -11,3 +12,6 @@ const newReadme = readme
   .replace(/<!-- BYTES -->\d+/, `<!-- BYTES -->${buildInfo.bytes}`)
 
 writeFileSync(`./README.md`, newReadme)
+
+execSync(`git commit -am 'v${buildInfo.build}'`)
+execSync(`git tag 'v${buildInfo.build}'`)
