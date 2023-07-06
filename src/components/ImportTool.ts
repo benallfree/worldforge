@@ -40,7 +40,7 @@ export const ImportTool = (props?: Partial<ImportToolProps>) => {
         const asset = await atRestToInMemoryAsset(importObj)
         const willOverwrite = !!assets[asset.id]
         openModal({
-          title: () => `Import Asset`,
+          title: () => `Import Asset: ${asset.name}`,
           body: () => {
             return div(
               willOverwrite ? h2(`Import and overwrite?`) : div(),
