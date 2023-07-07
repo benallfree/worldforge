@@ -1,5 +1,5 @@
+import { gameStore } from '@/store'
 import { SPRITE_SIZE } from '../../../../constants/sprite'
-import { gameStore } from '../../../../store/gameStore'
 import { INTERACTIVE, mkClass } from '../../../../util/mkClass'
 import { mkOnMouseDown, mkOnMouseMove } from '../../../../util/mkOnClick'
 import { noRightClick } from '../../../../util/noRightClick'

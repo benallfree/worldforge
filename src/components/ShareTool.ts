@@ -1,4 +1,4 @@
-import { gameStore } from '../store/gameStore'
+import { gameStore } from '@/store'
 import { mkOnClick } from '../util/mkOnClick'
 import { mkShareUrl } from '../util/mkShareUrl'
 import { bind, br, button, div, state } from '../van'

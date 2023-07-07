@@ -1,4 +1,4 @@
-import { gameStore } from '../../../../store/gameStore'
+import { gameStore } from '@/store'
 import { mkClass } from '../../../../util/mkClass'
 import { bind, div } from '../../../../van'
 import { Toolbar } from '../../../Toolbar/Toolbar'

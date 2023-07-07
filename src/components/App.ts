@@ -1,5 +1,5 @@
+import { gameStore } from '@/store'
 import buildInfo from '../../buildInfo.json'
-import { gameStore } from '../store/gameStore'
 import { CLEARFIX, mkClass } from '../util/mkClass'
 import { a, bind, div, h1 } from '../van'
 import { Game } from './Game'

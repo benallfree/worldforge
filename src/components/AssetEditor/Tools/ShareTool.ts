@@ -1,4 +1,4 @@
-import { gameStore } from '../../../store/gameStore'
+import { gameStore } from '@/store'
 import { ToolButton } from '../../Toolbar/ToolButton'
 
 type ShareToolProps = {}

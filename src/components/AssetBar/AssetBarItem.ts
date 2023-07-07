@@ -1,4 +1,4 @@
-import { gameStore } from '../../store/gameStore'
+import { gameStore } from '@/store'
 import { AssetState } from '../../types/Asset'
 import { CONTAINER, LAYER, PULSING, mkClass } from '../../util/mkClass'
 import { PointerEventHandler, mkOnClick } from '../../util/mkOnClick'

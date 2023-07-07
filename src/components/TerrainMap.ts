@@ -1,5 +1,5 @@
+import { gameStore } from '@/store'
 import { TILE_SIZE } from '../constants/tile'
-import { gameStore } from '../store/gameStore'
 import { mkXOffset, mkYOffset } from '../types/helpers'
 import { CLEARFIX, NOSELECT, mkClass } from '../util/mkClass'
 import { px } from '../util/px'

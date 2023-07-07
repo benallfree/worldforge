@@ -19,14 +19,18 @@
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
 
-    "plugins": [{ "name": "typescript-plugin-css-modules" }],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"],
+      "$util/*": ["util/*"],
+      "$components/*": ["components/*"],
+      "$constants/*": ["constants/*"],
+      "$store/*": ["store/*"]
+    }
   },
-  "paths": {
-    "$util/*": ["src/util/*"],
-    "$components/*": ["src/components/*"],
-    "$store/*": ["src/store/*"]
-  },
+
   "include": ["src/**/*.d.ts", "src/**/*.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "tsconfig.node.json" }]
 }

@@ -1,4 +1,4 @@
-import { gameStore } from '../../store/gameStore'
+import { gameStore } from '@/store'
 import { CLEARFIX, LAYER, TILE, mkClass } from '../../util/mkClass'
 import { range } from '../../util/range'
 import { div, img } from '../../van'

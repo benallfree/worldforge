@@ -1,4 +1,4 @@
-import { gameStore } from '../store/gameStore'
+import { gameStore } from '@/store'
 import { atRestToInMemoryAsset, isAssetAtRest } from '../types/Asset'
 import { assert } from '../util/assert'
 import { DANGER, mkClass } from '../util/mkClass'

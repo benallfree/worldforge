@@ -1,4 +1,4 @@
-import { gameStore } from '../store/gameStore'
+import { gameStore } from '@/store'
 import { hasDlc } from '../util/qs'
 import { bind, div } from '../van'
 import { AssetBar } from './AssetBar/AssetBar'

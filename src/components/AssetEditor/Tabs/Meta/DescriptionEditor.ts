@@ -1,4 +1,4 @@
-import { gameStore } from '../../../../store/gameStore'
+import { gameStore } from '@/store'
 import { assert } from '../../../../util/assert'
 import { mkClass } from '../../../../util/mkClass'
 import { bind, div, textarea } from '../../../../van'

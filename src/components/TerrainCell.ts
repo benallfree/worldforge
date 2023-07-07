@@ -1,4 +1,4 @@
-import { gameStore } from '../store/gameStore'
+import { gameStore } from '@/store'
 import { XOffset, YOffset } from '../types/XY'
 import { xyToSlug } from '../types/helpers'
 import { CONTAINER, INTERACTIVE, LAYER, PULSING, TILE, mkClass } from '../util/mkClass'

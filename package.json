@@ -25,7 +25,6 @@
     "tslib": "^2.5.0",
     "type-fest": "^3.12.0",
     "typescript": "^5.0.2",
-    "typescript-plugin-css-modules": "^5.0.1",
     "vite": "^4.3.9",
     "vite-bundle-visualizer": "^0.8.0"
   }

@@ -1,4 +1,4 @@
-import { gameStore } from '../../../store/gameStore'
+import { gameStore } from '@/store'
 import { ToolButtonProps_In } from '../../Toolbar/ToolButton'
 
 type CancelToolProps = {}

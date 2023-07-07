@@ -1,4 +1,4 @@
-import { gameStore } from '../../../../store/gameStore'
+import { gameStore } from '@/store'
 import { RgbHex } from '../../../../types/RgbHex'
 import { bind, input } from '../../../../van'
 
