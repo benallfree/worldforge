@@ -19,19 +19,12 @@
     "scope": "typescript",
     "prefix": "vanc",
     "body": [
-      "/*",
-      "// $1.module.scss",
-      ".$1 {",
-      "",
-      "}",
-      "*/",
-      "import $1Classes from './$1.module.scss'",
       "export type $1Props = {}",
       "export const Default$1Props: $1Props = {}",
       "export const $1 = (props?: Partial<$1Props>, ...rest: ChildNode[]) => {",
       "   const {} = { ...Default$1Props, ...props }",
       "   ",
-      "   return div({ class: $1Classes['$1'] }, '$1', ...rest)",
+      "   return div({ ...mkClass(`$1`) }, '$1', ...rest)",
       "}"
     ],
     "description": "Create a new Van component"
