@@ -1,4 +1,4 @@
-import { WF_QS } from '../constants/share'
+import { WF_QS } from '@/constants'
 import { pack } from './pack'
 
 export const mkShareUrl = (serialized: string) =>

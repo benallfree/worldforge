@@ -1,7 +1,7 @@
+import { SPRITE_SIZE } from '@/constants'
 import { gameStore } from '@/store'
 import { INTERACTIVE, mkClass, mkOnMouseDown, mkOnMouseMove, noRightClick } from '@/util'
 import { div } from '@/van'
-import { SPRITE_SIZE } from '../../../../constants/sprite'
 
 type PixelEditorProps = {}
 export const PixelEditor = (props: PixelEditorProps) => {

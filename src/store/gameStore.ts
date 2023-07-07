@@ -1,3 +1,4 @@
+import { DEFAULT_GRID_SIZE } from '@/constants'
 import {
   AssetId,
   AssetState,
@@ -24,7 +25,6 @@ import { Opaque } from 'type-fest'
 import { AssetEditor } from '../components/AssetEditor/AssetEditor'
 import { createAssetEditorStore } from '../components/AssetEditor/store'
 import { Modal } from '../components/Modal'
-import { DEFAULT_GRID_SIZE } from '../constants/tile'
 import { loadCurrentWorldId, loadWorld, saveCurrentWorldId, saveWorld } from './localStorage'
 
 export type WorldId = Opaque<string, 'world-id'>

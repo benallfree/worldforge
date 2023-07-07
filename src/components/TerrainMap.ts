@@ -1,8 +1,8 @@
+import { TILE_SIZE } from '@/constants'
 import { gameStore } from '@/store'
 import { mkXOffset, mkYOffset } from '@/types'
 import { CLEARFIX, NOSELECT, mkClass, px, range } from '@/util'
 import { div } from '@/van'
-import { TILE_SIZE } from '../constants/tile'
 import { ShareTool } from './ShareTool'
 import { TerrainCell } from './TerrainCell'
 

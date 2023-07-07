@@ -1,4 +1,4 @@
-import { WF_QS } from '../constants/share'
+import { WF_QS } from '@/constants'
 
 export const getQueryStringVariable = (variable: string) =>
   new URLSearchParams(window.location.search).get(variable)

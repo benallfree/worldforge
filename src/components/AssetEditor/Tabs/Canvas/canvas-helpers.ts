@@ -1,3 +1,4 @@
+import { SPRITE_SIZE } from '@/constants'
 import {
   RgbHex,
   RgbaHex,
@@ -8,7 +9,6 @@ import {
   pixelDataToParsedRgba
 } from '@/types'
 import { Opaque, SetReturnType } from 'type-fest'
-import { SPRITE_SIZE } from '../../../../constants/sprite'
 
 export const scaleDataURL = async <T extends string>(dataURL: T, scale: number): Promise<T> => {
   return new Promise((resolve, reject) => {

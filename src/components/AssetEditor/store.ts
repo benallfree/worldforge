@@ -1,3 +1,4 @@
+import { RGB_GREEN, RGB_TRANSPARENT, SPRITE_SIZE } from '@/constants'
 import {
   AssetState,
   EMPTY_SPRITE,
@@ -11,8 +12,6 @@ import {
 } from '@/types'
 import { assert, uniq } from '@/util'
 import { State, state } from '@/van'
-import { RGB_GREEN, RGB_TRANSPARENT } from '../../constants/RGB'
-import { SPRITE_SIZE } from '../../constants/sprite'
 import {
   Canvas,
   blitSpriteToCanvas,
