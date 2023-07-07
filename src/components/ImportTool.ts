@@ -1,11 +1,7 @@
 import { gameStore } from '@/store'
 import { atRestToInMemoryAsset, isAssetAtRest } from '@/types'
+import { DANGER, assert, getDlc, mkClass, mkOnClick, unpack } from '@/util'
 import { button, div, h1, h2, p } from '@/van'
-import { assert } from '../util/assert'
-import { DANGER, mkClass } from '../util/mkClass'
-import { mkOnClick } from '../util/mkOnClick'
-import { unpack } from '../util/pack'
-import { getDlc } from '../util/qs'
 import { Sprite } from './Sprite'
 
 export type ImportToolProps = {

@@ -1,5 +1,5 @@
 import { gameStore } from '@/store'
-import { assert } from '../../../util/assert'
+import { assert } from '@/util'
 import { ToolButtonProps_In } from '../../Toolbar/ToolButton'
 
 type SaveToolProps = {}

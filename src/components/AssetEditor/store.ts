@@ -9,11 +9,10 @@ import {
   rgbToRgba,
   rgbaToRgb
 } from '@/types'
+import { assert, uniq } from '@/util'
 import { State, state } from '@/van'
 import { RGB_GREEN, RGB_TRANSPARENT } from '../../constants/RGB'
 import { SPRITE_SIZE } from '../../constants/sprite'
-import { assert } from '../../util/assert'
-import { uniq } from '../../util/uniq'
 import {
   Canvas,
   blitSpriteToCanvas,

@@ -1,6 +1,5 @@
+import { clone, objectEntries } from '@/util'
 import { Opaque } from 'type-fest'
-import { clone } from '../util/clone'
-import { objectEntries } from '../util/objectEntries'
 import { WorldId, WorldState_AtRest } from './gameStore'
 
 type RootKey = Opaque<string, 'root-key'>

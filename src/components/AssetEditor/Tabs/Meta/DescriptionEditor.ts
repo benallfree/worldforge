@@ -1,7 +1,6 @@
 import { gameStore } from '@/store'
+import { assert, mkClass } from '@/util'
 import { bind, div, textarea } from '@/van'
-import { assert } from '../../../../util/assert'
-import { mkClass } from '../../../../util/mkClass'
 
 export type DescriptionEditorProps = {}
 export const DefaultDescriptionEditorProps: DescriptionEditorProps = {}

@@ -1,6 +1,6 @@
 import { gameStore } from '@/store'
+import { mkClass } from '@/util'
 import { bind, div } from '@/van'
-import { mkClass } from '../../../../util/mkClass'
 import { Toolbar } from '../../../Toolbar/Toolbar'
 import { Preview } from '../../Preview'
 import { EditorTools } from '../../Tools/tool'

@@ -1,7 +1,7 @@
 import { gameStore } from '@/store'
+import { CLEARFIX, mkClass } from '@/util'
 import { a, bind, div, h1 } from '@/van'
 import buildInfo from '../../buildInfo.json'
-import { CLEARFIX, mkClass } from '../util/mkClass'
 import { Game } from './Game'
 
 export const App = () => {

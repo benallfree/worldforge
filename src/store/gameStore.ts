@@ -17,6 +17,7 @@ import {
   toCellId,
   xyToSlug
 } from '@/types'
+import { assert, keys, range, uniq } from '@/util'
 import { State, state } from '@/van'
 import { nanoid } from 'nanoid'
 import { Opaque } from 'type-fest'
@@ -24,10 +25,6 @@ import { AssetEditor } from '../components/AssetEditor/AssetEditor'
 import { createAssetEditorStore } from '../components/AssetEditor/store'
 import { Modal } from '../components/Modal'
 import { DEFAULT_GRID_SIZE } from '../constants/tile'
-import { assert } from '../util/assert'
-import { keys } from '../util/keys'
-import { range } from '../util/range'
-import { uniq } from '../util/uniq'
 import { loadCurrentWorldId, loadWorld, saveCurrentWorldId, saveWorld } from './localStorage'
 
 export type WorldId = Opaque<string, 'world-id'>

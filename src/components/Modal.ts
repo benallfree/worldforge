@@ -1,10 +1,7 @@
+import { INTERACTIVE, LAYER, assert, mkClass, mkOnClick, nextTick } from '@/util'
 import { ChildDom, State, bind, div, state } from '@/van'
 import { nanoid } from 'nanoid'
 import { Opaque } from 'type-fest'
-import { assert } from '../util/assert'
-import { INTERACTIVE, LAYER, mkClass } from '../util/mkClass'
-import { mkOnClick } from '../util/mkOnClick'
-import { nextTick } from '../util/nextTick'
 
 type ModalId = Opaque<ReturnType<typeof nanoid>, 'modal-id'>
 export const newModalId = () => nanoid() as ModalId

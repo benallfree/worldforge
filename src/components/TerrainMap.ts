@@ -1,10 +1,8 @@
 import { gameStore } from '@/store'
 import { mkXOffset, mkYOffset } from '@/types'
+import { CLEARFIX, NOSELECT, mkClass, px, range } from '@/util'
 import { div } from '@/van'
 import { TILE_SIZE } from '../constants/tile'
-import { CLEARFIX, NOSELECT, mkClass } from '../util/mkClass'
-import { px } from '../util/px'
-import { range } from '../util/range'
 import { ShareTool } from './ShareTool'
 import { TerrainCell } from './TerrainCell'
 

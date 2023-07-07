@@ -1,8 +1,6 @@
 import { gameStore } from '@/store'
+import { assert, mkClass, mkOnClick } from '@/util'
 import { bind, button, div } from '@/van'
-import { assert } from '../../../../util/assert'
-import { mkClass } from '../../../../util/mkClass'
-import { mkOnClick } from '../../../../util/mkOnClick'
 
 export type BedrockEditorProps = {}
 export const DefaultBedrockEditorProps: BedrockEditorProps = {}

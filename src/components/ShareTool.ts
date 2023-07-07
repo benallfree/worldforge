@@ -1,7 +1,6 @@
 import { gameStore } from '@/store'
+import { mkOnClick, mkShareUrl } from '@/util'
 import { bind, br, button, div, state } from '@/van'
-import { mkOnClick } from '../util/mkOnClick'
-import { mkShareUrl } from '../util/mkShareUrl'
 import { Copyable } from './Copyable'
 
 export const ShareTool = () => {

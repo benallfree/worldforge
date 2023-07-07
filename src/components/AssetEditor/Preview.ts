@@ -1,7 +1,6 @@
 import { gameStore } from '@/store'
+import { CLEARFIX, LAYER, TILE, mkClass, range } from '@/util'
 import { div, img } from '@/van'
-import { CLEARFIX, LAYER, TILE, mkClass } from '../../util/mkClass'
-import { range } from '../../util/range'
 
 type PreviewProps = { background: 'black' | 'white' }
 export const Preview = (props: PreviewProps) => {

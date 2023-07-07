@@ -1,6 +1,6 @@
 import { gameStore } from '@/store'
+import { hasDlc } from '@/util'
 import { bind, div } from '@/van'
-import { hasDlc } from '../util/qs'
 import { AssetBar } from './AssetBar/AssetBar'
 import { ImportTool } from './ImportTool'
 import { TerrainMap } from './TerrainMap'
