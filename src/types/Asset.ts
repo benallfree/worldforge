@@ -51,29 +51,15 @@ export const createNewAssetState = () => {
 }
 
 export const inMemoryToAtRestAsset = (asset: AssetState): AssetState_AtRest => {
-  const { sprite, id, name, description, code, isBedrock } = asset
-  return { sprite, id, name, description, code, isBedrock }
+  return { ...asset }
 }
 
 export const atRestToInMemoryAsset = async (untrustedAsset: Asset_AtRest_Untrusted) => {
   const trustedAsset: AssetState_AtRest = {
-    id: newAssetId(),
-    sprite: EMPTY_SPRITE,
-    name: `Unknown asset`,
-    description: ``,
-    code: ``,
-    isBedrock: false,
+    ...createNewAssetState(),
     ...untrustedAsset
   }
-  const { id, sprite, name, description, code, isBedrock } = trustedAsset
-  const memory: AssetState = {
-    id,
-    name,
-    description,
-    code,
-    sprite,
-    isBedrock
-  }
+  const memory: AssetState = { ...trustedAsset }
   return memory
 }
 
