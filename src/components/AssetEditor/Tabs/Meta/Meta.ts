@@ -1,5 +1,5 @@
+import { div, p } from '@/van'
 import { mkClass } from '../../../../util/mkClass'
-import { div, p } from '../../../../van'
 import { BedrockEditor } from './BedrockEditor'
 import { DescriptionEditor } from './DescriptionEditor'
 import { TitleEditor } from './TitleEditor'

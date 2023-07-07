@@ -1,9 +1,9 @@
 import { gameStore } from '@/store'
+import { div } from '@/van'
 import { SPRITE_SIZE } from '../../../../constants/sprite'
 import { INTERACTIVE, mkClass } from '../../../../util/mkClass'
 import { mkOnMouseDown, mkOnMouseMove } from '../../../../util/mkOnClick'
 import { noRightClick } from '../../../../util/noRightClick'
-import { div } from '../../../../van'
 
 type PixelEditorProps = {}
 export const PixelEditor = (props: PixelEditorProps) => {

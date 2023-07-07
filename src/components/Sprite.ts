@@ -1,7 +1,7 @@
 import { AssetState } from '@/types'
+import { bind, img } from '@/van'
 import { TILE, mkClass } from '../util/mkClass'
 import { PointerEventHandler, mkOnClick } from '../util/mkOnClick'
-import { bind, img } from '../van'
 
 type Sprite = { asset: AssetState; onclick?: PointerEventHandler }
 export const Sprite = (props: Sprite) => {

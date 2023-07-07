@@ -1,6 +1,6 @@
 import { gameStore } from '@/store'
+import { bind, div, input } from '@/van'
 import { mkClass } from '../../../../util/mkClass'
-import { bind, div, input } from '../../../../van'
 
 export type TitleEditorProps = {}
 export const DefaultTitleEditorProps: TitleEditorProps = {}

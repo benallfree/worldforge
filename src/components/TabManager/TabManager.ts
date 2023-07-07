@@ -1,7 +1,7 @@
+import { ChildDom, bind, div, state } from '@/van'
 import { assert } from '../../util/assert'
 import { mkClass } from '../../util/mkClass'
 import { objectEntries } from '../../util/objectEntries'
-import { ChildDom, bind, div, state } from '../../van'
 import { Toolbar } from '../Toolbar/Toolbar'
 
 export type TabManagerProps = { tabs: { [_: string]: () => ChildDom } }

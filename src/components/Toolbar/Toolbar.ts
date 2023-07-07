@@ -1,5 +1,5 @@
+import { bind, div, state } from '@/van'
 import { CLEARFIX, mkClass } from '../../util/mkClass'
-import { bind, div, state } from '../../van'
 import { ToolButton, ToolButtonProps_In } from './ToolButton'
 
 type ToolProps_In = Partial<ToolsProps>

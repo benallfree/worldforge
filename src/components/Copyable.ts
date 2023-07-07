@@ -1,7 +1,7 @@
+import { bind, button, div, p, state, textarea } from '@/van'
 import { SetRequired } from 'type-fest'
 import { SUCCESS, mkClass } from '../util/mkClass'
 import { mkOnClick } from '../util/mkOnClick'
-import { bind, button, div, p, state, textarea } from '../van'
 
 export type CopyableProps_In = SetRequired<Partial<CopyableProps>, 'content'>
 export type CopyableProps = {

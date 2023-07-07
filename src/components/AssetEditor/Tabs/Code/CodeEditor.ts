@@ -1,7 +1,7 @@
 import { gameStore } from '@/store'
+import { bind, div, p, state, textarea } from '@/van'
 import { mkClass } from '../../../../util/mkClass'
 import { checkRenderFn } from '../../../../util/renderFn'
-import { bind, div, p, state, textarea } from '../../../../van'
 
 export type CodeEditorProps = {}
 export const DefaultCodeEditorProps: CodeEditorProps = {}

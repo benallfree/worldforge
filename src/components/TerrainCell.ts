@@ -1,8 +1,8 @@
 import { gameStore } from '@/store'
 import { XOffset, YOffset, xyToSlug } from '@/types'
+import { bind, div, img, state } from '@/van'
 import { CONTAINER, INTERACTIVE, LAYER, PULSING, TILE, mkClass } from '../util/mkClass'
 import { mkOnMouseDown, mkOnMouseMove } from '../util/mkOnClick'
-import { bind, div, img, state } from '../van'
 
 type TerrainCellProps = {
   x: XOffset

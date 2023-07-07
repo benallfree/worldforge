@@ -1,8 +1,8 @@
 import { gameStore } from '@/store'
 import { AssetState } from '@/types'
+import { button, div } from '@/van'
 import { CONTAINER, LAYER, PULSING, mkClass } from '../../util/mkClass'
 import { PointerEventHandler, mkOnClick } from '../../util/mkOnClick'
-import { button, div } from '../../van'
 import { Sprite } from '../Sprite'
 
 type ToolbarSpriteProps = {

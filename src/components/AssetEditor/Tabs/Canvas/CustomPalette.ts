@@ -1,8 +1,8 @@
 import { gameStore } from '@/store'
+import { bind, div } from '@/van'
 import { assert } from '../../../../util/assert'
 import { CLEARFIX, mkClass } from '../../../../util/mkClass'
 import { mkOnClick } from '../../../../util/mkOnClick'
-import { bind, div } from '../../../../van'
 
 type CustomPaletteProps = {}
 export const CustomPalette = (props: CustomPaletteProps) => {

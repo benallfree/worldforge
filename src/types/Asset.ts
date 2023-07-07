@@ -1,6 +1,6 @@
+import { State } from '@/van'
 import { nanoid } from 'nanoid'
 import { Opaque, PartialDeep } from 'type-fest'
-import { State } from '../van'
 import { Sprite } from './Sprite'
 
 export type StatefulAsset = State<AssetState>

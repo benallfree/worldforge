@@ -1,7 +1,7 @@
+import { ChildDom, Props, button } from '@/van'
 import { SetRequired } from 'type-fest'
 import { INTERACTIVE, mkClass } from '../../util/mkClass'
 import { PointerEventHandler, mkOnClick } from '../../util/mkOnClick'
-import { ChildDom, Props, button } from '../../van'
 
 export type ToolButtonProps_In = SetRequired<Partial<ToolButtonProps>, 'title'>
 

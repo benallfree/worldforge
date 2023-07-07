@@ -1,6 +1,6 @@
 import { gameStore } from '@/store'
 import { RgbHex } from '@/types'
-import { bind, input } from '../../../../van'
+import { bind, input } from '@/van'
 
 type ColorToolProps = {}
 export const ColorTool = (props: ColorToolProps) => {

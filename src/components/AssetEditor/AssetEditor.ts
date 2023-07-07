@@ -1,5 +1,5 @@
+import { div } from '@/van'
 import { mkClass } from '../../util/mkClass'
-import { div } from '../../van'
 import { TabManager } from '../TabManager/TabManager'
 import { Toolbar } from '../Toolbar/Toolbar'
 import { Canvas } from './Tabs/Canvas/Canvas'
