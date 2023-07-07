@@ -1,5 +1,5 @@
 import { gameStore } from '@/store'
-import { atRestToInMemoryAsset, isAssetAtRest } from '../types/Asset'
+import { atRestToInMemoryAsset, isAssetAtRest } from '@/types'
 import { assert } from '../util/assert'
 import { DANGER, mkClass } from '../util/mkClass'
 import { mkOnClick } from '../util/mkOnClick'

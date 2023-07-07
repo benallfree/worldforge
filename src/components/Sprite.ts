@@ -1,4 +1,4 @@
-import { AssetState } from '../types/Asset'
+import { AssetState } from '@/types'
 import { TILE, mkClass } from '../util/mkClass'
 import { PointerEventHandler, mkOnClick } from '../util/mkOnClick'
 import { bind, img } from '../van'

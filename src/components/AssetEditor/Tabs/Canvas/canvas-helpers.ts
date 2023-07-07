@@ -1,14 +1,14 @@
-import { Opaque, SetReturnType } from 'type-fest'
-import { SPRITE_SIZE } from '../../../../constants/sprite'
 import {
   RgbHex,
   RgbaHex,
+  Sprite,
   base10RgbToCssRgb,
   base10RgbaToHex,
   parseRgbHex,
   pixelDataToParsedRgba
-} from '../../../../types/RgbHex'
-import { Sprite } from '../../../../types/Sprite'
+} from '@/types'
+import { Opaque, SetReturnType } from 'type-fest'
+import { SPRITE_SIZE } from '../../../../constants/sprite'
 
 export const scaleDataURL = async <T extends string>(dataURL: T, scale: number): Promise<T> => {
   return new Promise((resolve, reject) => {

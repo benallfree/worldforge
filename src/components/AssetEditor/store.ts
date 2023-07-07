@@ -1,8 +1,16 @@
+import {
+  AssetState,
+  EMPTY_SPRITE,
+  RgbHex,
+  RgbaHex,
+  Sprite,
+  cloneAsset,
+  createNewAssetState,
+  rgbToRgba,
+  rgbaToRgb
+} from '@/types'
 import { RGB_GREEN, RGB_TRANSPARENT } from '../../constants/RGB'
 import { SPRITE_SIZE } from '../../constants/sprite'
-import { AssetState, EMPTY_SPRITE, cloneAsset, createNewAssetState } from '../../types/Asset'
-import { RgbHex, RgbaHex, rgbToRgba, rgbaToRgb } from '../../types/RgbHex'
-import { Sprite } from '../../types/Sprite'
 import { assert } from '../../util/assert'
 import { uniq } from '../../util/uniq'
 import { State, state } from '../../van'

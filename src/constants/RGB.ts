@@ -1,4 +1,4 @@
-import { RgbHex, RgbaHex } from '../types/RgbHex'
+import { RgbHex, RgbaHex } from '@/types'
 
 export const RGB_TRANSPARENT = '#00000000' as RgbaHex
 export const RGB_BLACK = '#000000' as RgbHex

@@ -1,5 +1,5 @@
 import { gameStore } from '@/store'
-import { AssetState } from '../../types/Asset'
+import { AssetState } from '@/types'
 import { CONTAINER, LAYER, PULSING, mkClass } from '../../util/mkClass'
 import { PointerEventHandler, mkOnClick } from '../../util/mkOnClick'
 import { button, div } from '../../van'

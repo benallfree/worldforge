@@ -1,5 +1,5 @@
 import { gameStore } from '@/store'
-import { RgbHex } from '../../../../types/RgbHex'
+import { RgbHex } from '@/types'
 import { bind, input } from '../../../../van'
 
 type ColorToolProps = {}

@@ -1,6 +1,6 @@
 import { gameStore } from '@/store'
+import { mkXOffset, mkYOffset } from '@/types'
 import { TILE_SIZE } from '../constants/tile'
-import { mkXOffset, mkYOffset } from '../types/helpers'
 import { CLEARFIX, NOSELECT, mkClass } from '../util/mkClass'
 import { px } from '../util/px'
 import { range } from '../util/range'

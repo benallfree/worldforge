@@ -1,28 +1,28 @@
+import {
+  AssetId,
+  AssetState,
+  AssetStateCollection,
+  AssetState_AtRest,
+  CellAssetState,
+  CellCollection_AtRest,
+  CellState,
+  CellState_AtRest,
+  GridSize,
+  PointSlug,
+  atRestToInMemoryAsset,
+  atRestToInMemoryCell,
+  createNewAssetState,
+  inMemoryToAtRestAsset,
+  toAssetId,
+  toCellId,
+  xyToSlug
+} from '@/types'
 import { nanoid } from 'nanoid'
 import { Opaque } from 'type-fest'
 import { AssetEditor } from '../components/AssetEditor/AssetEditor'
 import { createAssetEditorStore } from '../components/AssetEditor/store'
 import { Modal } from '../components/Modal'
 import { DEFAULT_GRID_SIZE } from '../constants/tile'
-import {
-  AssetId,
-  AssetState,
-  AssetStateCollection,
-  AssetState_AtRest,
-  atRestToInMemoryAsset,
-  createNewAssetState,
-  inMemoryToAtRestAsset,
-  toAssetId
-} from '../types/Asset'
-import {
-  CellAssetState,
-  CellCollection_AtRest,
-  CellState,
-  CellState_AtRest,
-  atRestToInMemoryCell,
-  toCellId
-} from '../types/Cell'
-import { GridSize, PointSlug, xyToSlug } from '../types/helpers'
 import { assert } from '../util/assert'
 import { keys } from '../util/keys'
 import { range } from '../util/range'

@@ -1,5 +1,5 @@
 import { gameStore } from '@/store'
-import { AssetState_AtRest, EMPTY_SPRITE, inMemoryToAtRestAsset } from '../../../../types/Asset'
+import { AssetState_AtRest, EMPTY_SPRITE, inMemoryToAtRestAsset } from '@/types'
 import { assert } from '../../../../util/assert'
 import { mkClass } from '../../../../util/mkClass'
 import { mkShareUrl } from '../../../../util/mkShareUrl'

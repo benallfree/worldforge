@@ -1,6 +1,5 @@
 import { gameStore } from '@/store'
-import { XOffset, YOffset } from '../types/XY'
-import { xyToSlug } from '../types/helpers'
+import { XOffset, YOffset, xyToSlug } from '@/types'
 import { CONTAINER, INTERACTIVE, LAYER, PULSING, TILE, mkClass } from '../util/mkClass'
 import { mkOnMouseDown, mkOnMouseMove } from '../util/mkOnClick'
 import { bind, div, img, state } from '../van'
