@@ -5,15 +5,15 @@ import { State, state, toReadOnlyState } from '@/van'
 import { AsyncReturnType } from 'type-fest'
 import {
   Canvas,
-  blitCanvas,
+  blitImageDataToCanvas,
   blitImageToCanvas,
   clearPixel,
   createCanvas,
-  cropCanvas,
   ctx,
-  dataUrlToimage,
+  dataUrlToImage,
   drawPixel,
-  getCanvasPixelData
+  getCanvasPixelData,
+  getCanvasSlice
 } from './Tabs/Canvas/canvas-helpers'
 import { EditorTools } from './Tools/tool'
 
@@ -29,7 +29,7 @@ function createPaletteFromCanvas(canvas: Canvas): Palette {
 export type AssetEditorApi = AsyncReturnType<typeof createAssetEditorStore>
 
 export const createAssetEditorStore = async (asset: AssetState) => {
-  const image = await dataUrlToimage(asset.sprite)
+  const image = await dataUrlToImage(asset.sprite)
   const sprite = state(asset.sprite)
   const spriteData = state(asset.spriteData)
   const name = state(asset.name)
@@ -47,7 +47,7 @@ export const createAssetEditorStore = async (asset: AssetState) => {
   ctx(canvas).clearRect(0, 0, canvas.width, canvas.height)
   blitImageToCanvas(canvas, image)
   const isPlaying = state(false)
-  const clipboard = state<Canvas>(canvas)
+  const clipboard = state(new ImageData(1, 1))
   const palette = state<Palette>([])
   const rgbHexPixels: State<RgbaHex>[] = range(SPRITE_SIZE * SPRITE_SIZE).map(() =>
     state(RGB_TRANSPARENT)
@@ -126,10 +126,10 @@ export const createAssetEditorStore = async (asset: AssetState) => {
   recalc()
 
   const _copy = (xo = xOffset.val, yo = yOffset.val) =>
-    cropCanvas(canvas, xo * SPRITE_SIZE, yo * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE)
+    getCanvasSlice(canvas, xo * SPRITE_SIZE, yo * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE)
 
-  const _paste = (srcCanvas: Canvas, xo = xOffset.val, yo = yOffset.val) => {
-    blitCanvas(srcCanvas, canvas, xo * SPRITE_SIZE, yo * SPRITE_SIZE)
+  const _paste = (clipboard: ImageData, xo = xOffset.val, yo = yOffset.val) => {
+    blitImageDataToCanvas(clipboard, canvas, xo * SPRITE_SIZE, yo * SPRITE_SIZE)
     sprite.val = canvas.toDataURL()
   }
 

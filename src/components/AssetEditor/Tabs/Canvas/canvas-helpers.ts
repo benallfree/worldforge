@@ -9,6 +9,7 @@ import {
   parseRgbHex,
   pixelDataToParsedRgba
 } from '@/types'
+import { assert } from '@/util'
 import { Opaque, SetReturnType } from 'type-fest'
 
 export const scaleDataURL = (img: HTMLImageElement, scale: number) => {
@@ -96,34 +97,27 @@ export type Canvas = Opaque<
 >
 export const ctx = (canvas: HTMLCanvasElement) => {
   const context = canvas.getContext('2d')
-  if (!context) throw new Error(`ctx required`)
+  assert(context)
   return context
 }
 
-export function cropCanvas(
+export function getCanvasSlice(
   sourceCanvas: Canvas,
   x: number,
   y: number,
   width: number,
   height: number
-): Canvas {
-  const dstCanvas = document.createElement('canvas') as Canvas
-
-  dstCanvas.width = width
-  dstCanvas.height = height
-  ctx(dstCanvas).drawImage(sourceCanvas, x, y, width, height, 0, 0, width, height)
-
-  return dstCanvas
+) {
+  return ctx(sourceCanvas).getImageData(x, y, width, height)
 }
 
-export function blitCanvas(
-  sourceCanvas: HTMLCanvasElement,
+export function blitImageDataToCanvas(
+  data: ImageData,
   destinationCanvas: HTMLCanvasElement,
   x: number,
   y: number
 ): void {
-  ctx(destinationCanvas).clearRect(x, y, sourceCanvas.width, sourceCanvas.height)
-  ctx(destinationCanvas).drawImage(sourceCanvas, x, y)
+  ctx(destinationCanvas).putImageData(data, x, y)
 }
 
 export const initializeCanvasForAsset = (canvas: Canvas, asset: AssetState) => {
@@ -140,7 +134,7 @@ export const createCanvas = () => {
   return canvas
 }
 
-export const dataUrlToimage = async (dataUrl: string) => {
+export const dataUrlToImage = async (dataUrl: string) => {
   return new Promise<HTMLImageElement>((resolve) => {
     const imageObj = new Image()
     imageObj.onload = function () {
