@@ -4,10 +4,9 @@ import {
   RgbHex,
   RgbaHex,
   Sprite,
-  base10RgbToCssRgb,
   base10RgbaToHex,
-  parseRgbHex,
-  pixelDataToParsedRgba
+  pixelDataToParsedRgba,
+  rgbaToRgb
 } from '@/types'
 import { assert } from '@/util'
 import { Opaque, SetReturnType } from 'type-fest'
@@ -157,9 +156,7 @@ export function drawPixel(x: number, y: number, color: RgbHex | RgbaHex, canvas:
   // Convert the RGB hex value to individual RGB components
   const context = ctx(canvas)
   context.clearRect(x, y, 1, 1)
-  const { red, green, blue } = parseRgbHex(color)
-  const rgb = base10RgbToCssRgb(red, green, blue)
-  context.fillStyle = rgb
+  context.fillStyle = rgbaToRgb(color)
   context.fillRect(x, y, 1, 1)
 }
 
