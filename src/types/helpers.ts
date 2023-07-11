@@ -57,9 +57,7 @@ export const pointToSlug = ({ x, y }: Point): PointSlug => xyToSlug(x, y)
 
 export const slugToPoint = (slug: PointSlug): Point => {
   const [x, y] = slug.split(/:/)
-  if (typeof x === 'undefined' || typeof y === 'undefined') {
-    throw new Error(`${slug} is not a valid coordinate`)
-  }
+  assert(typeof x !== 'undefined' && typeof y !== 'undefined', `${slug} is not a valid coordinate`)
 
   return xyToPoint(x, y)
 }
