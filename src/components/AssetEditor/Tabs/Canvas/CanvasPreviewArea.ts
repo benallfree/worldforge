@@ -26,7 +26,6 @@ export const CanvasPreviewArea = (props?: Partial<CanvasPreviewAreaProps>) => {
             )
           )
       }
-    }),
-    canvas
+    })
   )
 }
