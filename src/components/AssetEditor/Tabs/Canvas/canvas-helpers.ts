@@ -155,7 +155,6 @@ export const clearPixel = (x: number, y: number, canvas: Canvas) => {
 export function drawPixel(x: number, y: number, color: RgbHex | RgbaHex, canvas: Canvas): void {
   // Convert the RGB hex value to individual RGB components
   const context = ctx(canvas)
-  context.clearRect(x, y, 1, 1)
   context.fillStyle = rgbaToRgb(color)
   context.fillRect(x, y, 1, 1)
 }
