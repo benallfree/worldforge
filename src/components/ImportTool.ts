@@ -24,14 +24,10 @@ export const ImportTool = (props?: Partial<ImportToolProps>) => {
     ;(async () => {
       try {
         const unpacked = await unpack(sharePayload)
-        if (!unpacked) {
-          throw new Error(`Import payload could not be unpacked.`)
-        }
+        assert(unpacked, `Import payload could not be unpacked.`)
         const importObj = JSON.parse(unpacked)
         console.log({ importObj })
-        if (!isAssetAtRest(importObj)) {
-          throw new Error(`Import object not recognized.`)
-        }
+        assert(isAssetAtRest(importObj), `Import object not recognized.`)
         const asset = await atRestToInMemoryAsset(importObj)
         const willOverwrite = !!assets[asset.id]
         openModal({
