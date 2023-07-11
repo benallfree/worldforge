@@ -1,5 +1,5 @@
-export function assert<T>(v: T | undefined | void | null): asserts v is T {
+export function assert<T>(v: T | undefined | void | null, msg?: string): asserts v is T {
   if (!v) {
-    throw new Error(`Assertion failure`)
+    throw new Error(msg || `Assertion failure`)
   }
 }

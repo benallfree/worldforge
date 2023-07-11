@@ -1,3 +1,4 @@
+import { assert } from '@/util'
 import { Opaque } from 'type-fest'
 import { RgbHex, RgbaHex } from './RgbHex'
 import { XCoordinate, XOffset, YCoordinate, YOffset } from './XY'
@@ -11,7 +12,7 @@ export const DEFAULT_FEATURE_COUNT_PICKER = (r: number, c: number) => {
 }
 
 export const mkHeight = (height: number) => {
-  if (height < MIN_HEIGHT || height > MAX_HEIGHT) throw new Error(`Invalid height ${height}`)
+  assert(height >= MIN_HEIGHT && height <= MAX_HEIGHT, `Invalid height ${height}`)
   return height as Height
 }
 export const mkXOffset = (xOffset: number) => {
@@ -21,16 +22,16 @@ export const mkYOffset = (yOffset: number) => {
   return yOffset as YOffset
 }
 export const mkX = (x: number) => {
-  if (x < 0 || x > MAX_GRID_SIZE) throw new Error(`Row size ${x} out of range`)
+  assert(x >= 0 && x <= MAX_GRID_SIZE, `Row size ${x} out of range`)
   return x as XCoordinate
 }
 export const mkY = (y: number) => {
-  if (y < 0 || y > MAX_GRID_SIZE) throw new Error(`Row size ${y} out of range`)
+  assert(y >= 0 && y <= MAX_GRID_SIZE, `Row size ${y} out of range`)
   return y as YCoordinate
 }
 const MAX_GRID_SIZE = 100
 export const mkGridSize = (sz: number) => {
-  if (sz < 0 || sz > MAX_GRID_SIZE) throw new Error(`Grid size ${sz} out of range`)
+  assert(sz >= 0 && sz <= MAX_GRID_SIZE, `Grid size ${sz} out of range`)
   return sz as GridSize
 }
 export const xyToPointArray = (x: XCoordinate | string, y: YCoordinate | string): PointArray =>
