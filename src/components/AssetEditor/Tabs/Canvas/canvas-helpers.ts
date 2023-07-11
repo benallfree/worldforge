@@ -1,13 +1,5 @@
 import { SPRITE_SIZE } from '@/constants'
-import {
-  AssetState,
-  RgbHex,
-  RgbaHex,
-  Sprite,
-  base10RgbaToHex,
-  pixelDataToParsedRgba,
-  rgbaToRgb
-} from '@/types'
+import { AssetState, RgbHex, RgbaHex, Sprite, base10ToHex, rgbaToRgb } from '@/types'
 import { assert } from '@/util'
 import { Opaque, SetReturnType } from 'type-fest'
 
@@ -159,17 +151,26 @@ export function drawPixel(x: number, y: number, color: RgbHex | RgbaHex, canvas:
   context.fillRect(x, y, 1, 1)
 }
 
-export function getCanvasPixelData(canvas: Canvas, x = 0, y = 0, w?: number, h?: number) {
+export function getCanvasPixelDataAsCssHexColorArray(
+  canvas: Canvas,
+  x = 0,
+  y = 0,
+  w?: number,
+  h?: number
+) {
   const context = ctx(canvas)
   const _w = w || canvas.width
   const _h = h || canvas.height
-  const imageData = context.getImageData(x, y, _w, _h).data
+  const imageData = Array.from(context.getImageData(x, y, _w, _h).data)
   const pixels: string[] = []
 
   for (let i = 0; i < imageData.length; i += 4) {
-    const { red, green, blue, alpha } = pixelDataToParsedRgba(imageData, i)
-    const hex = base10RgbaToHex(red, green, blue, alpha)
-    pixels.push(hex)
+    pixels.push(
+      `#${imageData
+        .slice(i, i + 4)
+        .map(base10ToHex)
+        .join('')}`
+    )
   }
 
   return pixels as RgbaHex[]

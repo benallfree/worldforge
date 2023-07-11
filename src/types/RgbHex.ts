@@ -3,10 +3,7 @@ import { Opaque } from 'type-fest'
 export type RgbHex = Opaque<string, 'rgb-hex'>
 export type RgbaHex = Opaque<string, 'rgba-hex'>
 
-export function base10ToHex(value: number): string {
-  const hex = value.toString(16)
-  return hex.length === 1 ? '0' + hex : hex
-}
+export const base10ToHex = (value: number) => value.toString(16).padStart(2, '0')
 
 export const parseRgbHex = (color: RgbHex | RgbaHex) => {
   const alpha = parseInt(color.slice(7, 9), 16)
@@ -33,7 +30,7 @@ export const base10RgbToHex = (red: number, green: number, blue: number) =>
 export const base10RgbaToHex = (red: number, green: number, blue: number, alpha: number) =>
   `#${base10ToHex(red)}${base10ToHex(green)}${base10ToHex(blue)}${base10ToHex(alpha)}`
 
-export const rgbaToRgb = (c: RgbaHex): RgbHex => c.slice(0, 7) as RgbHex
+export const rgbaToRgb = (c: RgbaHex | RgbHex): RgbHex => c.slice(0, 7) as RgbHex
 
 export const rgbToRgba = (c: RgbHex, alpha: number): RgbaHex =>
   `${c}${base10ToHex(alpha)}` as RgbaHex

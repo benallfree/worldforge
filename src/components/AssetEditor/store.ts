@@ -12,7 +12,7 @@ import {
   ctx,
   dataUrlToImage,
   drawPixel,
-  getCanvasPixelData,
+  getCanvasPixelDataAsCssHexColorArray,
   getCanvasSlice
 } from './Tabs/Canvas/canvas-helpers'
 import { EditorTools } from './Tools/tool'
@@ -20,7 +20,7 @@ import { EditorTools } from './Tools/tool'
 export type Palette = RgbHex[]
 
 function createPaletteFromCanvas(canvas: Canvas): Palette {
-  const nonTransparent = uniq(getCanvasPixelData(canvas))
+  const nonTransparent = uniq(getCanvasPixelDataAsCssHexColorArray(canvas))
     .filter((c) => c !== RGB_TRANSPARENT)
     .map(rgbaToRgb)
   return nonTransparent
@@ -112,7 +112,7 @@ export const createAssetEditorStore = async (asset: AssetState) => {
     if (JSON.stringify(palette.val) !== JSON.stringify(newPalette)) {
       palette.val = newPalette
     }
-    getCanvasPixelData(
+    getCanvasPixelDataAsCssHexColorArray(
       canvas,
       xOffset.val * SPRITE_SIZE,
       yOffset.val * SPRITE_SIZE,
