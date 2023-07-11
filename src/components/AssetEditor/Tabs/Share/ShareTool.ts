@@ -4,7 +4,7 @@ import { mkClass, mkShareUrl } from '@/util'
 import { a, bind, div, h1, img, p, state } from '@/van'
 import { Copyable } from '../../../Copyable'
 import { TabManager } from '../../../TabManager/TabManager'
-import { dataUrlToimage, mkTilingProof, scaleDataURL } from '../Canvas/canvas-helpers'
+import { dataUrlToImage, mkTilingProof, scaleDataURL } from '../Canvas/canvas-helpers'
 
 const mkIssueTemplate = (asset: AssetState_AtRest, shareUrl: string) => {
   const { name, description, code } = asset
@@ -46,7 +46,7 @@ export const ShareTool = (props?: Partial<ShareToolProps>) => {
   const { assetEditor } = gameStore
   const { sprite, name, asset } = assetEditor()
   ;(async () => {
-    const img = await dataUrlToimage(sprite.val)
+    const img = await dataUrlToImage(sprite.val)
     proofDataUrl.val = mkTilingProof(img, 10) as Sprite
     upsizedDataUrl.val = scaleDataURL(img, 3) as Sprite
     shareUrl.val = await mkShareUrl(JSON.stringify(inMemoryToAtRestAsset(asset())))
