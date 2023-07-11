@@ -7,6 +7,9 @@
 - Use many modules and copious variable names - makes no difference
 - Fiddling with the most efficient JS expression is not worth the effort
 - ZDD - Zero Dependency Development - select the pieces of dependencies you want to use and pull them in by hand. You want full control of the code.
+- Zip does a better job of compressing redundant literals than you can do by hoisting them into constants and making terser mangle the constant name.
+- Mangling top level names is worth the effort (`eval: true`)
+- Mangling property names is error-prone and zip does a better job anyway
 
 ## Starting with Svelte
 

@@ -18,12 +18,12 @@ import {
   toCellId,
   xyToSlug
 } from '@/types'
-import { assert, keys, range, uniq } from '@/util'
-import { State, state } from '@/van'
+import { assert, keys, objectEntries, range, uniq } from '@/util'
+import { State, bind, state } from '@/van'
 import { nanoid } from 'nanoid'
 import { Opaque } from 'type-fest'
 import { AssetEditor } from '../components/AssetEditor/AssetEditor'
-import { createAssetEditorStore } from '../components/AssetEditor/store'
+import { AssetEditorApi, createAssetEditorStore } from '../components/AssetEditor/store'
 import { Modal } from '../components/Modal'
 import { loadCurrentWorldId, loadWorld, saveCurrentWorldId, saveWorld } from './localStorage'
 
@@ -87,7 +87,7 @@ export const createGameStore = () => {
   const assets: StatefulAssetCollection = {}
   const assetIds = state<AssetId[]>([])
   const cells: StatefulCellCollection = {}
-  const assetEditor = createAssetEditorStore()
+  let assetEditor: AssetEditorApi | undefined = undefined
 
   range(size).forEach((x) => {
     range(size).forEach((y) => {
@@ -104,62 +104,36 @@ export const createGameStore = () => {
     saveCurrentWorldId(worldId.val)
   }
 
-  {
-    const world = loadCurrentWorld()
-    if (world) {
-      worldId.val = world.id
-      name.val = world.name
-      Promise.all([
-        Object.entries(world.assets)
-          .reduce(async (c, [id, asset]) => {
-            try {
-              const assets = await c
-              try {
-                const inMemoryAsset = await atRestToInMemoryAsset(asset)
-                const statefulAsset = state(inMemoryAsset)
-                assert(assets)
-                assets[toAssetId(id)] = statefulAsset
-                return assets
-              } catch (data) {
-                return console.error(data)
-              }
-            } catch (data) {
-              return console.error(data)
-            }
-          }, Promise.resolve<StatefulAssetCollection | void>(assets))
-          .then((collection) => {
-            assert(collection)
-            assetIds.val = keys(collection) as AssetId[]
-          })
-          .catch(console.error),
+  const world = loadCurrentWorld()
+  if (world) {
+    worldId.val = world.id
+    name.val = world.name
 
-        Object.entries(world.cells)
-          .reduce(async (c, [slug, atRestCell]) => {
-            try {
-              const cells = await c
-              try {
-                const inMemoryCell = await atRestToInMemoryCell(atRestCell)
-                const statefulCell = state(inMemoryCell)
-                assert(cells)
-                cells[toCellId(slug)] = statefulCell
-                return cells
-              } catch (data) {
-                return console.error(data)
-              }
-            } catch (data) {
-              console.error(data)
-            }
-          }, Promise.resolve<StatefulCellCollection | void>(cells))
+    // Load assets
+    objectEntries(world.assets).forEach(([id, asset]) => {
+      try {
+        const inMemoryAsset = atRestToInMemoryAsset(asset)
+        const statefulAsset = state(inMemoryAsset)
+        assets[toAssetId(id)] = statefulAsset
+      } catch (data) {
+        console.error(data)
+      }
+    })
+    assetIds.val = keys(assets) as AssetId[]
 
-          .catch(console.error)
-      ]).then(() => {
-        console.log(`world loaded`, { assetIds, assets, cells })
-        loaded.val = true
-      })
-    } else {
-      loaded.val = true
-    }
+    // Load cells
+    objectEntries(world.cells).forEach(([slug, atRestCell]) => {
+      try {
+        const inMemoryCell = atRestToInMemoryCell(atRestCell)
+        const statefulCell = state(inMemoryCell)
+        cells[toCellId(slug)] = statefulCell
+      } catch (data) {
+        console.error(data)
+      }
+    })
+    console.log(`world loaded`, { assetIds, assets, cells })
   }
+  loaded.val = true
 
   const worldAtRest = (): WorldState_AtRest => {
     return {
@@ -215,19 +189,20 @@ export const createGameStore = () => {
       save()
     },
     openAssetEditor: async (asset: AssetState) => {
-      const clonedAsset = await atRestToInMemoryAsset(inMemoryToAtRestAsset(asset)) // Clone
-      await assetEditor.setAsset(clonedAsset)
-      const { currentAsset } = assetEditor
+      const clonedAsset = atRestToInMemoryAsset(inMemoryToAtRestAsset(asset)) // Clone
+      assetEditor = await createAssetEditorStore(clonedAsset)
+      const { name } = assetEditor
+      const save = () => {
+        assert(assetEditor)
+        api.saveAsset(assetEditor.asset())
+      }
       openModal({
-        title: () => `Asset Editor`,
+        title: () => bind(name, (name) => `Asset Editor: ${name}`),
         body: () => AssetEditor({}),
-        onCloseClicked: () => {
-          const asset = currentAsset.val
-          assert(asset)
-          api.saveAsset(asset)
-        },
+        onCloseClicked: save,
+        onClickAway: save,
         onClosed: () => {
-          assetEditor.clearAsset()
+          assetEditor = undefined
         }
       })
     },
@@ -236,6 +211,10 @@ export const createGameStore = () => {
       assets[asset.id]!.val = asset
       assetIds.val = uniq([...assetIds.val, asset.id])
       save()
+    },
+    assetEditor() {
+      assert(assetEditor)
+      return assetEditor
     },
     worldId,
     loaded,
@@ -253,7 +232,6 @@ export const createGameStore = () => {
     setActiveAssetId,
     addAssetToTerrainCell,
     cells,
-    assetEditor,
     imported
   }
   return api

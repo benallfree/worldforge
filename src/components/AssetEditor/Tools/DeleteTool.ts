@@ -8,12 +8,7 @@ export const DeleteTool = (props?: Partial<DeleteToolProps>): ToolButtonProps_In
   const {} = { ...DefaultDeleteToolProps, ...props }
 
   const { closeModal, deleteAsset, assetEditor } = gameStore
-  const { currentAsset } = assetEditor
-
-  const asset = currentAsset.val
-
-  assert(asset)
-  const { id } = asset
+  const { id } = assetEditor()
 
   return {
     extraProps: { class: `danger` },

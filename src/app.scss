@@ -65,6 +65,10 @@ button,
   &.unstyled {
     padding: 0px;
   }
+  &:disabled {
+    background-color: var(--accent2);
+    color: gray;
+  }
 }
 
 .tile {
@@ -229,7 +233,21 @@ textarea {
 }
 
 .Toolbar {
-  .floating {
+  border: 1px solid var(--accent2);
+  display: inline-block;
+  border-radius: 10px;
+  margin-right: 20px;
+  margin-top: 10px;
+  &.with-title {
+    margin-top: 10px;
+  }
+  .toolbar-title {
+    position: relative;
+    top: -10px;
+    left: 10px;
+    z-index: 10;
+  }
+  &.floating {
     position: absolute;
     right: 0px;
     top: 40px;
@@ -316,4 +334,10 @@ textarea {
     user-drag: none;
     -webkit-user-drag: none;
   }
+}
+
+.SpriteRenderer {
+  width: var(--tileSize);
+  height: var(--tileSize);
+  background-repeat: no-repeat;
 }

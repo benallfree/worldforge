@@ -1,6 +1,7 @@
 export * from './assert'
 export * from './clone'
 export * from './compress'
+export * from './ensureStyle'
 export * from './flatten'
 export * from './interfaces'
 export * from './keys'

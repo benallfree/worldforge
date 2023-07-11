@@ -5,10 +5,12 @@ import { Sprite } from './Sprite'
 
 export type StatefulAsset = State<AssetState>
 export type AssetId = Opaque<string, 'asset-id'>
-export type Asset = {
-  id: AssetId
-  sprite: string[]
+export type SpriteAnimationRow = {
+  reverseLoop: boolean
+  frameCount: number
 }
+export type SpriteData = { highestFrameCount: number; animations: SpriteAnimationRow[] }
+
 export const toAssetId = (id: string) => id as AssetId
 export const newAssetId = () => nanoid() as AssetId
 
@@ -19,6 +21,7 @@ export type AssetState = {
   code: string
   isBedrock: boolean
   sprite: Sprite
+  spriteData: SpriteData
 }
 
 export const isAssetAtRest = (o: any): o is AssetState_AtRest => {
@@ -29,10 +32,8 @@ export type AssetStateCollection = {
   [id: AssetId]: AssetState
 }
 
-export type AssetState_AtRest = Pick<
-  AssetState,
-  'id' | 'name' | 'sprite' | 'description' | 'code' | 'isBedrock'
->
+export type AssetState_AtRest = AssetState
+
 export type Asset_AtRest_Untrusted = PartialDeep<AssetState_AtRest>
 
 export const EMPTY_SPRITE =
@@ -45,7 +46,8 @@ export const createNewAssetState = () => {
     description: ``,
     code: ``,
     isBedrock: false,
-    sprite: EMPTY_SPRITE
+    sprite: EMPTY_SPRITE,
+    spriteData: { highestFrameCount: 1, animations: [{ reverseLoop: false, frameCount: 1 }] }
   }
   return asset
 }
@@ -54,7 +56,7 @@ export const inMemoryToAtRestAsset = (asset: AssetState): AssetState_AtRest => {
   return { ...asset }
 }
 
-export const atRestToInMemoryAsset = async (untrustedAsset: Asset_AtRest_Untrusted) => {
+export const atRestToInMemoryAsset = (untrustedAsset: AssetState_AtRest) => {
   const trustedAsset: AssetState_AtRest = {
     ...createNewAssetState(),
     ...untrustedAsset
@@ -64,6 +66,10 @@ export const atRestToInMemoryAsset = async (untrustedAsset: Asset_AtRest_Untrust
 }
 
 export const cloneAsset = (toClone: AssetState) => {
-  const cloned = { ...toClone, id: newAssetId(), name: `Copy of ${toClone.name}` }
+  const cloned = {
+    ...atRestToInMemoryAsset(inMemoryToAtRestAsset(toClone)),
+    id: newAssetId(),
+    name: `Copy of ${toClone.name}`
+  }
   return cloned
 }

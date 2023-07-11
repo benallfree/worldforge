@@ -1,5 +1,5 @@
 import { gameStore } from '@/store'
-import { assert, mkClass, mkOnClick } from '@/util'
+import { mkClass, mkOnClick } from '@/util'
 import { bind, button, div } from '@/van'
 
 export type BedrockEditorProps = {}
@@ -8,18 +8,16 @@ export const BedrockEditor = (props?: Partial<BedrockEditorProps>) => {
   const {} = { ...DefaultBedrockEditorProps, ...props }
 
   const { assetEditor } = gameStore
-  const { currentAsset } = assetEditor
+  const { isBedrock, setIsBedrock } = assetEditor()
 
-  return bind(currentAsset, (asset) => {
-    assert(asset)
-    const { isBedrock } = asset
+  return bind(isBedrock, (isBedrock) => {
     return div(
       { ...mkClass(`BedrockEditor`) },
       button(
         {
           ...mkClass(isBedrock ? `selected` : ``),
           ...mkOnClick(() => {
-            currentAsset.val = { ...asset, isBedrock: !isBedrock }
+            setIsBedrock(!isBedrock)
           })
         },
         `Bedrock`

@@ -1,6 +1,7 @@
 export type State<T> = {
   val: T
   onnew(l: (val: T, oldVal: T) => void): void
+  readonly(): State<T> & { readonly val:T}
 }
 
 // Defining readonly view of State<T> for covariance.

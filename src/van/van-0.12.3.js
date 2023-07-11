@@ -25,6 +25,14 @@ let stateProto = {
   },
 
   "onnew"(l) { this.listeners.push(l) },
+
+  "readonly"() {
+    let _this=this
+    return { 
+      ..._this,
+      set "val"(v) { throw new Error(`State is read-only`) },
+    }
+  }
 }
 
 // stateProto is a plain object thus protoOf(stateProto) is just Object.prototype.

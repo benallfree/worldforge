@@ -8,11 +8,9 @@ export const CodeEditor = (props?: Partial<CodeEditorProps>) => {
   const {} = { ...DefaultCodeEditorProps, ...props }
 
   const { assetEditor } = gameStore
-  const { currentAsset } = assetEditor
+  const { code, setCode } = assetEditor()
 
-  return bind(currentAsset, (asset) => {
-    const { code } = asset
-
+  return bind(code, (code) => {
     const hasSyntaxError = state(checkRenderFn(code))
 
     return div(
@@ -24,7 +22,7 @@ export const CodeEditor = (props?: Partial<CodeEditorProps>) => {
       textarea(
         {
           oninput: function (this: HTMLTextAreaElement) {
-            currentAsset.val = { ...asset, code: this.value }
+            setCode(this.value)
             hasSyntaxError.val = checkRenderFn(this.value)
           }
         },

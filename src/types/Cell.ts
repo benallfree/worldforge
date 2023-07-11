@@ -27,7 +27,7 @@ export const inMemoryToAtRestCell = (cell: CellState): CellState_AtRest => {
   return { assets: assets.map((asset) => ({ assetId: asset.assetId })) }
 }
 
-export const atRestToInMemoryCell = async (untrustedCell: CellState_AtRest_Untrusted) => {
+export const atRestToInMemoryCell = (untrustedCell: CellState_AtRest_Untrusted) => {
   const trustedCell: CellState_AtRest = {
     assets: [],
     ...untrustedCell

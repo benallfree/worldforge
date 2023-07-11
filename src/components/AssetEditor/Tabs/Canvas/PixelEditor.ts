@@ -6,7 +6,7 @@ import { div } from '@/van'
 type PixelEditorProps = {}
 export const PixelEditor = (props: PixelEditorProps) => {
   const { assetEditor } = gameStore
-  const { rgbHexPixels, setPixel } = assetEditor
+  const { rgbHexPixels, setPixel } = assetEditor()
 
   const onMouse = (e: PointerEvent | MouseEvent, i: number) => {
     // console.log({ e, mouseEvent: e instanceof MouseEvent })

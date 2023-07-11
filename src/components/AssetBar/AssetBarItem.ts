@@ -2,7 +2,7 @@ import { gameStore } from '@/store'
 import { AssetState } from '@/types'
 import { CONTAINER, LAYER, PULSING, PointerEventHandler, mkClass, mkOnClick } from '@/util'
 import { button, div } from '@/van'
-import { Sprite } from '../Sprite'
+import { SpriteRenderer } from '../SpriteRenderer'
 
 type ToolbarSpriteProps = {
   asset: AssetState
@@ -21,7 +21,7 @@ export const AssetBarItem = (props: ToolbarSpriteProps) => {
     div(
       { ...mkClass(CONTAINER) },
       div({ ...mkClass(`title`) }, name),
-      Sprite({ asset, ...mkOnClick(onClick) }),
+      div({ ...mkOnClick(onClick) }, SpriteRenderer({ asset })),
       div(
         { ...mkClass(`controls`) },
         button(

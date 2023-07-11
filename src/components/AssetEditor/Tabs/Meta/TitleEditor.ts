@@ -8,18 +8,16 @@ export const TitleEditor = (props?: Partial<TitleEditorProps>, ...rest: ChildNod
   const {} = { ...DefaultTitleEditorProps, ...props }
 
   const { assetEditor } = gameStore
-  const { currentAsset } = assetEditor
+  const { name, setName } = assetEditor()
 
-  return bind(currentAsset, (asset) => {
-    const { name } = asset
+  return bind(name, (name) => {
     return div(
       { ...mkClass(`TitleEditor`) },
       input({
         type: 'text',
         value: name,
         onchange: function (this: HTMLInputElement) {
-          const asset = currentAsset.val
-          currentAsset.val = { ...asset, name: this.value }
+          setName(this.value)
         }
       })
     )

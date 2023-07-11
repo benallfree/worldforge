@@ -11,6 +11,10 @@ export default defineConfig({
     terserOptions: {
       compress: {
         drop_console: true
+      },
+      mangle: {
+        eval: true,
+        toplevel: true
       }
     }
   },

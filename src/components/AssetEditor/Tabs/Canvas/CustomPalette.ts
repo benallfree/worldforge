@@ -1,5 +1,5 @@
 import { gameStore } from '@/store'
-import { CLEARFIX, assert, mkClass, mkOnClick } from '@/util'
+import { CLEARFIX, mkClass, mkOnClick } from '@/util'
 import { bind, div } from '@/van'
 
 type CustomPaletteProps = {}
@@ -7,10 +7,9 @@ export const CustomPalette = (props: CustomPaletteProps) => {
   const {} = props
 
   const { assetEditor } = gameStore
-  const { currentAsset, palette, setSelectedColor } = assetEditor
+  const { palette, setSelectedColor } = assetEditor()
 
-  return bind(currentAsset, palette, (currentAsset, palette) => {
-    assert(currentAsset)
+  return bind(palette, (palette) => {
     return div(
       { ...mkClass(`CustomPalette`, CLEARFIX) },
       ...(palette.map((hex) =>

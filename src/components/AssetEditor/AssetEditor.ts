@@ -9,7 +9,6 @@ import { ShareTool } from './Tabs/Share/ShareTool'
 import { CancelTool } from './Tools/CancelTool'
 import { CloneTool } from './Tools/CloneTool'
 import { DeleteTool } from './Tools/DeleteTool'
-import { SaveTool } from './Tools/SaveTool'
 
 type AssetEditorProps = {}
 export const AssetEditor = (props: AssetEditorProps) => {
@@ -17,7 +16,7 @@ export const AssetEditor = (props: AssetEditorProps) => {
     { ...mkClass(`AssetEditor`) },
     Toolbar({
       floating: true,
-      tools: [SaveTool(), CancelTool({}), CloneTool({}), DeleteTool({})]
+      tools: [CancelTool({}), CloneTool({}), DeleteTool({})]
     }),
     TabManager({
       tabs: {

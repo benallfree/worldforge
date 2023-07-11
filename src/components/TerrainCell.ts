@@ -10,7 +10,8 @@ import {
   mkOnMouseDown,
   mkOnMouseMove
 } from '@/util'
-import { bind, div, img, state } from '@/van'
+import { bind, div, state } from '@/van'
+import { SpriteRenderer } from './SpriteRenderer'
 
 type TerrainCellProps = {
   x: XOffset
@@ -57,10 +58,10 @@ export const TerrainCell = (props: TerrainCellProps) => {
       if (!cell) return div()
       return div(
         { ...mkClass(LAYER, 'content-container') },
-        ...cell.assets.map((state) => {
-          const asset = assets[state.assetId]
+        ...cell.assets.map((cellState) => {
+          const asset = assets[cellState.assetId]
           return bind(asset, (asset) => {
-            return img({ src: asset.sprite, ...mkClass(LAYER) })
+            return SpriteRenderer({ asset, extraClasses: [LAYER], isAnimating: true })
           })
         })
       )
